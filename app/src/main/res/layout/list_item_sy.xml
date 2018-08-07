@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:background="#fff"
+    android:padding="15dp">
+
+    <ImageView
+        android:id="@+id/gx_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/jiangyiyan" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/ll_title"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/gx_iv"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/gx_iv"
+            android:text="苗王子"
+            android:textColor="#222" />
+
+        <ImageView
+            android:id="@+id/iv_j"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <ImageView
+            android:id="@+id/iv_p"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/ic_launcher" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/gx_iv"
+        android:layout_below="@+id/ll_title"
+        android:layout_weight="1"
+        android:text="宁波春天二手车行"
+        android:textColor="#ccc"
+        android:textSize="12sp" />
+
+
+    <TextView
+        android:id="@+id/gx_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="编号：93848594"
+        android:textColor="#ddd" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今天的生活，也是同样的苦涩......" />
+    </LinearLayout>
+</RelativeLayout>

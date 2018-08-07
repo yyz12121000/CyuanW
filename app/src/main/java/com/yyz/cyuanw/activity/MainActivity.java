@@ -8,14 +8,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.yyz.cyuanw.activity.fragment.CyFragment;
-import com.yyz.cyuanw.activity.fragment.GxFragment;
+import com.yyz.cyuanw.activity.fragment.SyFragment;
 import com.yyz.cyuanw.activity.fragment.LmFragment;
 import com.yyz.cyuanw.adapter.MyFragPagerAdapter;
 import com.yyz.cyuanw.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,18 +39,21 @@ public class MainActivity extends AppCompatActivity {
         //设置ViewPager里面也要显示的图片
         mFragments = new ArrayList<>();
 
-        Fragment gxFragment = new GxFragment();
+
         Fragment cyFragment = new CyFragment();
+        Fragment syFragment = new SyFragment();
         Fragment lmFragment = new LmFragment();
 
-        mFragments.add(gxFragment);
+
         mFragments.add(cyFragment);
+        mFragments.add(syFragment);
         mFragments.add(lmFragment);
 
         //设置标题
         titleList = new ArrayList<>();
-        titleList.add("共享");
+
         titleList.add("车源");
+        titleList.add("首页");
         titleList.add("联盟");
 
         mTab = (TabLayout) findViewById(R.id.main_tab);
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         //把TabLayout和ViewPager关联起来
         mTab.setupWithViewPager(mViewPager);
         //实例化adapter
-        mAdapter = new MyFragPagerAdapter(getSupportFragmentManager(),mFragments,titleList);
+        mAdapter = new MyFragPagerAdapter(getSupportFragmentManager(), mFragments, titleList);
         //给ViewPager绑定Adapter
         mViewPager.setAdapter(mAdapter);
     }
