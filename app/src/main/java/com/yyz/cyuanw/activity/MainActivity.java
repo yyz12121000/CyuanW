@@ -1,15 +1,19 @@
 package com.yyz.cyuanw.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.yyz.cyuanw.activity.fragment.CyFragment;
 import com.yyz.cyuanw.activity.fragment.SyFragment;
 import com.yyz.cyuanw.activity.fragment.LmFragment;
+import com.yyz.cyuanw.activity.user_model.LoginActivity;
+import com.yyz.cyuanw.activity.user_model.UserActivity;
 import com.yyz.cyuanw.adapter.MyFragPagerAdapter;
 import com.yyz.cyuanw.R;
 
@@ -70,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MyFragPagerAdapter(getSupportFragmentManager(), mFragments, titleList);
         //给ViewPager绑定Adapter
         mViewPager.setAdapter(mAdapter);
+    }
+
+    public void userBtnOnclik(View view){
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
 }

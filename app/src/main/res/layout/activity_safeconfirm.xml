@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f9f9f9">
+
+    <include
+        layout="@layout/layout_common_title" />
+
+    <include
+        android:id="@+id/id_oper_bindphone"
+        layout="@layout/layout_common_oper2" />
+    <include
+        android:id="@+id/id_oper_nameconfirm"
+        layout="@layout/layout_common_oper2" />
+    <include
+        android:id="@+id/id_oper_persionconfirm"
+        layout="@layout/layout_common_oper2" />
+    <include
+        android:id="@+id/id_oper_bindcar"
+        layout="@layout/layout_common_oper2" />
+    <include
+        android:id="@+id/id_oper_carconfirm"
+        layout="@layout/layout_common_oper2" />
+
+</LinearLayout>

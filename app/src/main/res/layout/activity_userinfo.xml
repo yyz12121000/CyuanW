@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f9f9f9">
+
+    <include
+        layout="@layout/layout_common_title" />
+
+    <include
+        android:id="@+id/id_oper_setphoto"
+        layout="@layout/layout_common_oper3" />
+
+    <include
+        android:id="@+id/id_oper_setbg"
+        layout="@layout/layout_common_oper1" />
+    <include
+        android:id="@+id/id_oper_setname"
+        layout="@layout/layout_common_oper2" />
+
+    <include
+        android:id="@+id/id_oper_setsex"
+        layout="@layout/layout_common_oper2" />
+    <include
+        android:id="@+id/id_oper_setno"
+        layout="@layout/layout_common_oper2" />
+    <include
+        android:id="@+id/id_oper_setshortno"
+        layout="@layout/layout_common_oper2" />
+    <include
+        android:id="@+id/id_oper_setcity"
+        layout="@layout/layout_common_oper2" />
+    <include
+        android:id="@+id/id_oper_setsign"
+        layout="@layout/layout_common_oper2" />
+
+</LinearLayout>
