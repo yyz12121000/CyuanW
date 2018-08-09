@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.tools.LogManager;
+import com.yyz.cyuanw.view.JgqjPopuwindow;
 import com.yyz.cyuanw.view.ListPopuwindow;
 
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     private RecyclerView list;
     private ListPopuwindow cyPopuwindow;
     private ListPopuwindow pxPopuwindow;
-    private TextView tv_1, tv_2;
+    private JgqjPopuwindow jgqjPopuwindow;
+    private TextView tv_1, tv_2, tv_3, tv_4;
 
     @Nullable
     @Override
@@ -42,6 +44,10 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         tv_1.setOnClickListener(this);
         tv_2 = view.findViewById(R.id.tv_2);
         tv_2.setOnClickListener(this);
+        tv_3 = view.findViewById(R.id.tv_3);
+        tv_3.setOnClickListener(this);
+        tv_4 = view.findViewById(R.id.tv_4);
+        tv_4.setOnClickListener(this);
 
         List<String> cydatas = new ArrayList<>();
         cydatas.add("全部车源");
@@ -55,6 +61,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         pxDatas.add("里程最少");
         cyPopuwindow = new ListPopuwindow(getActivity());
         pxPopuwindow = new ListPopuwindow(getActivity());
+        jgqjPopuwindow = new JgqjPopuwindow(getActivity());
         cyPopuwindow.setDatas(cydatas);
         pxPopuwindow.setDatas(pxDatas);
         list = view.findViewById(R.id.list);
@@ -73,8 +80,15 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 tv_2.setText(text);
             }
         });
+        jgqjPopuwindow.setItemListenner(new JgqjPopuwindow.IOnListItemClickListenner() {
+            @Override
+            public void onItemClick(int position, String text) {
+                tv_4.setText(text);
+            }
+        });
         cyPopuwindow.setOnDismissListener(this);
         pxPopuwindow.setOnDismissListener(this);
+        jgqjPopuwindow.setOnDismissListener(this);
     }
 
     @Override
@@ -96,6 +110,16 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                     pxPopuwindow.dismiss();
                 }
                 break;
+            case R.id.tv_3:
+
+                break;
+            case R.id.tv_4:
+                if (!pxPopuwindow.isShowing()) {
+                    jgqjPopuwindow.showAsDropDown(view, view.getLayoutParams().width / 2, 18);
+                } else {
+                    jgqjPopuwindow.dismiss();
+                }
+                break;
         }
     }
 
@@ -103,6 +127,8 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     public void onDismiss() {
         tv_1.setTextColor(Color.parseColor("#888888"));
         tv_2.setTextColor(Color.parseColor("#888888"));
+        tv_3.setTextColor(Color.parseColor("#888888"));
+        tv_4.setTextColor(Color.parseColor("#888888"));
     }
 
 

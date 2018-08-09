@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BasePopuwindow extends PopupWindow {
-    private Activity context;
+    protected Activity context;
 
 
     public BasePopuwindow(Activity context) {
@@ -46,5 +46,13 @@ public class BasePopuwindow extends PopupWindow {
         //this.setAnimationStyle(R.style.AnimationPreview);
 
     }
+    protected IOnListItemClickListenner listenner;
 
+    public void setItemListenner(IOnListItemClickListenner listenner) {
+        this.listenner = listenner;
+    }
+
+    public interface IOnListItemClickListenner {
+        void onItemClick(int position, String text);
+    }
 }
