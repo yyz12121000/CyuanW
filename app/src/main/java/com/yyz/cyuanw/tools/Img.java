@@ -9,8 +9,9 @@
 //import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 //import com.bumptech.glide.request.RequestListener;
 //import com.bumptech.glide.request.target.Target;
-//import com.exingxiao.insureexpert.App;
-//import com.exingxiao.insureexpert.R;
+//import com.yyz.cyuanw.App;
+//import com.yyz.cyuanw.R;
+//
 //
 //import jp.wasabeef.glide.transformations.CropCircleTransformation;
 //import jp.wasabeef.glide.transformations.CropTransformation;
@@ -25,17 +26,17 @@
 //    }
 //
 //    public static void load(ImageView iv, String url, int w) {
-//        if (!TextUtils.isEmpty(url) && url.startsWith("http")) {
-//            if (w == -1) {
-//                w = Final.IMG_W_500;
-//            }
-//            url += "?x-oss-process=image/resize,w_" + w + ",limit_0";
-//        }
+////        if (!TextUtils.isEmpty(url) && url.startsWith("http")) {
+////            if (w == -1) {
+////                w = Final.IMG_W_500;
+////            }
+////            url += "?x-oss-process=image/resize,w_" + w + ",limit_0";
+////        }
 //        Glide.with(App.context)
 //                .load(url).dontAnimate()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .error(R.mipmap.content_zwt3)
-//                .placeholder(R.mipmap.content_zwt3)
+////                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .error(R.mipmap.ic_launcher)
+//                .placeholder(R.mipmap.ic_launcher)
 //                .into(iv);
 //    }
 //
@@ -53,9 +54,9 @@
 //        Glide.with(App.context)
 //                .load(url).dontAnimate()
 //                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .error(R.mipmap.content_zwt3)
+//                .error(R.mipmap.ic_launcher)
 //                .bitmapTransform(new CropTransformation(App.context, w, w, CropTransformation.CropType.TOP))
-//                .placeholder(R.mipmap.content_zwt3)
+//                .placeholder(R.mipmap.ic_launcher)
 //                .into(iv);
 //
 //
@@ -84,7 +85,7 @@
 //        Glide.with(App.context)
 //                .load(url).dontAnimate()
 //                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .placeholder(R.mipmap.default_icon)
+//                .placeholder(R.mipmap.ic_launcher)
 //                .bitmapTransform(new CropTransformation(App.context, w, w, CropTransformation.CropType.TOP), new CropCircleTransformation(App.context))
 //                .crossFade(1000)
 //                .into(iv);
@@ -94,7 +95,7 @@
 //        Glide.with(App.context)
 //                .load(url).dontAnimate()
 //                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .placeholder(R.mipmap.default_icon)
+//                .placeholder(R.mipmap.ic_launcher)
 //                .bitmapTransform(new CropCircleTransformation(App.context))
 //                .crossFade(1000)
 //                .into(iv);
