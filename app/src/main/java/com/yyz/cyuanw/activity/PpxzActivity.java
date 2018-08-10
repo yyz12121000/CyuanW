@@ -7,10 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.view.JgqjPopuwindow;
+import com.yyz.cyuanw.view.ListPopuwindow;
+import com.yyz.cyuanw.view.PpxzSecondPopuwindow;
 import com.yyz.cyuanw.view.sortrecyclerview.ClearEditText;
 import com.yyz.cyuanw.view.sortrecyclerview.PinyinComparator;
 import com.yyz.cyuanw.view.sortrecyclerview.PinyinUtils;
@@ -26,12 +32,16 @@ public class PpxzActivity extends AppCompatActivity implements View.OnClickListe
 
     private RecyclerView mRecyclerView;
     private SideBar sideBar;
-    private TextView dialog;
+    private TextView dialog,tv_sd_input;
     private SortAdapter adapter;
     private ClearEditText mClearEditText;
     LinearLayoutManager manager;
+    private RelativeLayout rl_title;
+    private View zzc;
 
     private List<SortModel> SourceDateList;
+
+    private PpxzSecondPopuwindow popuwindow;
 
     /**
      * 根据拼音来排列RecyclerView里面的数据类
@@ -47,7 +57,9 @@ public class PpxzActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initViews() {
         findViewById(R.id.cancel).setOnClickListener(this);
-
+        rl_title = findViewById(R.id.rl_title);
+        zzc = findViewById(R.id.zzc);
+        tv_sd_input = findViewById(R.id.tv_sd_input);
 
         pinyinComparator = new PinyinComparator();
 
@@ -106,6 +118,32 @@ public class PpxzActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void afterTextChanged(Editable s) {
+            }
+        });
+
+        popuwindow = new PpxzSecondPopuwindow(this);
+        List<String> pxDatas = new ArrayList<>();
+        pxDatas.add("默认排序（发布时间降序）");
+        pxDatas.add("价格最低");
+        pxDatas.add("价格最高");
+        pxDatas.add("车龄最短");
+        pxDatas.add("里程最少");
+        popuwindow.setDatas(pxDatas);
+        adapter.setOnItemClickListener(new SortAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if (!popuwindow.isShowing()) {
+                    popuwindow.showAsDropDown(tv_sd_input, 0, 3);
+                    zzc.setVisibility(View.VISIBLE);
+                } else {
+                    popuwindow.dismiss();
+                }
+            }
+        });
+        popuwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                zzc.setVisibility(View.GONE);
             }
         });
     }

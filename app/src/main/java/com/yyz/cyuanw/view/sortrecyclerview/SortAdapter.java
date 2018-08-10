@@ -12,11 +12,6 @@ import com.yyz.cyuanw.R;
 
 import java.util.List;
 
-/**
- * @author: xp
- * @date: 2017/7/19
- */
-
 public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater mInflater;
     private List<SortModel> mData;
@@ -83,12 +78,12 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         holder.tvName.setText(this.mData.get(position).getName());
 
-        holder.tvName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext, mData.get(position).getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        holder.tvName.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(mContext, mData.get(position).getName(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 
