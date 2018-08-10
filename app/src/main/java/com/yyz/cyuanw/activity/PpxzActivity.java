@@ -1,21 +1,16 @@
 package com.yyz.cyuanw.activity;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
-import com.yyz.cyuanw.view.JgqjPopuwindow;
-import com.yyz.cyuanw.view.ListPopuwindow;
 import com.yyz.cyuanw.view.PpxzSecondPopuwindow;
 import com.yyz.cyuanw.view.sortrecyclerview.ClearEditText;
 import com.yyz.cyuanw.view.sortrecyclerview.PinyinComparator;
@@ -28,11 +23,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PpxzActivity extends AppCompatActivity implements View.OnClickListener {
+public class PpxzActivity extends BaseActivity implements View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private SideBar sideBar;
-    private TextView dialog,tv_sd_input;
+    private TextView dialog, tv_sd_input;
     private SortAdapter adapter;
     private ClearEditText mClearEditText;
     LinearLayoutManager manager;
@@ -49,17 +44,16 @@ public class PpxzActivity extends AppCompatActivity implements View.OnClickListe
     private PinyinComparator pinyinComparator;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ppxz);
-        initViews();
+    protected int getLayoutId() {
+        return R.layout.activity_ppxz;
     }
 
-    private void initViews() {
+    @Override
+    public void initView() {
         findViewById(R.id.cancel).setOnClickListener(this);
-        rl_title = findViewById(R.id.rl_title);
+        rl_title = (RelativeLayout) findViewById(R.id.rl_title);
         zzc = findViewById(R.id.zzc);
-        tv_sd_input = findViewById(R.id.tv_sd_input);
+        tv_sd_input = (TextView) findViewById(R.id.tv_sd_input);
 
         pinyinComparator = new PinyinComparator();
 
@@ -148,6 +142,11 @@ public class PpxzActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    @Override
+    public void initData() {
+
+    }
+
 
     /**
      * 为RecyclerView填充数据
@@ -216,4 +215,5 @@ public class PpxzActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
 }

@@ -15,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.activity.GdsxActivity;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.view.JgqjPopuwindow;
 import com.yyz.cyuanw.view.ListPopuwindow;
@@ -50,6 +51,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         tv_3.setOnClickListener(this);
         tv_4 = view.findViewById(R.id.tv_4);
         tv_4.setOnClickListener(this);
+        view.findViewById(R.id.gdsx).setOnClickListener(this);
 
         List<String> cydatas = new ArrayList<>();
         cydatas.add("全部车源");
@@ -95,10 +97,9 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
 
     @Override
     public void onClick(View view) {
-        TextView tv = (TextView) view;
-        tv.setTextColor(Color.parseColor("#ff0000"));
         switch (view.getId()) {
             case R.id.tv_1:
+                ((TextView) view).setTextColor(Color.parseColor("#ff0000"));
                 if (!cyPopuwindow.isShowing()) {
                     cyPopuwindow.showAsDropDown(view, view.getLayoutParams().width / 2, 18);
                 } else {
@@ -106,6 +107,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 }
                 break;
             case R.id.tv_2:
+                ((TextView) view).setTextColor(Color.parseColor("#ff0000"));
                 if (!pxPopuwindow.isShowing()) {
                     pxPopuwindow.showAsDropDown(view, view.getLayoutParams().width / 2, 18);
                 } else {
@@ -116,11 +118,16 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 startActivity(new Intent(CyFragment.this.getActivity(), PpxzActivity.class));
                 break;
             case R.id.tv_4:
+                ((TextView) view).setTextColor(Color.parseColor("#ff0000"));
                 if (!pxPopuwindow.isShowing()) {
                     jgqjPopuwindow.showAsDropDown(view, view.getLayoutParams().width / 2, 18);
                 } else {
                     jgqjPopuwindow.dismiss();
                 }
+                break;
+            case R.id.gdsx:
+                Intent intent = new Intent(CyFragment.this.getActivity(), GdsxActivity.class);
+                startActivity(intent);
                 break;
         }
     }

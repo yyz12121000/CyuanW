@@ -61,6 +61,7 @@
         <activity android:name=".activity.user_model.PhoneSubmitActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.PpxzActivity"/>
+        <activity android:name=".activity.GdsxActivity"/>
     </application>
 
 </manifest>
