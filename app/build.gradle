@@ -45,4 +45,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     //沉浸式状态栏
     implementation 'com.gyf.barlibrary:barlibrary:2.2.9'
+    implementation files('libs/pinyin4j-2.5.0.jar')
 }

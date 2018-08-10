@@ -1,5 +1,6 @@
 package com.yyz.cyuanw.activity.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.view.JgqjPopuwindow;
 import com.yyz.cyuanw.view.ListPopuwindow;
+import com.yyz.cyuanw.activity.PpxzActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +113,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 }
                 break;
             case R.id.tv_3:
-
+                startActivity(new Intent(CyFragment.this.getActivity(), PpxzActivity.class));
                 break;
             case R.id.tv_4:
                 if (!pxPopuwindow.isShowing()) {
