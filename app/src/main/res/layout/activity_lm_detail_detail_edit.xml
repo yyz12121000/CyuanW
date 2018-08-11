@@ -20,14 +20,12 @@
 
             android:orientation="vertical">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title_layout"
                 android:background="#ffffff"
                 android:orientation="vertical">
-
 
                 <LinearLayout
                     android:id="@+id/top"
@@ -50,10 +48,37 @@
                         android:layout_centerInParent="true"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="16dp"
-                        android:text="宁波精品二手跑车联盟"
-                        android:textColor="#333333"
-                        android:textSize="16dp" />
+                        android:text="点击编辑联盟头像"
+                        android:textColor="#999999"
+                        android:textSize="12dp" />
                 </LinearLayout>
+
+                <include layout="@layout/line_v_a" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="13dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:text="联盟名称"
+                    android:textColor="#333333"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/edit_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="#0000"
+                    android:hint="请输入联盟名称"
+                    android:paddingBottom="13dp"
+                    android:textColor="#999999"
+                    android:textSize="14dp" />
 
                 <include layout="@layout/line_v_a" />
 
@@ -69,7 +94,7 @@
                     android:textColor="#333333"
                     android:textSize="16dp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -77,35 +102,36 @@
                     android:layout_marginBottom="13dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:text="简介：这个圈子，不是谁都能都能进都能进都能进都能进都能进都能进都能进都能进都能进进的。"
-                    android:textColor="#666666"
+                    android:background="#0000"
+                    android:hint="请输入联盟简介"
+                    android:textColor="#999999"
                     android:textSize="14dp" />
 
                 <include layout="@layout/line_v_a" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp">
+                <!--   <RelativeLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="50dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="15dp"
-                        android:text="创建人"
-                        android:textColor="#333333"
-                        android:textSize="16dp" />
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="match_parent"
+                           android:gravity="center_vertical"
+                           android:paddingLeft="15dp"
+                           android:text="创建人"
+                           android:textColor="#333333"
+                           android:textSize="16dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center_vertical"
-                        android:paddingRight="15dp"
-                        android:text="王思雨"
-                        android:textColor="#888888"
-                        android:textSize="16dp" />
-                </RelativeLayout>
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="match_parent"
+                           android:layout_alignParentRight="true"
+                           android:gravity="center_vertical"
+                           android:paddingRight="15dp"
+                           android:text="王思雨"
+                           android:textColor="#888888"
+                           android:textSize="16dp" />
+                   </RelativeLayout>-->
 
                 <include layout="@layout/line_v_a" />
 
@@ -123,13 +149,22 @@
                         android:textSize="16dp" />
 
                     <ImageView
+                        android:id="@+id/er_code"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:layout_toLeftOf="@+id/right_arrow"
+                        android:src="@mipmap/ic_launcher" />
+
+                    <ImageView
+                        android:id="@+id/right_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="16dp"
-                        android:src="@mipmap/ic_launcher"
-                        android:text="王思雨" />
+                        android:src="@mipmap/ic_user_arrow" />
                 </RelativeLayout>
 
                 <include layout="@layout/line_v_a" />
@@ -153,7 +188,7 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:gravity="center_vertical"
-                        android:paddingRight="15dp"
+                        android:paddingRight="35dp"
                         android:text="浙江 宁波 的州区"
                         android:textColor="#888888"
                         android:textSize="16dp" />
@@ -169,22 +204,12 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="54dp"
-                android:background="@drawable/bt_red_bg"
+                android:background="@drawable/bt_yellow_bg"
                 android:gravity="center"
-                android:text="编辑资料"
+                android:text="保存修改"
                 android:textColor="#ffffff"
                 android:textSize="16dp" />
         </LinearLayout>
     </ScrollView>
 
-    <TextView
-        android:id="@+id/exit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:paddingBottom="24dp"
-        android:text="申请退出联盟"
-        android:textColor="#666666"
-        android:textSize="12sp" />
 </RelativeLayout>

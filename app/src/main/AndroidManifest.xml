@@ -65,6 +65,7 @@
         <activity android:name=".activity.GxcyDetailActivity" />
         <activity android:name=".activity.LmDetailActivity"/>
         <activity android:name=".activity.LmDetailDetailActivity"/>
+        <activity android:name=".activity.LmDetailDetailEditActivity"/>
     </application>
 
 </manifest>
