@@ -1,5 +1,6 @@
 package com.yyz.cyuanw.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,10 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.xfhy.easybanner.ui.EasyBanner;
 import com.yyz.cyuanw.R;
-import com.yyz.cyuanw.tools.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,12 @@ import java.util.List;
 import butterknife.BindView;
 
 public class LmDetailActivity extends BaseActivity {
-    @BindView(R.id.title_right_icon) ImageView title_right_icon;
-    @BindView(R.id.list) RecyclerView list;
+    @BindView(R.id.title_right_icon)
+    ImageView title_right_icon;
+    @BindView(R.id.id_tv_title)
+    TextView id_tv_title;
+    @BindView(R.id.list)
+    RecyclerView list;
 
     private List dataList = new ArrayList();
     private ListAdapter adapter;
@@ -33,6 +37,7 @@ public class LmDetailActivity extends BaseActivity {
     public void initView() {
         title_right_icon.setVisibility(View.VISIBLE);
         title_right_icon.setImageResource(R.mipmap.ic_launcher);
+        setTitle(id_tv_title,"联盟主页");
 
         dataList.add("");
         dataList.add("");
@@ -91,12 +96,18 @@ public class LmDetailActivity extends BaseActivity {
         }
 
         private class VAHolder extends RecyclerView.ViewHolder {
-            private ImageView chunk_a_img_a;
+
 
             public VAHolder(@NonNull View itemView) {
                 super(itemView);
                 //可以在布局里面写
-//                chunk_a_img_a = itemView.findViewById(R.id.chunk_a_img_a);
+                itemView.findViewById(R.id.top).setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View view) {
+                      Intent intent = new Intent(LmDetailActivity.this,LmDetailDetailActivity.class);
+                      startActivity(intent);
+                  }
+              });
 
             }
 
@@ -104,7 +115,6 @@ public class LmDetailActivity extends BaseActivity {
 
 //                Glide.with(getActivity()).load("http://img1.mm131.me/pic/4232/22.jpg").into(chunk_a_img_a);
 //                Img.load(chunk_a_img_a, "http://img1.mm131.me/pic/4232/22.jpg");
-
 
 
             }

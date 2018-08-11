@@ -6,33 +6,42 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginTop="50dp"
-        android:scaleType="center"
-        android:src="@mipmap/gaoyuanyuan" />
-
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="20dp"
-        android:text="宁波精品二手跑车联盟"
-        android:textColor="#333333"
-        android:textSize="20dp" />
+        android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="10dp"
-        android:text="简介：这个圈子，不是谁都能进的。"
-        android:textColor="#cccccc"
-        android:textSize="17dp" />
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="50dp"
+            android:scaleType="center"
+            android:src="@mipmap/gaoyuanyuan" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:text="宁波精品二手跑车联盟"
+            android:textColor="#333333"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:text="简介：这个圈子，不是谁都能进的。"
+            android:textColor="#cccccc"
+            android:textSize="17dp" />
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
@@ -131,6 +140,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
         android:text="联盟车源（20356）" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

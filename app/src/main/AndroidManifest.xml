@@ -64,6 +64,7 @@
         <activity android:name=".activity.GdsxActivity"/>
         <activity android:name=".activity.GxcyDetailActivity" />
         <activity android:name=".activity.LmDetailActivity"/>
+        <activity android:name=".activity.LmDetailDetailActivity"/>
     </application>
 
 </manifest>
