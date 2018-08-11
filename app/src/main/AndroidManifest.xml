@@ -63,7 +63,7 @@
         <activity android:name=".activity.PpxzActivity"/>
         <activity android:name=".activity.GdsxActivity"/>
         <activity android:name=".activity.GxcyDetailActivity" />
-
+        <activity android:name=".activity.LmDetailActivity"/>
     </application>
 
 </manifest>

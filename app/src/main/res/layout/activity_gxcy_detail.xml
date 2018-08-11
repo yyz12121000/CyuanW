@@ -485,7 +485,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="10dp"
-                android:text="车源档案"
+                android:text="收藏该车源"
                 android:textColor="#cccccc"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -508,7 +508,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="10dp"
-                android:text="车源档案"
+                android:text="联系来源"
                 android:textColor="#cccccc"
                 android:textSize="14sp" />
         </LinearLayout>

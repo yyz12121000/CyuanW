@@ -7,12 +7,12 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:onClick="backBtnClick"
         android:paddingLeft="10dp"
         android:paddingRight="30dp"
-        android:layout_centerVertical="true"
         android:scaleType="center"
-        android:src="@mipmap/ic_title_back"
-        android:onClick="backBtnClick"/>
+        android:src="@mipmap/ic_title_back" />
 
     <TextView
         android:id="@+id/id_tv_title"
@@ -21,12 +21,22 @@
         android:layout_centerInParent="true"
         android:text="标题"
         android:textColor="#333333"
-        android:textSize="17dp"/>
+        android:textSize="17dp" />
+
+    <ImageView
+        android:id="@+id/title_right_icon"
+        android:visibility="gone"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:src="@mipmap/ic_launcher" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.3dp"
         android:layout_alignParentBottom="true"
-        android:background="#666666"/>
+        android:background="#666666" />
 
 </RelativeLayout>

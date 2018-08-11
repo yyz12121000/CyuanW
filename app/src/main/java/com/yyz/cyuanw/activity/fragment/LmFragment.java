@@ -1,5 +1,6 @@
 package com.yyz.cyuanw.activity.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.activity.LmDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,9 +84,17 @@ public class LmFragment extends Fragment {
                 super(itemView);
             }
         }
+
         private class VBHolder extends RecyclerView.ViewHolder {
             public VBHolder(@NonNull View itemView) {
                 super(itemView);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(LmFragment.this.getActivity(), LmDetailActivity.class);
+                        startActivity(intent);
+                    }
+                });
             }
         }
 
