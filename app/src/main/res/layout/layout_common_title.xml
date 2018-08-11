@@ -25,13 +25,13 @@
 
     <ImageView
         android:id="@+id/title_right_icon"
-        android:visibility="gone"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"

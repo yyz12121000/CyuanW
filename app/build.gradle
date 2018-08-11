@@ -46,4 +46,6 @@ dependencies {
     //沉浸式状态栏
     implementation 'com.gyf.barlibrary:barlibrary:2.2.9'
     implementation files('libs/pinyin4j-2.5.0.jar')
+    //侧滑菜单
+    implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
 }

@@ -100,11 +100,18 @@ public class LmDetailActivity extends BaseActivity {
 
             public VAHolder(@NonNull View itemView) {
                 super(itemView);
-                //可以在布局里面写
+
                 itemView.findViewById(R.id.top).setOnClickListener(new View.OnClickListener() {
                   @Override
                   public void onClick(View view) {
                       Intent intent = new Intent(LmDetailActivity.this,LmDetailDetailActivity.class);
+                      startActivity(intent);
+                  }
+              });
+                itemView.findViewById(R.id.member).setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View view) {
+                      Intent intent = new Intent(LmDetailActivity.this,LmMemberActivity.class);
                       startActivity(intent);
                   }
               });

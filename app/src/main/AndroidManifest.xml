@@ -62,10 +62,11 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.PpxzActivity"/>
         <activity android:name=".activity.GdsxActivity"/>
-        <activity android:name=".activity.GxcyDetailActivity" />
+        <activity android:name=".activity.CyDetailActivity" />
         <activity android:name=".activity.LmDetailActivity"/>
         <activity android:name=".activity.LmDetailDetailActivity"/>
         <activity android:name=".activity.LmDetailDetailEditActivity"/>
+        <activity android:name=".activity.LmMemberActivity"/>
     </application>
 
 </manifest>
