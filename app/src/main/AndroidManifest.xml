@@ -62,6 +62,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.PpxzActivity"/>
         <activity android:name=".activity.GdsxActivity"/>
+        <activity android:name=".activity.GxcyDetailActivity" />
+
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.GdsxActivity;
+import com.yyz.cyuanw.activity.GxcyDetailActivity;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.view.JgqjPopuwindow;
 import com.yyz.cyuanw.view.ListPopuwindow;
@@ -164,6 +165,13 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         private class VHolder extends RecyclerView.ViewHolder {
             public VHolder(@NonNull View itemView) {
                 super(itemView);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(CyFragment.this.getActivity(), GxcyDetailActivity.class);
+                        CyFragment.this.getActivity().startActivity(intent);
+                    }
+                });
             }
         }
 
