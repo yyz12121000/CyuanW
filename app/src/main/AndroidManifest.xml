@@ -67,6 +67,7 @@
         <activity android:name=".activity.LmDetailDetailActivity"/>
         <activity android:name=".activity.LmDetailDetailEditActivity"/>
         <activity android:name=".activity.LmMemberActivity"/>
+        <activity android:name=".activity.LmMemberJoinActivity"/>
     </application>
 
 </manifest>

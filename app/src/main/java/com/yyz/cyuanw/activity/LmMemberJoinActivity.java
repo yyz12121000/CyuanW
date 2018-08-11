@@ -1,6 +1,5 @@
 package com.yyz.cyuanw.activity;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,31 +18,21 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class LmMemberActivity extends BaseActivity {
+public class LmMemberJoinActivity extends BaseActivity {
     @BindView(R.id.id_tv_title)
     TextView textView;
-    @BindView(R.id.title_right_icon)
-    ImageView right;
+
     private RecyclerView list;
     private List dataList = new ArrayList();
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_lm_member;
+        return R.layout.activity_lm_member_join;
     }
 
     @Override
     public void initView() {
-        textView.setText("联盟成员");
-        right.setImageResource(R.mipmap.icon_2);
-        right.setVisibility(View.VISIBLE);
-        right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LmMemberActivity.this,LmMemberJoinActivity.class);
-                startActivity(intent);
-            }
-        });
+        textView.setText("加入申请");
 
         dataList.add("");
         dataList.add("");
@@ -56,7 +45,7 @@ public class LmMemberActivity extends BaseActivity {
 
         list = (RecyclerView) findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(this));
-        list.setAdapter(new LmMemberActivity.ListAdapter());
+        list.setAdapter(new LmMemberJoinActivity.ListAdapter());
     }
 
     @Override
@@ -74,8 +63,8 @@ public class LmMemberActivity extends BaseActivity {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View viewB = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_lm_member, viewGroup, false);
-            LmMemberActivity.ListAdapter.VBHolder vBHolder = new LmMemberActivity.ListAdapter.VBHolder(viewB);
+            View viewB = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_lm_member_join, viewGroup, false);
+            LmMemberJoinActivity.ListAdapter.VBHolder vBHolder = new LmMemberJoinActivity.ListAdapter.VBHolder(viewB);
             return vBHolder;
         }
 
@@ -101,19 +90,19 @@ public class LmMemberActivity extends BaseActivity {
 //                        startActivity(intent);
                     }
                 });
-                left = itemView.findViewById(R.id.left);
-                left.setOnClickListener(this);
-                itemView.findViewById(R.id.delete).setOnClickListener(this);
+//                left = itemView.findViewById(R.id.left);
+//                left.setOnClickListener(this);
+//                itemView.findViewById(R.id.delete).setOnClickListener(this);
             }
 
             @Override
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.left:
-                        ToastUtil.show(LmMemberActivity.this,"取消管理员");
+                        ToastUtil.show(LmMemberJoinActivity.this,"取消管理员");
                         break;
                     case R.id.delete:
-                        ToastUtil.show(LmMemberActivity.this,"删除");
+                        ToastUtil.show(LmMemberJoinActivity.this,"删除");
                         break;
                 }
             }
