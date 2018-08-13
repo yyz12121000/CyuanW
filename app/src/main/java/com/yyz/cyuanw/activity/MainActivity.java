@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity {
      */
     @Override
     public void initView() {
+        setSwipeBackEnable(false);
         mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
         //设置ViewPager里面也要显示的图片
         mFragments = new ArrayList<>();
