@@ -53,11 +53,14 @@
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F9F9F9" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:background="#fff"
         android:orientation="vertical">
 
@@ -129,7 +132,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_1"
-                android:padding="16dp">
+                android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -194,8 +197,8 @@
                 android:id="@+id/rl_cypg"
                 android:layout_width="match_parent"
                 android:layout_height="76dp"
-                android:layout_weight="1"
                 android:layout_marginLeft="12dp"
+                android:layout_weight="1"
                 android:background="@drawable/bg_1"
                 android:padding="10dp">
 
@@ -223,10 +226,14 @@
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F9F9F9" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:background="#fff"
         android:orientation="vertical">
 
@@ -237,12 +244,12 @@
 
             <ImageView
                 android:id="@+id/chunk_c_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="10dp"
+                android:layout_height="12dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginRight="10dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/img_9" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -250,42 +257,48 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/chunk_c_icon"
                 android:text="热门联盟"
-                android:textColor="#222" />
+                android:textColor="#333333"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="16dp"
                 android:text="查看更多"
-                android:textColor="#f00" />
+                android:textColor="#EA6F5A"
+                android:textSize="14sp" />
         </RelativeLayout>
 
-        <View
+        <include
+            layout="@layout/line_h_a"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:background="#eee" />
+            android:layout_marginRight="15dp" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:background="@drawable/bg_1"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="12dp">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:id="@+id/lm_img_a"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@mipmap/ic_launcher" />
 
                 <TextView
@@ -297,27 +310,28 @@
                     android:maxLines="1"
                     android:maxWidth="170dp"
                     android:text="宁波二手跑车联盟"
-                    android:textColor="#222"
-                    android:textSize="20dp" />
+                    android:textColor="#333333"
+                    android:textSize="16dp" />
 
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="13dp"
+                        android:layout_height="10dp"
                         android:layout_marginRight="10dp"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/img_18" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="999人关注"
-                        android:textColor="#ccc"
-                        android:textSize="14dp" />
+                        android:textColor="#999999"
+                        android:textSize="12dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -326,13 +340,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/bg_1"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="12dp">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:id="@+id/lm_img_2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@mipmap/ic_launcher" />
 
                 <TextView
@@ -344,26 +360,27 @@
                     android:maxLines="1"
                     android:maxWidth="170dp"
                     android:text="宁波二手本田车联盟"
-                    android:textColor="#222"
-                    android:textSize="20dp" />
+                    android:textColor="#333333"
+                    android:textSize="16dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="13dp"
+                        android:layout_height="10dp"
                         android:layout_marginRight="10dp"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/img_18" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="999人关注"
-                        android:textColor="#ccc"
-                        android:textSize="14dp" />
+                        android:textColor="#999999"
+                        android:textSize="12dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -371,10 +388,14 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F9F9F9" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:background="#fff"
         android:orientation="vertical">
 
@@ -386,18 +407,19 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="10dp"
+                android:layout_height="12dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/img_19" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/chunk_c_icon"
                 android:text="经纪人"
-                android:textColor="#222" />
+                android:textColor="#333333"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <View
