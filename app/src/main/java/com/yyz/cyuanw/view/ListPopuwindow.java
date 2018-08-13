@@ -84,10 +84,10 @@ public class ListPopuwindow extends BasePopuwindow {
 
             public void setData(String text) {
                 tv.setText(text);
-                tv.setTextColor(Color.parseColor("#999999"));
+                tv.setTextColor(Color.parseColor("#666666"));
                 int position = getAdapterPosition();
                 if (index == position) {
-                    tv.setTextColor(Color.parseColor("#ff0000"));
+                    tv.setTextColor(Color.parseColor("#EA6F5A"));
                 }
             }
         }

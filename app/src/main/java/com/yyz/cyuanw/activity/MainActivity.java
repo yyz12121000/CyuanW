@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private TabLayout mTab;
     private MyFragPagerAdapter mAdapter;
     private List<android.support.v4.app.Fragment> mFragments;
@@ -29,17 +29,21 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initView();
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void initData() {
+
     }
 
     /**
      * 实例化控件
      */
-    private void initView() {
-        mViewPager = findViewById(R.id.main_viewpager);
+    @Override
+    public void initView() {
+        mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
         //设置ViewPager里面也要显示的图片
         mFragments = new ArrayList<>();
 
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mAdapter);
     }
 
-    public void userBtnOnclik(View view){
+    public void userBtnOnclik(View view) {
         startActivity(new Intent(this, LoginActivity.class));
     }
 

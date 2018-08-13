@@ -62,7 +62,7 @@
             android:textSize="12sp" />
 
         <include
-            layout="@layout/line_v_a"
+            layout="@layout/line_h_a"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true" />

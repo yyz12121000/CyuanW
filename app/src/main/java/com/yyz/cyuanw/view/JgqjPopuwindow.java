@@ -74,22 +74,22 @@ public class JgqjPopuwindow extends BasePopuwindow implements View.OnClickListen
                     ToastUtil.show(context, "请输入正确的价格区间!");
                     return;
                 }
-                gj_a.setTextColor(Color.parseColor("#888888"));
-                gj_b.setTextColor(Color.parseColor("#888888"));
-                gj_c.setTextColor(Color.parseColor("#888888"));
-                gj_d.setTextColor(Color.parseColor("#888888"));
-                gj_e.setTextColor(Color.parseColor("#888888"));
-                gj_f.setTextColor(Color.parseColor("#888888"));
-                gj_g.setTextColor(Color.parseColor("#888888"));
-                gj_h.setTextColor(Color.parseColor("#888888"));
-                gj_i.setTextColor(Color.parseColor("#888888"));
+                gj_a.setTextColor(Color.parseColor("#666666"));
+                gj_b.setTextColor(Color.parseColor("#666666"));
+                gj_c.setTextColor(Color.parseColor("#666666"));
+                gj_d.setTextColor(Color.parseColor("#666666"));
+                gj_e.setTextColor(Color.parseColor("#666666"));
+                gj_f.setTextColor(Color.parseColor("#666666"));
+                gj_g.setTextColor(Color.parseColor("#666666"));
+                gj_h.setTextColor(Color.parseColor("#666666"));
+                gj_i.setTextColor(Color.parseColor("#666666"));
                 if (listenner != null) {
                     listenner.onItemClick(-1, jgA + "万-" + jgB + "万");
                 }
                 break;
             default:
                 TextView tv = (TextView) view;
-                tv.setTextColor(Color.parseColor("#ff0000"));
+                tv.setTextColor(Color.parseColor("#EA6F5A"));
                 if (listenner != null) {
                     listenner.onItemClick(-1, tv.getText().toString());
                 }

@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffffff">
 
     <LinearLayout
         android:id="@+id/top"
@@ -12,39 +13,43 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="#fff"
+            android:layout_height="44dp"
+            android:background="#ffffff"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/left_text"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/main_tab"
                 android:gravity="center"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:text="长沙市"
-                android:textColor="#666" />
+                android:textColor="#666666"
+                android:textSize="14sp" />
 
             <!--app:tabIndicatorHeight="20dp"指示器的高度-->
             <android.support.design.widget.TabLayout
                 android:id="@+id/main_tab"
                 android:layout_width="180dp"
-                android:layout_height="50dp"
+                android:layout_height="44dp"
                 android:layout_centerInParent="true"
-                app:tabIndicatorColor="#ec4213"
+                app:tabIndicatorColor="#EA6F5A"
+                app:tabIndicatorFullWidth="false"
+                app:tabIndicatorHeight="4dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="#111"
-                app:tabTextColor="#666"
+                app:tabSelectedTextColor="#333333"
+                app:tabTextColor="#999999"
 
                 />
 
             <ImageView
                 android:id="@+id/right_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="16dp"
                 android:onClick="userBtnOnclik"
                 android:src="@mipmap/ic_launcher" />
         </RelativeLayout>
@@ -52,24 +57,26 @@
         <LinearLayout
             android:id="@+id/search_ll"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_margin="15dp"
-            android:background="#ccc"
+            android:layout_height="28dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/bt_hs_bg_4dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="8dp"
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
                 android:id="@+id/search_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="搜索您需要的车源" />
+                android:hint="搜索您需要的车源"
+                android:textColor="#999999"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 

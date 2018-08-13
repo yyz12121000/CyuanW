@@ -100,7 +100,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_1:
-                ((TextView) view).setTextColor(Color.parseColor("#ff0000"));
+                ((TextView) view).setTextColor(Color.parseColor("#EA6F5A"));
                 if (!cyPopuwindow.isShowing()) {
                     cyPopuwindow.showAsDropDown(view, view.getLayoutParams().width / 2, 18);
                 } else {
@@ -108,7 +108,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 }
                 break;
             case R.id.tv_2:
-                ((TextView) view).setTextColor(Color.parseColor("#ff0000"));
+                ((TextView) view).setTextColor(Color.parseColor("#EA6F5A"));
                 if (!pxPopuwindow.isShowing()) {
                     pxPopuwindow.showAsDropDown(view, view.getLayoutParams().width / 2, 18);
                 } else {
@@ -119,7 +119,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 startActivity(new Intent(CyFragment.this.getActivity(), PpxzActivity.class));
                 break;
             case R.id.tv_4:
-                ((TextView) view).setTextColor(Color.parseColor("#ff0000"));
+                ((TextView) view).setTextColor(Color.parseColor("#EA6F5A"));
                 if (!pxPopuwindow.isShowing()) {
                     jgqjPopuwindow.showAsDropDown(view, view.getLayoutParams().width / 2, 18);
                 } else {
@@ -135,10 +135,10 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
 
     @Override
     public void onDismiss() {
-        tv_1.setTextColor(Color.parseColor("#888888"));
-        tv_2.setTextColor(Color.parseColor("#888888"));
-        tv_3.setTextColor(Color.parseColor("#888888"));
-        tv_4.setTextColor(Color.parseColor("#888888"));
+        tv_1.setTextColor(Color.parseColor("#666666"));
+        tv_2.setTextColor(Color.parseColor("#666666"));
+        tv_3.setTextColor(Color.parseColor("#666666"));
+        tv_4.setTextColor(Color.parseColor("#666666"));
     }
 
 

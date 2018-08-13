@@ -53,7 +53,7 @@
                         android:textSize="12dp" />
                 </LinearLayout>
 
-                <include layout="@layout/line_v_a" />
+                <include layout="@layout/line_h_a" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -80,7 +80,7 @@
                     android:textColor="#999999"
                     android:textSize="14dp" />
 
-                <include layout="@layout/line_v_a" />
+                <include layout="@layout/line_h_a" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
                     android:textColor="#999999"
                     android:textSize="14dp" />
 
-                <include layout="@layout/line_v_a" />
+                <include layout="@layout/line_h_a" />
 
                 <!--   <RelativeLayout
                        android:layout_width="match_parent"
@@ -133,7 +133,7 @@
                            android:textSize="16dp" />
                    </RelativeLayout>-->
 
-                <include layout="@layout/line_v_a" />
+                <include layout="@layout/line_h_a" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -167,7 +167,7 @@
                         android:src="@mipmap/ic_user_arrow" />
                 </RelativeLayout>
 
-                <include layout="@layout/line_v_a" />
+                <include layout="@layout/line_h_a" />
 
 
                 <RelativeLayout

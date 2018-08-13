@@ -13,40 +13,42 @@
         <com.xfhy.easybanner.ui.EasyBanner
             android:id="@+id/sy_banner"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="140dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:paddingBottom="12dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="12dp">
+
 
             <ImageView
                 android:id="@+id/chunk_a_img_a"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:layout_width="100dp"
+                android:layout_height="58.7dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/jiangyiyan" />
+                android:src="@mipmap/img_4" />
+
 
             <ImageView
                 android:id="@+id/chunk_a_img_b"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:layout_width="100dp"
+                android:layout_height="58.7dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/jiangyiyan" />
+                android:src="@mipmap/img_5" />
 
             <ImageView
                 android:id="@+id/chunk_a_img_c"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:layout_width="100dp"
+                android:layout_height="58.7dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/jiangyiyan" />
+                android:src="@mipmap/img_3" />
 
         </LinearLayout>
     </LinearLayout>
@@ -62,93 +64,93 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="44dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_marginRight="8dp"
+                android:src="@mipmap/img_7" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="实用工具"
-                android:textColor="#222" />
+                android:textColor="#333333"
+                android:textSize="14sp" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:background="#eee" />
+        <include layout="@layout/line_h_a" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="16dp">
 
             <RelativeLayout
                 android:id="@+id/rl_xqcx"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="76dp"
                 android:layout_weight="1"
+                android:background="@drawable/bg_1"
                 android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="限迁查询"
-                    android:textColor="#222"
-                    android:textSize="20sp" />
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="在线查看，方便快捷"
-                    android:textColor="#888"
+                    android:textColor="#666666"
                     android:textSize="12sp" />
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignParentRight="true"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/img_11" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_wbcx"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="76dp"
+                android:layout_marginLeft="12dp"
                 android:layout_weight="1"
-                android:padding="10dp">
+                android:background="@drawable/bg_1"
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="维保查询"
-                    android:textColor="#222"
-                    android:textSize="20sp" />
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="4s店保养记录，一目了然"
-                    android:textColor="#888"
+                    android:textColor="#666666"
                     android:textSize="12sp" />
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignParentRight="true"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/img_12" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -156,65 +158,67 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="16dp">
 
             <RelativeLayout
                 android:id="@+id/rl_wzcx"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="76dp"
                 android:layout_weight="1"
+                android:background="@drawable/bg_1"
                 android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="违章查询"
-                    android:textColor="#222"
-                    android:textSize="20sp" />
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="数据精准，信息全面"
-                    android:textColor="#888"
+                    android:textColor="#666666"
                     android:textSize="12sp" />
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignParentRight="true"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/img_6" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_cypg"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="76dp"
                 android:layout_weight="1"
-                android:background="#eff"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/bg_1"
                 android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="车源评估"
-                    android:textColor="#222"
-                    android:textSize="20sp" />
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="卖车之前，先估个价呗"
-                    android:textColor="#888"
+                    android:textColor="#666666"
                     android:textSize="12sp" />
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignParentRight="true"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/img_13" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
