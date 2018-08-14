@@ -1,5 +1,6 @@
 package com.yyz.cyuanw.activity.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.xfhy.easybanner.ui.EasyBanner;
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.activity.LmDetailDetailEditActivity;
 import com.yyz.cyuanw.tools.ToastUtil;
 
 import java.util.ArrayList;
@@ -95,13 +98,32 @@ public class SyFragment extends Fragment {
         private class VAHolder extends RecyclerView.ViewHolder {
             private EasyBanner mBanner;
             private ImageView chunk_a_img_a;
+            private RecyclerView hot_lm_list;
+            public HotLmListAdapter hotLmListAdapter;
+            private List hotLmdataList = new ArrayList();
 
             public VAHolder(@NonNull View itemView) {
                 super(itemView);
                 //可以在布局里面写
                 mBanner = (EasyBanner) itemView.findViewById(R.id.sy_banner);
                 chunk_a_img_a = itemView.findViewById(R.id.chunk_a_img_a);
+                hot_lm_list = itemView.findViewById(R.id.hot_lm_list);
 
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SyFragment.this.getActivity());
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                hot_lm_list.setLayoutManager(linearLayoutManager);
+                hotLmListAdapter = new HotLmListAdapter();
+                hotLmdataList.add("");
+                hotLmdataList.add("");
+                hotLmdataList.add("");
+                hotLmdataList.add("");
+                hotLmdataList.add("");
+                hotLmdataList.add("");
+                hotLmdataList.add("");
+                hotLmdataList.add("");
+                hotLmdataList.add("");
+                hotLmdataList.add("");
+                hot_lm_list.setAdapter(hotLmListAdapter);
             }
 
             public void setData() {
@@ -146,7 +168,57 @@ public class SyFragment extends Fragment {
                 // 开始轮播
                 mBanner.start();
             }
+            private class HotLmListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+                @Override
+                public int getItemViewType(int position) {
+                    return position;
+                }
+
+                @NonNull
+                @Override
+                public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    View viewA = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_hot_lm, viewGroup, false);
+                    VHotLmHolder vAHolder = new VHotLmHolder(viewA);
+                    return vAHolder;
+                }
+
+                @Override
+                public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                    VHotLmHolder vMyLmHolder = (VHotLmHolder) viewHolder;
+                    vMyLmHolder.setData();
+                }
+
+                @Override
+                public int getItemCount() {
+                    return hotLmdataList.size();
+                }
+
+                private class VHotLmHolder extends RecyclerView.ViewHolder {
+                    private ImageView img;
+                    private TextView name,gz_num;
+
+                    public VHotLmHolder(@NonNull View itemView) {
+                        super(itemView);
+                        img = itemView.findViewById(R.id.img);
+                        name = itemView.findViewById(R.id.name);
+                        gz_num = itemView.findViewById(R.id.gz_num);
+
+                        itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                int position = getAdapterPosition();
+
+                            }
+                        });
+                    }
+
+                    public void setData() {
+                        int position = getAdapterPosition();
+
+                    }
+                }
+            }
         }
 
         private class VBHolder extends RecyclerView.ViewHolder {
