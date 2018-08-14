@@ -35,6 +35,7 @@ public class LmDetailDetailActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.edit:
                 Intent intent = new Intent(LmDetailDetailActivity.this, LmDetailDetailEditActivity.class);
+                intent.putExtra(LmDetailDetailEditActivity.TYPE,LmDetailDetailEditActivity.TYPE_EDIT);
                 startActivity(intent);
                 break;
         }

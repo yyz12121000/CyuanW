@@ -17,7 +17,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="vertical">
 
             <LinearLayout
@@ -39,7 +38,7 @@
                         android:layout_height="64dp"
                         android:layout_marginTop="24dp"
                         android:scaleType="center"
-                        android:src="@mipmap/gaoyuanyuan" />
+                        android:src="@mipmap/img_30" />
 
                     <TextView
                         android:id="@+id/name"
@@ -75,7 +74,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:background="#0000"
-                    android:hint="请输入联盟名称"
+                    android:hint="请输入联盟名称（必填）"
                     android:paddingBottom="13dp"
                     android:textColor="#999999"
                     android:textSize="14dp" />
@@ -90,7 +89,7 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="16dp"
-                    android:text="圈子简介"
+                    android:text="联盟简介"
                     android:textColor="#333333"
                     android:textSize="16dp" />
 
@@ -103,35 +102,9 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:background="#0000"
-                    android:hint="请输入联盟简介"
+                    android:hint="请输入联盟简介内容（必填）"
                     android:textColor="#999999"
                     android:textSize="14dp" />
-
-                <include layout="@layout/line_h_a" />
-
-                <!--   <RelativeLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="50dp">
-
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="match_parent"
-                           android:gravity="center_vertical"
-                           android:paddingLeft="15dp"
-                           android:text="创建人"
-                           android:textColor="#333333"
-                           android:textSize="16dp" />
-
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="match_parent"
-                           android:layout_alignParentRight="true"
-                           android:gravity="center_vertical"
-                           android:paddingRight="15dp"
-                           android:text="王思雨"
-                           android:textColor="#888888"
-                           android:textSize="16dp" />
-                   </RelativeLayout>-->
 
                 <include layout="@layout/line_h_a" />
 
@@ -144,18 +117,18 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
-                        android:text="微信二维码"
+                        android:text="上传微信二维码"
                         android:textColor="#333333"
                         android:textSize="16dp" />
 
                     <ImageView
                         android:id="@+id/er_code"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="16dp"
                         android:layout_toLeftOf="@+id/right_arrow"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/img_29" />
 
                     <ImageView
                         android:id="@+id/right_arrow"
@@ -178,6 +151,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
+                        android:hint="请选择"
                         android:paddingLeft="15dp"
                         android:text="所在地"
                         android:textColor="#000000"
@@ -188,6 +162,7 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:gravity="center_vertical"
+                        android:hint="请选择"
                         android:paddingRight="35dp"
                         android:text="浙江 宁波 的州区"
                         android:textColor="#888888"
@@ -198,7 +173,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/edit"
+                android:id="@+id/save"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_marginLeft="16dp"
@@ -209,6 +184,30 @@
                 android:text="保存修改"
                 android:textColor="#ffffff"
                 android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/hint_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:text="创建联盟须知："
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/hint_2"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:layout_marginTop="6dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="1、联盟内同行可互看在售车源 2、联盟内同行可互相分享车源 3、可互看制定的联盟车源底价"
+                android:textColor="#999999"
+                android:textSize="12sp" />
         </LinearLayout>
     </ScrollView>
 

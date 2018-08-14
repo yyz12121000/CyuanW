@@ -122,12 +122,12 @@
                         android:textSize="16dp" />
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="16dp"
-                        android:src="@mipmap/ic_launcher"
+                        android:src="@mipmap/img_29"
                         android:text="王思雨" />
                 </RelativeLayout>
 

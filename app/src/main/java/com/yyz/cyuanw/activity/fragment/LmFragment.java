@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.LmDetailActivity;
+import com.yyz.cyuanw.activity.LmDetailDetailActivity;
+import com.yyz.cyuanw.activity.LmDetailDetailEditActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,7 @@ public class LmFragment extends Fragment {
         list = view.findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         list.setAdapter(new LmFragment.ListAdapter());
+
     }
 
     private class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -82,6 +85,14 @@ public class LmFragment extends Fragment {
         private class VAHolder extends RecyclerView.ViewHolder {
             public VAHolder(@NonNull View itemView) {
                 super(itemView);
+                itemView.findViewById(R.id.create).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(LmFragment.this.getActivity(), LmDetailDetailEditActivity.class);
+                        intent.putExtra(LmDetailDetailEditActivity.TYPE, LmDetailDetailEditActivity.TYPE_CREATE);
+                        startActivity(intent);
+                    }
+                });
             }
         }
 
