@@ -9,14 +9,14 @@
     <LinearLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
-        android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginTop="50dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="32dp"
             android:scaleType="center"
             android:src="@mipmap/gaoyuanyuan" />
 
@@ -29,7 +29,7 @@
             android:layout_marginTop="20dp"
             android:text="宁波精品二手跑车联盟"
             android:textColor="#333333"
-            android:textSize="20dp" />
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/desc"
@@ -38,8 +38,8 @@
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
             android:text="简介：这个圈子，不是谁都能进的。"
-            android:textColor="#cccccc"
-            android:textSize="17dp" />
+            android:textColor="#999999"
+            android:textSize="12dp" />
     </LinearLayout>
 
 
@@ -47,20 +47,22 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_alignParentBottom="true"
-        android:background="#88cccccc" />
+        android:background="#f9f9f9" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
         android:id="@+id/member"
-        android:layout_height="50dp">
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
 
         <TextView
             android:id="@+id/left_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:text="联盟成员" />
+            android:layout_marginLeft="16dp"
+            android:text="联盟成员"
+            android:textColor="#333333"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -71,40 +73,40 @@
 
             <ImageView
                 android:id="@+id/iv1"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:src="@mipmap/ic_launcher" />
 
             <ImageView
                 android:id="@+id/iv2"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:src="@mipmap/ic_launcher" />
 
             <ImageView
                 android:id="@+id/iv3"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:src="@mipmap/ic_launcher" />
 
             <ImageView
                 android:id="@+id/iv4"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:src="@mipmap/ic_launcher" />
 
             <ImageView
                 android:id="@+id/iv5"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:src="@mipmap/ic_launcher" />
@@ -126,26 +128,26 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/right_arrow"
-            android:text="等35868人" />
+            android:text="等35868人"
+            android:textColor="#999999"
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_alignParentBottom="true"
-        android:background="#88cccccc" />
+        android:background="#f9f9f9" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="44dp"
         android:gravity="center_vertical"
-        android:paddingLeft="15dp"
-        android:text="联盟车源（20356）" />
+        android:paddingLeft="16dp"
+        android:text="联盟车源（20356）"
+        android:textColor="#333333"
+        android:textSize="14sp" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:background="#88cccccc" />
+    <include layout="@layout/line_h_a" />
 
 </LinearLayout>

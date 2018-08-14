@@ -36,7 +36,7 @@ public class LmDetailActivity extends BaseActivity {
     @Override
     public void initView() {
         title_right_icon.setVisibility(View.VISIBLE);
-        title_right_icon.setImageResource(R.mipmap.ic_launcher);
+        title_right_icon.setImageResource(R.mipmap.ing_35);
         setTitle(id_tv_title,"联盟主页");
 
         dataList.add("");

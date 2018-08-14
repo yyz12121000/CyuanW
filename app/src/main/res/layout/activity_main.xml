@@ -68,7 +68,7 @@
                 android:layout_height="14dp"
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="8dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ing_35" />
 
             <TextView
                 android:id="@+id/search_text"
