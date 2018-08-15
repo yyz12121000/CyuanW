@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff">
+    
+    <ImageView
+        android:id="@+id/id_item_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_notice"/>
+    <TextView
+        android:id="@+id/id_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/id_item_icon"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:text="系统通知"
+        android:textColor="#333333"
+        android:textSize="16dp"/>
+    <TextView
+        android:id="@+id/id_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="12dp"
+        android:text="2018-10-20"
+        android:textColor="#999999"
+        android:textSize="12dp"/>
+    <TextView
+        android:id="@+id/id_item_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/id_item_icon"
+        android:layout_alignBottom="@+id/id_item_icon"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="16dp"
+        android:maxLines="1"
+        android:text="系统通知系统通知系统通知系统通知"
+        android:textColor="#999999"
+        android:textSize="12dp"/>
+
+</RelativeLayout>

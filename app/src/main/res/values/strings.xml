@@ -4,4 +4,5 @@
     <string name="str_user_mycar">我的车源\n10</string>
     <string name="str_user_myshop">我的店铺\n10</string>
     <string name="str_user_myunion">我的联盟\n10</string>
+    <string name="str_help_weixin">请您扫描上方二维码\n或者\n微信搜索“CheyuanCN”添加</string>
 </resources>

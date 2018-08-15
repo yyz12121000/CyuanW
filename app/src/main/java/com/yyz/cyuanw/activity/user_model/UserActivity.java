@@ -34,7 +34,7 @@ public class UserActivity extends BaseActivity{
 
     }
 
-    @OnClick({R.id.id_iv_back,R.id.id_tv_setting})
+    @OnClick({R.id.id_iv_back,R.id.id_tv_setting,R.id.id_tv_help})
     public void onClickEvent(View view){
         switch (view.getId()){
             case R.id.id_iv_back:
@@ -43,9 +43,17 @@ public class UserActivity extends BaseActivity{
                 break;
             case R.id.id_tv_setting:
 
-                startActivity(new Intent(this,SettingActivity.class));
+                startActivity(SettingActivity.class);
+                break;
+            case R.id.id_tv_help:
+
+                startActivity(HelpActivity.class);
                 break;
         }
+    }
+
+    public void startActivity(Class<?> cls){
+        startActivity(new Intent(this,cls));
     }
 
 }

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.yyz.cyuanw"
-        minSdkVersion 23
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -17,6 +17,11 @@ android {
         }
     }
     buildToolsVersion '28.0.1'
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -48,4 +53,9 @@ dependencies {
     implementation files('libs/pinyin4j-2.5.0.jar')
     //侧滑菜单
     implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+    //retrofit2
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
 }

@@ -14,6 +14,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/id_iv_close"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="right"
@@ -21,20 +22,21 @@
             android:scaleType="center"
             android:src="@mipmap/ic_login_close" />
         <ImageView
+            android:id="@+id/id_iv_code"
             android:layout_width="147dp"
             android:layout_height="56dp"
             android:layout_gravity="center_horizontal"
-            android:scaleType="fitCenter"
-            android:background="@color/colorAccent" />
+            android:scaleType="fitCenter" />
 
         <EditText
+            android:id="@+id/id_et_code"
             android:layout_width="216dp"
             android:layout_height="44dp"
             android:layout_marginTop="20dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:hint="请在此输入上方图形验证码"
@@ -47,11 +49,11 @@
             android:layout_marginTop="13dp"
             android:background="#f2f2f2"/>
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="16dp"
+            android:id="@+id/id_tv_submit"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="14dp"
             android:text="提交"
             android:textColor="#EA6F5A"
             android:textSize="16dp"/>
