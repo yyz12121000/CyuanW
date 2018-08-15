@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.activity.fragment.CyFragment;
@@ -28,6 +31,12 @@ import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.ImageTools;
 import com.yyz.cyuanw.tools.StringUtil;
+import com.zaaach.citypicker.CityPicker;
+import com.zaaach.citypicker.adapter.OnPickListener;
+import com.zaaach.citypicker.model.City;
+import com.zaaach.citypicker.model.HotCity;
+import com.zaaach.citypicker.model.LocateState;
+import com.zaaach.citypicker.model.LocatedCity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +48,8 @@ public class MainActivity extends BaseActivity {
     private List<android.support.v4.app.Fragment> mFragments;
     private List<String> titleList;
     private ViewPager mViewPager;
+
+    private TextView left_text;
 
     private Dialog mDialog;
 
@@ -56,9 +67,9 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        if (StringUtil.isNotNull(App.get(Constant.KEY_USER_ISLOGIN))){
+        if (StringUtil.isNotNull(App.get(Constant.KEY_USER_ISLOGIN))) {
             showNoticeDialog();
-            App.set(Constant.KEY_USER_ISLOGIN,"");
+            App.set(Constant.KEY_USER_ISLOGIN, "");
         }
 
     }
@@ -70,6 +81,7 @@ public class MainActivity extends BaseActivity {
     public void initView() {
         setSwipeBackEnable(false);
         mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
+        left_text = (TextView) findViewById(R.id.left_text);
         //设置ViewPager里面也要显示的图片
         mFragments = new ArrayList<>();
 
@@ -103,11 +115,18 @@ public class MainActivity extends BaseActivity {
         mAdapter = new MyFragPagerAdapter(getSupportFragmentManager(), mFragments, titleList);
         //给ViewPager绑定Adapter
         mViewPager.setAdapter(mAdapter);
+
+        left_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCity();
+            }
+        });
     }
 
-    public  void showNoticeDialog(){
-        if (mDialog == null){
-            mDialog = new AlertDialog.Builder(this,R.style.MyDialog).create();
+    public void showNoticeDialog() {
+        if (mDialog == null) {
+            mDialog = new AlertDialog.Builder(this, R.style.MyDialog).create();
         }
         mDialog.show();
 
@@ -120,22 +139,59 @@ public class MainActivity extends BaseActivity {
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.getWindow().setContentView(dialogView);
 
-        dialogView.findViewById(R.id.id_tv_cancel).setOnClickListener(view -> mDialog.dismiss() );
+        dialogView.findViewById(R.id.id_tv_cancel).setOnClickListener(view -> mDialog.dismiss());
         dialogView.findViewById(R.id.id_tv_go).setOnClickListener(view -> {
             mDialog.dismiss();
 
             startActivity(new Intent(MainActivity.this, NameConfirmActivity.class));
-        } );
+        });
 
     }
 
     public void userBtnOnclik(View view) {
-        if (!StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))){
+        if (!StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
             startActivity(new Intent(this, LoginActivity.class));
-        }else{
+        } else {
             startActivity(new Intent(this, UserActivity.class));
         }
 
+    }
+
+    private void showCity() {
+        List<HotCity> hotCities = new ArrayList<>();
+        hotCities.add(new HotCity("北京", "北京", "101010100"));
+        hotCities.add(new HotCity("上海", "上海", "101020100"));
+        hotCities.add(new HotCity("广州", "广东", "101280101"));
+        hotCities.add(new HotCity("深圳", "广东", "101280601"));
+        hotCities.add(new HotCity("杭州", "浙江", "101210101"));
+
+
+        CityPicker.getInstance()
+                .setFragmentManager(getSupportFragmentManager())    //此方法必须调用
+                .enableAnimation(true)    //启用动画效果
+//                .setAnimationStyle(anim)    //自定义动画
+                .setLocatedCity(new LocatedCity("杭州", "浙江", "101210101"))  //APP自身已定位的城市，默认为null（定位失败）
+                .setHotCities(hotCities)    //指定热门城市
+                .setOnPickListener(new OnPickListener() {
+                    @Override
+                    public void onPick(int position, City data) {
+                        left_text.setText(data.getName());
+                    }
+
+                    @Override
+                    public void onLocate() {
+                        //开始定位，这里模拟一下定位
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //定位完成之后更新数据
+                                CityPicker.getInstance()
+                                        .locateComplete(new LocatedCity("深圳", "广东", "101280601"), LocateState.SUCCESS);
+                            }
+                        }, 2000);
+                    }
+                })
+                .show();
     }
 
 }
