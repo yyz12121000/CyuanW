@@ -10,8 +10,14 @@
         android:background="#fff"
         android:orientation="vertical">
 
-        <com.xfhy.easybanner.ui.EasyBanner
-            android:id="@+id/sy_banner"
+        <LinearLayout
+            android:id="@+id/banner_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="140dp" />
 

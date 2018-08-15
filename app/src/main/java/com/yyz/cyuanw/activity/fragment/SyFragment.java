@@ -1,6 +1,6 @@
 package com.yyz.cyuanw.activity.fragment;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,14 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestListener;
-import com.xfhy.easybanner.ui.EasyBanner;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
+import com.youth.banner.loader.ImageLoader;
 import com.yyz.cyuanw.R;
-import com.yyz.cyuanw.activity.LmDetailDetailEditActivity;
-import com.yyz.cyuanw.tools.ToastUtil;
+import com.yyz.cyuanw.tools.Img;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +59,8 @@ public class SyFragment extends Fragment {
         private VAHolder vAHolder;
 
         private void stopBanner() {
-            if (null != vAHolder && null != vAHolder.mBanner)
-                vAHolder.mBanner.stop();
+            if (null != vAHolder && null != vAHolder.banner)
+                vAHolder.banner.stopAutoPlay();
         }
 
         @Override
@@ -96,18 +97,22 @@ public class SyFragment extends Fragment {
         }
 
         private class VAHolder extends RecyclerView.ViewHolder {
-            private EasyBanner mBanner;
+            public Banner banner;
             private ImageView chunk_a_img_a;
             private RecyclerView hot_lm_list;
             public HotLmListAdapter hotLmListAdapter;
             private List hotLmdataList = new ArrayList();
 
+            private LinearLayout banner_root;
+
             public VAHolder(@NonNull View itemView) {
                 super(itemView);
                 //可以在布局里面写
-                mBanner = (EasyBanner) itemView.findViewById(R.id.sy_banner);
+                banner = (Banner) itemView.findViewById(R.id.banner);
                 chunk_a_img_a = itemView.findViewById(R.id.chunk_a_img_a);
                 hot_lm_list = itemView.findViewById(R.id.hot_lm_list);
+
+                banner_root = itemView.findViewById(R.id.banner_root);
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SyFragment.this.getActivity());
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -128,15 +133,15 @@ public class SyFragment extends Fragment {
 
             public void setData() {
 
-//                Glide.with(getActivity()).load("http://img1.mm131.me/pic/4232/22.jpg").into(chunk_a_img_a);
-//                Img.load(chunk_a_img_a, "http://img1.mm131.me/pic/4232/22.jpg");
+
+                Img.load(chunk_a_img_a, "http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
 
                 List<String> imgs = new ArrayList<>();
-                imgs.add("http://img1.mm131.me/pic/4220/20.jpg");
-                imgs.add("http://img1.mm131.me/pic/4222/1.jpg");
-                imgs.add("http://img1.mm131.me/pic/4139/21.jpg");
-                imgs.add("http://img1.mm131.me/pic/4232/22.jpg");
-                imgs.add("http://img1.mm131.me/pic/4147/18.jpg");
+                imgs.add("http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
+                imgs.add("http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
+                imgs.add("http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
+                imgs.add("http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
+                imgs.add("http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
 
                 List<String> titles = new ArrayList<>();
                 titles.add("");
@@ -145,29 +150,32 @@ public class SyFragment extends Fragment {
                 titles.add("");
                 titles.add("");
 
-                //初始化:设置图片url和图片标题
-                mBanner.initBanner(imgs, titles);
 
-
+                //设置banner样式
+//                banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
                 //设置图片加载器
-                mBanner.setImageLoader(new EasyBanner.ImageLoader() {
+                banner.setImageLoader(new ImageLoader() {
                     @Override
-                    public void loadImage(ImageView imageView, String url) {
-//                        Img.load(imageView, url);
-
+                    public void displayImage(Context context, Object path, ImageView imageView) {
+                        Img.load(imageView, path.toString());
                     }
                 });
-                //监听banner的item点击事件
-                mBanner.setOnItemClickListener(new EasyBanner.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position, String title) {
-                        ToastUtil.show(getContext(), "position:" + position + "   title:" + title);
-                    }
-                });
-
-                // 开始轮播
-                mBanner.start();
+                //设置图片集合
+                banner.setImages(imgs);
+                //设置banner动画效果
+                banner.setBannerAnimation(Transformer.Default);
+                //设置标题集合（当banner样式有显示title时）
+//                banner.setBannerTitles(titles);
+                //设置自动轮播，默认为true
+                banner.isAutoPlay(true);
+                //设置轮播时间
+                banner.setDelayTime(6000);
+                //设置指示器位置（当banner模式中有指示器时）
+                banner.setIndicatorGravity(BannerConfig.CENTER);
+                //banner设置方法全部调用完毕时最后调用
+                banner.start();
             }
+
             private class HotLmListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 @Override
@@ -196,7 +204,7 @@ public class SyFragment extends Fragment {
 
                 private class VHotLmHolder extends RecyclerView.ViewHolder {
                     private ImageView img;
-                    private TextView name,gz_num;
+                    private TextView name, gz_num;
 
                     public VHotLmHolder(@NonNull View itemView) {
                         super(itemView);
@@ -235,7 +243,7 @@ public class SyFragment extends Fragment {
         super.onStop();
 
         if (null != adapter) {
-//            adapter.stopBanner();
+            adapter.stopBanner();
         }
     }
 }
