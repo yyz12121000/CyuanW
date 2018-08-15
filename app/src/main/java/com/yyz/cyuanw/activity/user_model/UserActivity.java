@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
 import com.yyz.cyuanw.tools.GlideCircleTransformWithBorder;
+import com.yyz.cyuanw.tools.Img;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -33,11 +34,9 @@ public class UserActivity extends BaseActivity{
 
         mImmersionBar.reset().transparentBar().init();
 
-        Glide.with(this).load("http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg")
-                .apply(new RequestOptions().error(getResources().getDrawable(R.mipmap.ic_launcher))
-                        .placeholder(R.mipmap.ic_launcher).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .transform(new GlideCircleTransformWithBorder(this,2, Color.parseColor("#ccffffff")))
-                ).into(photoView);
+        Img.loadC(photoView,"http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
+
+
 
 //        RequestOptions mRequestOptions = RequestOptions.circleCropTransform().diskCacheStrategy(DiskCacheStrategy.NONE)
 //                .skipMemoryCache(true).placeholder(R.mipmap.ic_launcher);
