@@ -19,7 +19,6 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.loader.ImageLoader;
 import com.yyz.cyuanw.R;
-import com.yyz.cyuanw.tools.Img;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,7 +133,7 @@ public class SyFragment extends Fragment {
             public void setData() {
 
 
-                Img.load(chunk_a_img_a, "http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
+                //Img.load(chunk_a_img_a, "http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
 
                 List<String> imgs = new ArrayList<>();
                 imgs.add("http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
@@ -157,7 +156,7 @@ public class SyFragment extends Fragment {
                 banner.setImageLoader(new ImageLoader() {
                     @Override
                     public void displayImage(Context context, Object path, ImageView imageView) {
-                        Img.load(imageView, path.toString());
+                        //Img.load(imageView, path.toString());
                     }
                 });
                 //设置图片集合
