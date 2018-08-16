@@ -1,6 +1,9 @@
 package com.yyz.cyuanw.apiClient;
 
+import com.yyz.cyuanw.bean.AdData;
+import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
+import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.ImgData;
 import com.yyz.cyuanw.bean.LoginData;
@@ -55,6 +58,15 @@ public class HttpData extends RetrofitUtils {
 
     public void logout(String token,Observer<HttpCodeResult> observer){
         Observable observable = service.logout(token,"");
+        setSubscribe(observable, observer);
+    }
+
+    public void getHotLmData(Observer<HttpListResult<HotLmData>> observer){
+        Observable observable = service.getHotLmData();
+        setSubscribe(observable, observer);
+    }
+    public void getAdData(Observer<HttpResult<AdData>> observer){
+        Observable observable = service.getAdData();
         setSubscribe(observable, observer);
     }
 

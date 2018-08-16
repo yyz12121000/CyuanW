@@ -77,4 +77,6 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     //城市选择
     implementation 'com.zaaach:citypicker:2.0.2'
+    //高德定位
+    implementation 'com.amap.api:location:latest.integration'
 }

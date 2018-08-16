@@ -1,7 +1,10 @@
 package com.yyz.cyuanw.apiClient;
 
 
+import com.yyz.cyuanw.bean.AdData;
+import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
+import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.ImgData;
 import com.yyz.cyuanw.bean.LoginData;
@@ -13,6 +16,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -39,6 +43,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("regSend")
     Observable<HttpCodeResult> getValidateCode(@Field("phone") String phone, @Field("image_code") String image_code);
+
+    //获取热门联盟数据
+    @GET("alliances/hot")
+    Observable<HttpListResult<HotLmData>> getHotLmData();
+
+    //获取热门联盟数据
+    @GET("ad_positions/slideshow")
+    Observable<HttpResult<AdData>> getAdData();
 
 //    //修改密码
 //    @FormUrlEncoded

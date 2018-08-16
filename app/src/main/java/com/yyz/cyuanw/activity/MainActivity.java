@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -19,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationListener;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.activity.fragment.CyFragment;
 import com.yyz.cyuanw.activity.fragment.SyFragment;
@@ -30,7 +34,9 @@ import com.yyz.cyuanw.adapter.MyFragPagerAdapter;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.ImageTools;
+import com.yyz.cyuanw.tools.Location;
 import com.yyz.cyuanw.tools.StringUtil;
+import com.yyz.cyuanw.tools.ToastUtil;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
 import com.zaaach.citypicker.model.City;
@@ -52,6 +58,7 @@ public class MainActivity extends BaseActivity {
     private TextView left_text;
 
     private Dialog mDialog;
+    private Location location;
 
     @Override
     protected int getLayoutId() {
@@ -60,7 +67,25 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        location = new Location(this, new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation.getErrorCode() == 0) {
+                    String city = aMapLocation.getCity();
+                    if (null != city) {
+                        left_text.setText(city);
+                    }
+                }
+                location.stop();
+            }
+        });
+        location.start();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        location.stop();
     }
 
     @Override
@@ -119,9 +144,23 @@ public class MainActivity extends BaseActivity {
         left_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showCity();
+                Intent intent = new Intent(MainActivity.this, ChooseCityActivity.class);
+                startActivityForResult(intent, 2);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 2:
+                    String city = data.getStringExtra("city");
+                    left_text.setText(city);
+                    break;
+            }
+        }
     }
 
     public void showNoticeDialog() {
@@ -157,41 +196,5 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void showCity() {
-        List<HotCity> hotCities = new ArrayList<>();
-        hotCities.add(new HotCity("北京", "北京", "101010100"));
-        hotCities.add(new HotCity("上海", "上海", "101020100"));
-        hotCities.add(new HotCity("广州", "广东", "101280101"));
-        hotCities.add(new HotCity("深圳", "广东", "101280601"));
-        hotCities.add(new HotCity("杭州", "浙江", "101210101"));
-
-
-        CityPicker.getInstance()
-                .setFragmentManager(getSupportFragmentManager())    //此方法必须调用
-                .enableAnimation(true)    //启用动画效果
-//                .setAnimationStyle(anim)    //自定义动画
-                .setLocatedCity(new LocatedCity("杭州", "浙江", "101210101"))  //APP自身已定位的城市，默认为null（定位失败）
-                .setHotCities(hotCities)    //指定热门城市
-                .setOnPickListener(new OnPickListener() {
-                    @Override
-                    public void onPick(int position, City data) {
-                        left_text.setText(data.getName());
-                    }
-
-                    @Override
-                    public void onLocate() {
-                        //开始定位，这里模拟一下定位
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                //定位完成之后更新数据
-                                CityPicker.getInstance()
-                                        .locateComplete(new LocatedCity("深圳", "广东", "101280601"), LocateState.SUCCESS);
-                            }
-                        }, 2000);
-                    }
-                })
-                .show();
-    }
 
 }

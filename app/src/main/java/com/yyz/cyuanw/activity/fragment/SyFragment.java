@@ -19,10 +19,19 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.loader.ImageLoader;
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.apiClient.HttpData;
+import com.yyz.cyuanw.bean.AdData;
+import com.yyz.cyuanw.bean.Ads;
+import com.yyz.cyuanw.bean.HotLmData;
+import com.yyz.cyuanw.bean.HttpListResult;
+import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.tools.Img;
+import com.yyz.cyuanw.tools.LogManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observer;
 
 public class SyFragment extends Fragment {
     private RecyclerView list;
@@ -53,6 +62,9 @@ public class SyFragment extends Fragment {
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ListAdapter();
         list.setAdapter(adapter);
+
+        loadHotLm();
+        loadAd();
     }
 
     private class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -61,6 +73,19 @@ public class SyFragment extends Fragment {
         private void stopBanner() {
             if (null != vAHolder && null != vAHolder.banner)
                 vAHolder.banner.stopAutoPlay();
+        }
+
+        public void setHotLmdataList(List<HotLmData> hotLmdataList) {
+            vAHolder.setHotLmdataList(hotLmdataList);
+        }
+
+        public void startBanner(List<Ads> ads) {
+            if (null == ads)return;
+            List<String> imgs = new ArrayList<>();
+            for (int i = 0;i < ads.size();i++){
+                imgs.add(ads.get(i).image);
+            }
+            vAHolder.startBanner(imgs);
         }
 
         @Override
@@ -101,9 +126,13 @@ public class SyFragment extends Fragment {
             private ImageView chunk_a_img_a;
             private RecyclerView hot_lm_list;
             public HotLmListAdapter hotLmListAdapter;
-            private List hotLmdataList = new ArrayList();
+
 
             private LinearLayout banner_root;
+
+            public void setHotLmdataList(List<HotLmData> hotLmdataList) {
+                hotLmListAdapter.setHotLmdataList(hotLmdataList);
+            }
 
             public VAHolder(@NonNull View itemView) {
                 super(itemView);
@@ -118,38 +147,19 @@ public class SyFragment extends Fragment {
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 hot_lm_list.setLayoutManager(linearLayoutManager);
                 hotLmListAdapter = new HotLmListAdapter();
-                hotLmdataList.add("");
-                hotLmdataList.add("");
-                hotLmdataList.add("");
-                hotLmdataList.add("");
-                hotLmdataList.add("");
-                hotLmdataList.add("");
-                hotLmdataList.add("");
-                hotLmdataList.add("");
-                hotLmdataList.add("");
-                hotLmdataList.add("");
+
                 hot_lm_list.setAdapter(hotLmListAdapter);
             }
 
             public void setData() {
 
 
-                Img.load(chunk_a_img_a, "http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
-
-                List<String> imgs = new ArrayList<>();
-                imgs.add("http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
-                imgs.add("http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
-                imgs.add("http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
-                imgs.add("http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
-                imgs.add("http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
-
-                List<String> titles = new ArrayList<>();
+           /*     List<String> titles = new ArrayList<>();
                 titles.add("");
                 titles.add("");
                 titles.add("");
                 titles.add("");
-                titles.add("");
-
+                titles.add("");*/
 
                 //设置banner样式
 //                banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
@@ -160,6 +170,9 @@ public class SyFragment extends Fragment {
                         Img.load(imageView, path.toString());
                     }
                 });
+            }
+
+            public void startBanner(List<String> imgs) {
                 //设置图片集合
                 banner.setImages(imgs);
                 //设置banner动画效果
@@ -177,6 +190,13 @@ public class SyFragment extends Fragment {
             }
 
             private class HotLmListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+                private List<HotLmData> hotLmdataList = new ArrayList();
+
+                public void setHotLmdataList(List<HotLmData> hotLmdataList) {
+                    if (null == hotLmdataList) return;
+                    this.hotLmdataList = hotLmdataList;
+                    HotLmListAdapter.this.notifyDataSetChanged();
+                }
 
                 @Override
                 public int getItemViewType(int position) {
@@ -223,6 +243,12 @@ public class SyFragment extends Fragment {
 
                     public void setData() {
                         int position = getAdapterPosition();
+                        HotLmData hotLmData = hotLmdataList.get(position);
+                        name.setText(hotLmData.name);
+                        Img.load(img, hotLmData.logo);
+//                        Img.load(img, "http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
+                        Img.load(img, "https://img01.cheyuan.com/alliances/logo/20180525/x9S8N7ZUwod6A8lojs2wPiYCvOUFrQpWPI3dazdj.png");
+                        gz_num.setText(hotLmData.users_count + "人关注");
 
                     }
                 }
@@ -245,5 +271,53 @@ public class SyFragment extends Fragment {
         if (null != adapter) {
             adapter.stopBanner();
         }
+    }
+
+    public void loadHotLm() {
+        HttpData.getInstance().getHotLmData(new Observer<HttpListResult<HotLmData>>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+//                App.showToast("服务器请求超时");
+                LogManager.e(e.getMessage());
+            }
+
+            @Override
+            public void onNext(HttpListResult<HotLmData> result) {
+                if (result.status == 200) {
+                    adapter.setHotLmdataList(result.data);
+                } else {
+//                    App.showToast(result.message);
+                }
+            }
+        });
+    }
+
+    public void loadAd() {
+        HttpData.getInstance().getAdData(new Observer<HttpResult<AdData>>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+//                App.showToast("服务器请求超时");
+                LogManager.e(e.getMessage());
+            }
+
+            @Override
+            public void onNext(HttpResult<AdData> result) {
+                if (result.status == 200) {
+                    adapter.startBanner(result.data.ads);
+                } else {
+//                    App.showToast(result.message);
+                }
+            }
+        });
     }
 }

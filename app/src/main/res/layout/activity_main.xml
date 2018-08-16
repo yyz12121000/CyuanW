@@ -24,7 +24,7 @@
                 android:gravity="center"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="长沙市"
+                android:text="定位中..."
                 android:textColor="#666666"
                 android:textSize="14sp" />
 
