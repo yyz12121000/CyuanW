@@ -7,6 +7,8 @@ import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.ImgData;
+import com.yyz.cyuanw.bean.JjrData;
+import com.yyz.cyuanw.bean.JjrResultData;
 import com.yyz.cyuanw.bean.LoginData;
 
 import okhttp3.RequestBody;
@@ -48,9 +50,14 @@ public interface ApiService {
     @GET("alliances/hot")
     Observable<HttpListResult<HotLmData>> getHotLmData();
 
-    //获取热门联盟数据
+    //获取首页轮播图
     @GET("ad_positions/slideshow")
     Observable<HttpResult<AdData>> getAdData();
+
+    //获取首页轮经纪人
+    @FormUrlEncoded
+    @POST("aroundBroker")
+    Observable<HttpResult<JjrResultData>> getJjrData(@Field("longitude") String longitude, @Field("latitude") String latitude);
 
 //    //修改密码
 //    @FormUrlEncoded

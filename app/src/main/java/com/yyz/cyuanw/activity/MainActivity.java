@@ -35,6 +35,7 @@ import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.ImageTools;
 import com.yyz.cyuanw.tools.Location;
+import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.tools.StringUtil;
 import com.yyz.cyuanw.tools.ToastUtil;
 import com.zaaach.citypicker.CityPicker;
@@ -71,10 +72,15 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
                 if (aMapLocation.getErrorCode() == 0) {
+                    location.stop();
                     String city = aMapLocation.getCity();
                     if (null != city) {
                         left_text.setText(city);
                     }
+                    LogManager.e("定位到"+city);
+                    SyFragment syFragment = (SyFragment) mFragments.get(1);
+                    syFragment.loadJjr(aMapLocation.getLongitude()+"",aMapLocation.getLatitude()+"");
+
                 }
                 location.stop();
             }

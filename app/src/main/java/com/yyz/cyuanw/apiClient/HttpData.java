@@ -6,6 +6,8 @@ import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.ImgData;
+import com.yyz.cyuanw.bean.JjrData;
+import com.yyz.cyuanw.bean.JjrResultData;
 import com.yyz.cyuanw.bean.LoginData;
 
 import rx.Observable;
@@ -67,6 +69,10 @@ public class HttpData extends RetrofitUtils {
     }
     public void getAdData(Observer<HttpResult<AdData>> observer){
         Observable observable = service.getAdData();
+        setSubscribe(observable, observer);
+    }
+    public void getJjrData(String longitude,String latitude,Observer<HttpResult<JjrResultData>> observer){
+        Observable observable = service.getJjrData(longitude,latitude);
         setSubscribe(observable, observer);
     }
 

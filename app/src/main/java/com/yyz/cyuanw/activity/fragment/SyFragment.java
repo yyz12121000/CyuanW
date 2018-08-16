@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ import com.yyz.cyuanw.bean.Ads;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
+import com.yyz.cyuanw.bean.JjrData;
+import com.yyz.cyuanw.bean.JjrResultData;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
 
@@ -35,7 +38,7 @@ import rx.Observer;
 
 public class SyFragment extends Fragment {
     private RecyclerView list;
-    private List dataList = new ArrayList();
+
     private ListAdapter adapter;
 
     @Nullable
@@ -48,16 +51,8 @@ public class SyFragment extends Fragment {
         return view;
     }
 
-    private void init(View view) {
-        dataList.add("");
-        dataList.add("");
-        dataList.add("");
-        dataList.add("");
-        dataList.add("");
-        dataList.add("");
-        dataList.add("");
-        dataList.add("");
 
+    private void init(View view) {
         list = view.findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ListAdapter();
@@ -65,10 +60,26 @@ public class SyFragment extends Fragment {
 
         loadHotLm();
         loadAd();
+        //loadJjr("234","898");
     }
 
     private class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private VAHolder vAHolder;
+        private List<JjrData> dataList = new ArrayList();
+
+        public ListAdapter() {
+            dataList.add(null);
+        }
+
+        public void setData(List<JjrData> data) {
+            if (null == data) {
+                return;
+            }
+            dataList.clear();
+            dataList.add(null);
+            dataList.addAll(data);
+            notifyDataSetChanged();
+        }
 
         private void stopBanner() {
             if (null != vAHolder && null != vAHolder.banner)
@@ -80,9 +91,9 @@ public class SyFragment extends Fragment {
         }
 
         public void startBanner(List<Ads> ads) {
-            if (null == ads)return;
+            if (null == ads) return;
             List<String> imgs = new ArrayList<>();
-            for (int i = 0;i < ads.size();i++){
+            for (int i = 0; i < ads.size(); i++) {
                 imgs.add(ads.get(i).image);
             }
             vAHolder.startBanner(imgs);
@@ -113,6 +124,7 @@ public class SyFragment extends Fragment {
             if (viewHolder instanceof VAHolder) {
                 ((VAHolder) viewHolder).setData();
             } else {
+                ((VBHolder) viewHolder).setData();
             }
         }
 
@@ -246,8 +258,6 @@ public class SyFragment extends Fragment {
                         HotLmData hotLmData = hotLmdataList.get(position);
                         name.setText(hotLmData.name);
                         Img.load(img, hotLmData.logo);
-//                        Img.load(img, "http://c.hiphotos.baidu.com/image/pic/item/f9198618367adab4b025268587d4b31c8601e47b.jpg");
-                        Img.load(img, "https://img01.cheyuan.com/alliances/logo/20180525/x9S8N7ZUwod6A8lojs2wPiYCvOUFrQpWPI3dazdj.png");
                         gz_num.setText(hotLmData.users_count + "人关注");
 
                     }
@@ -256,10 +266,43 @@ public class SyFragment extends Fragment {
         }
 
         private class VBHolder extends RecyclerView.ViewHolder {
+            private ImageView tx, iv_j, iv_p;
+            private TextView name, tv_sp, bh, tc;
+
             public VBHolder(@NonNull View itemView) {
                 super(itemView);
+                tx = itemView.findViewById(R.id.tx);
+                iv_j = itemView.findViewById(R.id.iv_j);
+                iv_p = itemView.findViewById(R.id.iv_p);
+                name = itemView.findViewById(R.id.name);
+                tv_sp = itemView.findViewById(R.id.tv_sp);
+                bh = itemView.findViewById(R.id.bh);
+                tc = itemView.findViewById(R.id.tc);
+            }
+
+            public void setData() {
+                int position = getAdapterPosition();
+                JjrData jjrData = dataList.get(position);
+                Img.loadC(tx, jjrData.profile_picture);
+                name.setText(jjrData.real_name);
+                bh.setText(jjrData.broker_number);
+                tv_sp.setText(jjrData.bind_dealer);
+                tc.setText(jjrData.signature);
+
+                if (jjrData.is_broker == 1){
+                    iv_j.setVisibility(View.VISIBLE);
+                }else {
+                    iv_j.setVisibility(View.GONE);
+                }
+                if (jjrData.is_adviser == 1){
+                    iv_p.setVisibility(View.VISIBLE);
+                }else {
+                    iv_p.setVisibility(View.GONE);
+                }
+
             }
         }
+
 
     }
 
@@ -314,6 +357,31 @@ public class SyFragment extends Fragment {
             public void onNext(HttpResult<AdData> result) {
                 if (result.status == 200) {
                     adapter.startBanner(result.data.ads);
+                } else {
+//                    App.showToast(result.message);
+                }
+            }
+        });
+    }
+
+    public void loadJjr(String longitude, String latitude) {
+        HttpData.getInstance().getJjrData(longitude, latitude, new Observer<HttpResult<JjrResultData>>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+//                App.showToast("服务器请求超时");
+                LogManager.e("解析出错" + e.getMessage());
+            }
+
+            @Override
+            public void onNext(HttpResult<JjrResultData> result) {
+                if (result.status == 200) {
+                    adapter.setData(result.data.info);
+//                    adapter.startBanner(result.data.ads);
                 } else {
 //                    App.showToast(result.message);
                 }

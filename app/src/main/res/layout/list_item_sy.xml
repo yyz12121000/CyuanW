@@ -10,7 +10,7 @@
     android:padding="15dp">
 
     <ImageView
-        android:id="@+id/gx_iv"
+        android:id="@+id/tx"
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_marginRight="8dp"
@@ -23,14 +23,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_toRightOf="@+id/gx_iv"
+        android:layout_toRightOf="@+id/tx"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/gx_iv"
+            android:layout_toRightOf="@+id/tx"
             android:text="苗王子"
             android:textColor="#333333"
             android:textSize="16sp" />
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_title"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/gx_iv"
+        android:layout_toRightOf="@+id/tx"
         android:layout_weight="1"
         android:text="宁波春天二手车行"
         android:textColor="#666666"
@@ -65,7 +65,7 @@
 
 
     <TextView
-        android:id="@+id/gx_time"
+        android:id="@+id/bh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -86,7 +86,9 @@
             android:src="@mipmap/img_21" />
 
         <TextView
+            android:id="@+id/tc"
             android:layout_width="wrap_content"
+            android:layout_marginLeft="6dp"
             android:layout_height="wrap_content"
             android:text="今天的生活，也是同样的苦涩......"
             android:textColor="#333333"
