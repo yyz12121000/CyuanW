@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="104dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
+    android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
+    android:layout_marginTop="4dp"
     android:background="@drawable/bg_1"
     android:padding="15dp">
 
@@ -18,12 +18,12 @@
         android:src="@mipmap/jiangyiyan" />
 
     <LinearLayout
-        android:layout_marginTop="-4dp"
         android:id="@+id/ll_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_marginTop="-4dp"
         android:layout_toRightOf="@+id/tx"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -88,8 +88,10 @@
         <TextView
             android:id="@+id/tc"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="6dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="今天的生活，也是同样的苦涩......"
             android:textColor="#333333"
             android:textSize="12sp" />

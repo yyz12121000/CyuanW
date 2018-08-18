@@ -37,6 +37,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/xb"
             android:layout_width="11dp"
             android:layout_height="10dp"
             android:src="@mipmap/img_31" />
@@ -77,17 +78,32 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/add"
-        android:layout_width="64dp"
-        android:layout_height="28dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
-        android:background="@drawable/bt_bg_1"
-        android:gravity="center"
-        android:textSize="12sp"
-        android:text="申请加入"
-        android:textColor="#9f00" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/add"
+            android:layout_width="64dp"
+            android:layout_height="28dp"
+            android:background="@drawable/bt_bg_1"
+            android:gravity="center"
+            android:text="申请加入"
+            android:textColor="#9f00"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/right_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:src="@mipmap/ic_red_arrow"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/jj"
@@ -104,6 +120,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/jj"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="今天的生活，也是同样的苦涩......"
         android:textColor="#666666"
         android:textSize="12sp" />

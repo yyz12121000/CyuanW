@@ -9,6 +9,7 @@ import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.ImgData;
 import com.yyz.cyuanw.bean.JjrData;
 import com.yyz.cyuanw.bean.JjrResultData;
+import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LoginData;
 
 import okhttp3.RequestBody;
@@ -58,6 +59,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("aroundBroker")
     Observable<HttpResult<JjrResultData>> getJjrData(@Field("longitude") String longitude, @Field("latitude") String latitude);
+  //联盟列表
+    @GET("alliances")
+    Observable<HttpResult<LmListData>> getLmList(@Query("keyword") String keyword, @Query("page") int page);
 
 //    //修改密码
 //    @FormUrlEncoded
