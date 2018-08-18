@@ -81,6 +81,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/dz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -91,6 +92,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

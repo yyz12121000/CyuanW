@@ -1,17 +1,25 @@
 package com.yyz.cyuanw.activity;
 
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class LmDetailDetailEditActivity extends BaseActivity {
     @BindView(R.id.id_tv_title)
     TextView id_tv_title;
     @BindView(R.id.save)
     TextView save;
+    @BindView(R.id.edit_name)
+    EditText edit_name;
+    @BindView(R.id.desc)
+    EditText desc;
+
 
     public static final String TYPE = "type";
     public static final int TYPE_CREATE = 1;//创建联盟
@@ -45,6 +53,22 @@ public class LmDetailDetailEditActivity extends BaseActivity {
 
     @Override
     public void initData() {
+    }
+
+    @OnClick({R.id.save})
+    public void onClickEvent(View view){
+        switch (view.getId()){
+            case R.id.save:
+                String name = edit_name.getText().toString();
+                String descStr = desc.getText().toString();
+                if (TextUtils.isEmpty(name) || TextUtils.isEmpty(descStr)){
+
+                }
+
+
+
+                break;
+        }
     }
 
 }

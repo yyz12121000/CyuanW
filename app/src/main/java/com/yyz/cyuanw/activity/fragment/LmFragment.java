@@ -19,9 +19,11 @@ import com.yyz.cyuanw.activity.LmDetailActivity;
 import com.yyz.cyuanw.activity.LmDetailDetailEditActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.AdData;
+import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.LmData;
 import com.yyz.cyuanw.bean.LmListData;
+import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.tools.ToastUtil;
@@ -55,11 +57,24 @@ public class LmFragment extends Fragment {
         adapter = new LmFragment.ListAdapter();
         list.setAdapter(adapter);
 
+        adapter.setMyLmData(new ArrayList<LmMyListData>());
+
         loadLmList();
+        loadLmAllList();
+        loadLmMyList();
     }
 
     private class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private List<LmData> dataList = new ArrayList();
+        public VAHolder vaHolder;
+
+        public ListAdapter(){
+            this.dataList.add(null);
+        }
+
+        public void setMyLmData(List<LmMyListData> data) {
+//            vaHolder.myLmListAdapter.setData(data);
+        }
 
         @Override
         public int getItemViewType(int position) {
@@ -80,8 +95,8 @@ public class LmFragment extends Fragment {
             switch (i) {
                 case 0:
                     View viewA = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.chunk_lm_top, viewGroup, false);
-                    LmFragment.ListAdapter.VAHolder vAHolder = new LmFragment.ListAdapter.VAHolder(viewA);
-                    return vAHolder;
+                    vaHolder = new LmFragment.ListAdapter.VAHolder(viewA);
+                    return vaHolder;
                 default:
                     View viewB = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_lm, viewGroup, false);
                     LmFragment.ListAdapter.VBHolder vBHolder = new LmFragment.ListAdapter.VBHolder(viewB);
@@ -106,7 +121,10 @@ public class LmFragment extends Fragment {
         private class VAHolder extends RecyclerView.ViewHolder {
             public RecyclerView my_lm_list;
             public MyLmListAdapter myLmListAdapter;
-            private List myLmdataList = new ArrayList();
+
+            public void setMyLmData(List<LmMyListData> data) {
+                myLmListAdapter.setData(data);
+            }
 
             public VAHolder(@NonNull View itemView) {
                 super(itemView);
@@ -115,19 +133,25 @@ public class LmFragment extends Fragment {
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 my_lm_list.setLayoutManager(linearLayoutManager);
                 myLmListAdapter = new MyLmListAdapter();
-                myLmdataList.add("");
-                myLmdataList.add("");
-                myLmdataList.add("");
-                myLmdataList.add("");
-                myLmdataList.add("");
-                myLmdataList.add("");
-                myLmdataList.add("");
+
 
                 my_lm_list.setAdapter(myLmListAdapter);
 
             }
 
             private class MyLmListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+                private List<LmMyListData> myLmdataList = new ArrayList();
+
+                public void setData(List<LmMyListData> data) {
+                    if (null == data) {
+                        return;
+                    }
+                    myLmdataList.clear();
+                    myLmdataList.add(null);
+                    myLmdataList.addAll(data);
+                    myLmdataList.add(null);
+                    MyLmListAdapter.this.notifyDataSetChanged();
+                }
 
                 @Override
                 public int getItemViewType(int position) {
@@ -185,6 +209,10 @@ public class LmFragment extends Fragment {
                         } else if (position == (getItemCount() - 1)) {
                             name.setText("查看全部");
                             img.setImageResource(R.mipmap.img_36);
+                        }else {
+                            LmMyListData lmMyListData = myLmdataList.get(position);
+                            Img.loadC(img, lmMyListData.alliance.logo);
+                            name.setText(lmMyListData.alliance.name);
                         }
                     }
                 }
@@ -209,7 +237,13 @@ public class LmFragment extends Fragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        int position = getAdapterPosition();
+                        LmData lmData = dataList.get(position);
                         Intent intent = new Intent(LmFragment.this.getActivity(), LmDetailActivity.class);
+                        intent.putExtra("id",lmData.id);
+                        intent.putExtra("img",lmData.logo);
+                        intent.putExtra("name",lmData.name);
+                        intent.putExtra("intro",lmData.intro);
                         startActivity(intent);
                     }
                 });
@@ -259,6 +293,56 @@ public class LmFragment extends Fragment {
             public void onNext(HttpResult<LmListData> result) {
                 if (result.status == 200) {
                     adapter.setData(result.data.data);
+                } else {
+//                    App.showToast(result.message);
+                }
+            }
+        });
+    }
+
+    //我的所有联盟
+    public void loadLmAllList() {
+        HttpData.getInstance().getLmMyList(0, new Observer<HttpListResult<LmMyListData>>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+//                App.showToast("服务器请求超时");
+                LogManager.e(e.getMessage());
+            }
+
+            @Override
+            public void onNext(HttpListResult<LmMyListData> result) {
+                if (result.status == 200) {
+                    adapter.vaHolder.myLmListAdapter.setData(result.data);
+                } else {
+//                    App.showToast(result.message);
+                }
+            }
+        });
+    }
+
+    //我的联盟分页
+    public void loadLmMyList() {
+        HttpData.getInstance().getLmMyList(1, new Observer<HttpListResult<LmMyListData>>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+//                App.showToast("服务器请求超时");
+                LogManager.e(e.getMessage());
+            }
+
+            @Override
+            public void onNext(HttpListResult<LmMyListData> result) {
+                if (result.status == 200) {
+//                    adapter.setData(result.data.data);
                 } else {
 //                    App.showToast(result.message);
                 }

@@ -1,6 +1,8 @@
 package com.yyz.cyuanw.apiClient;
 
 import com.yyz.cyuanw.bean.AdData;
+import com.yyz.cyuanw.bean.CheyListData;
+import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
@@ -9,8 +11,10 @@ import com.yyz.cyuanw.bean.ImgData;
 import com.yyz.cyuanw.bean.JjrData;
 import com.yyz.cyuanw.bean.JjrResultData;
 import com.yyz.cyuanw.bean.LmListData;
+import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.bean.LoginData;
 
+import retrofit2.http.Field;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -44,45 +48,70 @@ public class HttpData extends RetrofitUtils {
     }
 
     //用户登录
-    public void login(String phone,String code, Observer<HttpResult<LoginData>> observer){
-        Observable observable = service.login(phone,code);
+    public void login(String phone, String code, Observer<HttpResult<LoginData>> observer) {
+        Observable observable = service.login(phone, code);
         setSubscribe(observable, observer);
     }
 
-    public void getImgCode(String phone, Observer<HttpResult<ImgData>> observer){
+    public void getImgCode(String phone, Observer<HttpResult<ImgData>> observer) {
         Observable observable = service.getImgCode(phone);
         setSubscribe(observable, observer);
     }
 
-    public void getValidateCode(String phone,String imgCode,Observer<HttpCodeResult> observer){
-        Observable observable = service.getValidateCode(phone,imgCode);
+    public void getValidateCode(String phone, String imgCode, Observer<HttpCodeResult> observer) {
+        Observable observable = service.getValidateCode(phone, imgCode);
         setSubscribe(observable, observer);
     }
 
-    public void logout(String token,Observer<HttpCodeResult> observer){
-        Observable observable = service.logout(token,"");
+    public void logout(String token, Observer<HttpCodeResult> observer) {
+        Observable observable = service.logout(token, "");
         setSubscribe(observable, observer);
     }
 
-    public void getHotLmData(Observer<HttpListResult<HotLmData>> observer){
+    public void getHotLmData(Observer<HttpListResult<HotLmData>> observer) {
         Observable observable = service.getHotLmData();
         setSubscribe(observable, observer);
     }
-    public void getAdData(Observer<HttpResult<AdData>> observer){
+
+    public void getAdData(Observer<HttpResult<AdData>> observer) {
         Observable observable = service.getAdData();
         setSubscribe(observable, observer);
     }
-    public void getJjrData(String longitude,String latitude,Observer<HttpResult<JjrResultData>> observer){
-        Observable observable = service.getJjrData(longitude,latitude);
+
+    public void getJjrData(String longitude, String latitude, Observer<HttpResult<JjrResultData>> observer) {
+        Observable observable = service.getJjrData(longitude, latitude);
         setSubscribe(observable, observer);
     }
-    public void getLmList(String keyword,int page,Observer<HttpResult<LmListData>> observer){
-        Observable observable = service.getLmList(keyword,page);
+
+    public void getLmList(String keyword, int page, Observer<HttpResult<LmListData>> observer) {
+        Observable observable = service.getLmList(keyword, page);
+        setSubscribe(observable, observer);
+    }
+
+    public void getLmMyList(int keyword, Observer<HttpListResult<LmMyListData>> observer) {
+        Observable observable = service.getLmMyList(keyword);
+        setSubscribe(observable, observer);
+    }
+
+    public void createLm(String name, String logo,
+                         String intro, int province_id,
+                         int city_id, int region_id, String qr_code, Observer<HttpResult> observer) {
+        Observable observable = service.createLm(name, logo, intro, province_id, city_id, region_id, qr_code);
+        setSubscribe(observable, observer);
+    }
+
+    public void lmcylist(int lm_id, Observer<HttpResult<CyListData>> observer) {
+        Observable observable = service.lmcylist("alliances/" + lm_id + "/users");
+        setSubscribe(observable, observer);
+    }
+    public void lmcheylist(int lm_id, Observer<HttpResult<CheyListData>> observer) {
+        Observable observable = service.lmcheylist("alliances/" + lm_id + "/cars");
         setSubscribe(observable, observer);
     }
 
     /**
      * 插入观察者
+     *
      * @param observable
      * @param observer
      * @param <T>
