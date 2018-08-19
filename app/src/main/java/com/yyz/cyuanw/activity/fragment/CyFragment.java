@@ -23,15 +23,22 @@ import com.yyz.cyuanw.adapter.IOnListItemClickListenner;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data2;
+import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.view.JgqjPopuwindow;
 import com.yyz.cyuanw.view.ListPopuwindow;
+import com.yyz.cyuanw.view.sortrecyclerview.PinyinUtils;
+import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Response;
 import rx.Observer;
 
 public class CyFragment extends Fragment implements View.OnClickListener, PopupWindow.OnDismissListener {
@@ -141,6 +148,12 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         jgqjPopuwindow.setOnDismissListener(this);
 
         searchCy();
+        tv_1.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dictionary();
+            }
+        }, 2000);
     }
 
     @Override
@@ -279,7 +292,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     }
 
     public void searchCy() {
-        HttpData.getInstance().searchCy(source,order,min_price,max_price,"", new Observer<HttpResult<Data1>>() {
+        HttpData.getInstance().searchCy(source, order, min_price, max_price, "", new Observer<HttpResult<Data1>>() {
             @Override
             public void onCompleted() {
 //                App.showToast("999");
@@ -303,5 +316,33 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
             }
         });
     }
+
+    public void dictionary() {
+        HttpData.getInstance().dictionary(new Observer<HttpResult<Data3>>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+//                App.showToast("服务器请求超时");
+                LogManager.e("解析出错" + e.getMessage());
+            }
+
+            @Override
+            public void onNext(HttpResult<Data3> result) {
+                if (result.status == 200) {
+//                    adapter.setData(result.data.info);
+//                    adapter.setData(result.data.info);
+//                    adapter.startBanner(result.data.ads);
+                } else {
+//                    App.showToast(result.message);
+                }
+            }
+        });
+    }
+
+
 
 }

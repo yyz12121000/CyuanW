@@ -2,8 +2,26 @@ package com.yyz.cyuanw.view.sortrecyclerview;
 
 public class SortModel {
 
+    private int id;
     private String name;
+    private String logo;
     private String letters;//显示拼音的首字母
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

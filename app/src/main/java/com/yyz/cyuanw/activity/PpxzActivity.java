@@ -11,6 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.apiClient.HttpData;
+import com.yyz.cyuanw.bean.HttpListResult;
+import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.view.PpxzSecondPopuwindow;
 import com.yyz.cyuanw.view.sortrecyclerview.ClearEditText;
 import com.yyz.cyuanw.view.sortrecyclerview.PinyinComparator;
@@ -19,9 +22,16 @@ import com.yyz.cyuanw.view.sortrecyclerview.SideBar;
 import com.yyz.cyuanw.view.sortrecyclerview.SortAdapter;
 import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import rx.Observer;
 
 public class PpxzActivity extends BaseActivity implements View.OnClickListener {
 
@@ -76,16 +86,13 @@ public class PpxzActivity extends BaseActivity implements View.OnClickListener {
         });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        SourceDateList = filledData(getResources().getStringArray(R.array.date));
 
-        // 根据a-z进行排序源数据
-        Collections.sort(SourceDateList, pinyinComparator);
         //RecyclerView社置manager
         manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-        adapter = new SortAdapter(this, SourceDateList);
-        mRecyclerView.setAdapter(adapter);
+        adapter = new SortAdapter(this);
+        mRecyclerView.setAdapter(adapter);adapter.notifyDataSetChanged();
         //item点击事件
         /*adapter.setOnItemClickListener(new SortAdapter.OnItemClickListener() {
             @Override
@@ -145,8 +152,17 @@ public class PpxzActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void initData() {
 
+        dictionary2();
+        top_brand();
     }
 
+    private void setData1(List<SortModel> sortModels) {
+        SourceDateList = sortModels;
+        // 根据a-z进行排序源数据
+        Collections.sort(SourceDateList, pinyinComparator);
+
+        adapter.setData(SourceDateList);
+    }
 
     /**
      * 为RecyclerView填充数据
@@ -154,28 +170,28 @@ public class PpxzActivity extends BaseActivity implements View.OnClickListener {
      * @param date
      * @return
      */
-    private List<SortModel> filledData(String[] date) {
-        List<SortModel> mSortList = new ArrayList<>();
-
-        for (int i = 0; i < date.length; i++) {
-            SortModel sortModel = new SortModel();
-            sortModel.setName(date[i]);
-            //汉字转换成拼音
-            String pinyin = PinyinUtils.getPingYin(date[i]);
-            String sortString = pinyin.substring(0, 1).toUpperCase();
-
-            // 正则表达式，判断首字母是否是英文字母
-            if (sortString.matches("[A-Z]")) {
-                sortModel.setLetters(sortString.toUpperCase());
-            } else {
-                sortModel.setLetters("#");
-            }
-
-            mSortList.add(sortModel);
-        }
-        return mSortList;
-
-    }
+//    private List<SortModel> filledData(String[] date) {
+//        List<SortModel> mSortList = new ArrayList<>();
+//
+//        for (int i = 0; i < date.length; i++) {
+//            SortModel sortModel = new SortModel();
+//            sortModel.setName(date[i]);
+//            //汉字转换成拼音
+//            String pinyin = PinyinUtils.getPingYin(date[i]);
+//            String sortString = pinyin.substring(0, 1).toUpperCase();
+//
+//            // 正则表达式，判断首字母是否是英文字母
+//            if (sortString.matches("[A-Z]")) {
+//                sortModel.setLetters(sortString.toUpperCase());
+//            } else {
+//                sortModel.setLetters("#");
+//            }
+//
+//            mSortList.add(sortModel);
+//        }
+//        return mSortList;
+//
+//    }
 
     /**
      * 根据输入框中的值来过滤数据并更新RecyclerView
@@ -216,4 +232,99 @@ public class PpxzActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    public void dictionary2() {
+        HttpData.getInstance().dictionary2(new Observer<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+//                App.showToast("服务器请求超时");
+                LogManager.e("解析出错" + e.getMessage());
+            }
+
+            @Override
+            public void onNext(ResponseBody result) {
+                try {
+                    String body = result.string();
+                    JSONObject obj = new JSONObject(body);
+
+                    if (obj.getInt("status") == 200) {
+                        JSONObject jsonObject = obj.getJSONObject("data").optJSONObject("brand");
+                        List<SortModel> sortModels = jx(jsonObject);
+                        setData1(sortModels);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void top_brand() {
+        HttpData.getInstance().top_brand(new Observer<HttpListResult<SortModel>>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+//                App.showToast("服务器请求超时");
+                LogManager.e("解析出错" + e.getMessage());
+            }
+
+            @Override
+            public void onNext(HttpListResult<SortModel> result) {
+                if (result.status == 200) {
+                    adapter.setTopData(result.data);
+//                    adapter.setData(result.data.info);
+//                    adapter.setData(result.data.info);
+//                    adapter.startBanner(result.data.ads);
+                } else {
+//                    App.showToast(result.message);
+                }
+            }
+        });
+    }
+
+
+    private List<SortModel> jx(JSONObject jsonObject) {
+        String[] arr = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+        List<SortModel> sortModels = new ArrayList<>();
+        for (int i = 0; i < arr.length; i++) {
+
+            if (!jsonObject.has(arr[i])) {
+                continue;
+            }
+            JSONArray aa = jsonObject.optJSONArray(arr[i]);
+            for (int j = 0; j < aa.length(); j++) {
+                JSONObject oo = aa.optJSONObject(j);
+                SortModel sortModel = zf(oo);
+                sortModels.add(sortModel);
+            }
+        }
+
+        return sortModels;
+    }
+
+    private SortModel zf(JSONObject oo) {
+        SortModel sortModel = new SortModel();
+        sortModel.setId(oo.optInt("id"));
+        sortModel.setName(oo.optString("name"));
+        //汉字转换成拼音
+        String pinyin = PinyinUtils.getPingYin(oo.optString("name"));
+        String sortString = pinyin.substring(0, 1).toUpperCase();
+
+        // 正则表达式，判断首字母是否是英文字母
+        if (sortString.matches("[A-Z]")) {
+            sortModel.setLetters(sortString.toUpperCase());
+        } else {
+            sortModel.setLetters("#");
+        }
+        return sortModel;
+    }
 }

@@ -5,23 +5,37 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.tools.Img;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater mInflater;
-    private List<SortModel> mData;
+    private List<SortModel> mData = new ArrayList<>();
+    private List<SortModel> topList = new ArrayList<>();
     private Context mContext;
 
-    public SortAdapter(Context context, List<SortModel> data) {
+    public SortAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
-        data.add(0,null);
-        mData = data;
         this.mContext = context;
+    }
+
+    public void setTopData(List<SortModel> data) {
+        topList = data;
+        notifyDataSetChanged();
+    }
+    public void setData(List<SortModel> data) {
+        mData.clear();
+        mData.add(null);
+        mData.addAll(data);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -32,15 +46,17 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return 1;
     }
 
+    public ViewTopHolder viewTopHolder;
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 0){
+        if (viewType == 0) {
             View view = mInflater.inflate(R.layout.list_ppxz_top, parent, false);
-            ViewTopHolder viewTopHolder = new ViewTopHolder(view);
+            viewTopHolder = new ViewTopHolder(view);
             viewTopHolder.tvTag = (TextView) view.findViewById(R.id.tag);
             viewTopHolder.tvName = (TextView) view.findViewById(R.id.name);
             return viewTopHolder;
-        }else {
+        } else {
             View view = mInflater.inflate(R.layout.list_item_ppxz, parent, false);
             ViewItemHolder viewHolder = new ViewItemHolder(view);
             viewHolder.tvTag = (TextView) view.findViewById(R.id.tag);
@@ -51,9 +67,8 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
-        if (position == 0){
-
-
+        if (position == 0) {
+            viewTopHolder.setData(topList);
             return;
         }
         final ViewItemHolder holder = (ViewItemHolder) viewHolder;
@@ -107,9 +122,42 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static class ViewTopHolder extends RecyclerView.ViewHolder {
         TextView tvTag, tvName;
 
+        LinearLayout row_1, row_2;
+
         public ViewTopHolder(View itemView) {
             super(itemView);
+            row_1 = itemView.findViewById(R.id.row_1);
+            row_2 = itemView.findViewById(R.id.row_2);
+
+
         }
+
+        public void setData(List<SortModel> list) {
+            for (int i = 0; (i < list.size() && i < 5); i++) {
+                ImageView icon = (ImageView) ((LinearLayout) row_1.getChildAt(i)).getChildAt(0);
+                TextView name = (TextView) ((LinearLayout) row_1.getChildAt(i)).getChildAt(1);
+
+                String nameS = list.get(i).getName();
+                String url = list.get(i).getLogo();
+                Img.load(icon, url);
+                name.setText(nameS);
+            }
+
+            if (list.size() > 5) {
+                for (int i = 0; (i < list.size() - 5 && i < 5); i++) {
+                    ImageView icon = (ImageView) ((LinearLayout) row_2.getChildAt(i)).getChildAt(0);
+                    TextView name = (TextView) ((LinearLayout) row_2.getChildAt(i)).getChildAt(1);
+
+                    String nameS = list.get(i + 5).getName();
+                    String url = list.get(i + 5).getLogo();
+                    Img.load(icon, url);
+                    name.setText(nameS);
+                }
+            }
+
+
+        }
+
     }
 
     public static class ViewItemHolder extends RecyclerView.ViewHolder {

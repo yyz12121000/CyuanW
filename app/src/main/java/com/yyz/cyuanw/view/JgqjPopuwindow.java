@@ -88,6 +88,8 @@ public class JgqjPopuwindow extends BasePopuwindow implements View.OnClickListen
                 }
                 break;
             default:
+                jg_a.setText("0");
+                jg_b.setText("0");
                 TextView tv = (TextView) view;
                 String jgS = tv.getText().toString();
                 int a = 0,b = 0;

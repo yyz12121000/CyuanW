@@ -5,6 +5,7 @@ import com.yyz.cyuanw.bean.AdData;
 import com.yyz.cyuanw.bean.CheyListData;
 import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.Data1;
+import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
@@ -16,8 +17,11 @@ import com.yyz.cyuanw.bean.LmDetail;
 import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.bean.LoginData;
+import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
 
 import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -95,7 +99,17 @@ public interface ApiService {
                                            @Field("min_price") int min_price,
                                            @Field("max_price") int max_price,
                                            @Field("key_word") String key_word);
+    //
+    @FormUrlEncoded
+    @POST("dictionary")
+    Observable<HttpResult<Data3>> dictionary(@Field("token") String token ,@Field("key_word") String key_word);
 
+    @FormUrlEncoded
+    @POST("dictionary")
+    Observable<ResponseBody> dictionary2(@Field("token") String token , @Field("key_word") String key_word);
+    //注销登录
+    @GET("top_brand")
+    Observable<HttpListResult<SortModel>> top_brand(@Query("token") String token);
 //    //修改密码
 //    @FormUrlEncoded
 //    @POST("yycs/merchant/inspection/getUpdatePad")

@@ -1,9 +1,11 @@
 package com.yyz.cyuanw.apiClient;
 
+import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.bean.AdData;
 import com.yyz.cyuanw.bean.CheyListData;
 import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.Data1;
+import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
@@ -15,7 +17,11 @@ import com.yyz.cyuanw.bean.LmDetail;
 import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.bean.LoginData;
+import com.yyz.cyuanw.common.Constant;
+import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
 
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import rx.Observable;
 import rx.Observer;
@@ -116,6 +122,18 @@ public class HttpData extends RetrofitUtils {
     }
     public void searchCy(int source,int order,int min_price,int max_price,String key_word,Observer<HttpResult<Data1>> observer) {
         Observable observable = service.searchCy(source,order,min_price,max_price,key_word);
+        setSubscribe(observable, observer);
+    }
+    public void dictionary(Observer<HttpResult<Data3>> observer) {
+        Observable observable = service.dictionary(App.get(Constant.KEY_USER_TOKEN),"");
+        setSubscribe(observable, observer);
+    }
+    public void dictionary2(Observer<ResponseBody> observer) {
+        Observable observable = service.dictionary2(App.get(Constant.KEY_USER_TOKEN),"");
+        setSubscribe(observable, observer);
+    }
+    public void top_brand(Observer<HttpListResult<SortModel>> observer) {
+        Observable observable = service.top_brand(App.get(Constant.KEY_USER_TOKEN));
         setSubscribe(observable, observer);
     }
 
