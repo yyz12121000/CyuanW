@@ -10,6 +10,7 @@ import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.ImgData;
 import com.yyz.cyuanw.bean.JjrData;
 import com.yyz.cyuanw.bean.JjrResultData;
+import com.yyz.cyuanw.bean.LmDetail;
 import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.bean.LoginData;
@@ -108,6 +109,11 @@ public class HttpData extends RetrofitUtils {
         Observable observable = service.lmcheylist("alliances/" + lm_id + "/cars");
         setSubscribe(observable, observer);
     }
+     public void lmDetail(int lm_id, Observer<HttpResult<LmDetail>> observer) {
+        Observable observable = service.lmDetail("alliances/" + lm_id);
+        setSubscribe(observable, observer);
+    }
+
 
     /**
      * 插入观察者

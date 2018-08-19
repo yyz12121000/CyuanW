@@ -11,6 +11,7 @@ import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.ImgData;
 import com.yyz.cyuanw.bean.JjrData;
 import com.yyz.cyuanw.bean.JjrResultData;
+import com.yyz.cyuanw.bean.LmDetail;
 import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.bean.LoginData;
@@ -83,6 +84,8 @@ public interface ApiService {
     Observable<HttpResult<CyListData>> lmcylist(@Url String url);
     @GET
     Observable<HttpResult<CheyListData>> lmcheylist(@Url String url);
+    @GET
+    Observable<HttpResult<LmDetail>> lmDetail(@Url String url);
 
 //    //修改密码
 //    @FormUrlEncoded

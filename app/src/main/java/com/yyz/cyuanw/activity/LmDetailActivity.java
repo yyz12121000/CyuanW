@@ -56,10 +56,12 @@ public class LmDetailActivity extends BaseActivity {
         list.setAdapter(adapter);
     }
 
+    private int lm_id;
+
     @Override
     public void initData() {
         Intent intent = getIntent();
-        int id = intent.getIntExtra("id", -1);
+        lm_id = intent.getIntExtra("id", -1);
         String imgUrl = intent.getStringExtra("img");
         String name = intent.getStringExtra("name");
         String intro = intent.getStringExtra("intro");
@@ -69,11 +71,10 @@ public class LmDetailActivity extends BaseActivity {
             public void run() {
                 adapter.vAHolder.setData1(imgUrl, name, intro);
 
-                loadCyList(id);
-                loadCheyList(id);
+                loadCyList(lm_id);
+                loadCheyList(lm_id);
             }
         });
-
 
 
     }
@@ -133,7 +134,7 @@ public class LmDetailActivity extends BaseActivity {
 
         private class VAHolder extends RecyclerView.ViewHolder {
             public ImageView img, iv1, iv2, iv3, iv4, iv5, right_arrow;
-            public TextView name, desc, rs;
+            public TextView name, desc, rs, total;
 
 
             public VAHolder(@NonNull View itemView) {
@@ -150,11 +151,13 @@ public class LmDetailActivity extends BaseActivity {
 
                 right_arrow = itemView.findViewById(R.id.right_arrow);
                 rs = itemView.findViewById(R.id.rs);
+                total = itemView.findViewById(R.id.total);
 
                 itemView.findViewById(R.id.top).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(LmDetailActivity.this, LmDetailDetailActivity.class);
+                        intent.putExtra("id", lm_id);
                         startActivity(intent);
                     }
                 });
@@ -203,6 +206,10 @@ public class LmDetailActivity extends BaseActivity {
 
             }
 
+            public void setData3(int totaln) {
+                total.setText("联盟车源（" + totaln + "）");
+            }
+
         }
 
         private class VBHolder extends RecyclerView.ViewHolder {
@@ -224,7 +231,7 @@ public class LmDetailActivity extends BaseActivity {
             public void setData() {
                 int position = getAdapterPosition();
                 CheyData cheyData = dataList.get(position);
-                Img.load(gx_iv,cheyData.user_info.dealer_info.logo);
+                Img.load(gx_iv, cheyData.user_info.dealer_info.logo);
                 tv_title.setText(cheyData.user_info.dealer_info.name);
             }
         }
@@ -281,6 +288,7 @@ public class LmDetailActivity extends BaseActivity {
             @Override
             public void onNext(HttpResult<CheyListData> result) {
                 if (result.status == 200) {
+                    adapter.vAHolder.setData3(result.data.total);
                     adapter.setData(result.data.data);
                 } else {
 //                    App.showToast(result.message);
