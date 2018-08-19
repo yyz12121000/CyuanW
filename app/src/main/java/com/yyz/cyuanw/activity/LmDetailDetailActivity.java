@@ -35,6 +35,8 @@ public class LmDetailDetailActivity extends BaseActivity {
 
     private int lm_id;
 
+    LmDetail lmDetail;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_lm_detail_detail;
@@ -61,6 +63,11 @@ public class LmDetailDetailActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.edit:
                 Intent intent = new Intent(LmDetailDetailActivity.this, LmDetailDetailEditActivity.class);
+                intent.putExtra("img",lmDetail.logo);
+                intent.putExtra("name",lmDetail.name);
+                intent.putExtra("desc",lmDetail.intro);
+                intent.putExtra("ewm",lmDetail.qr_code);
+//                intent.putExtra("address",lmDetail.logo);
                 intent.putExtra(LmDetailDetailEditActivity.TYPE, LmDetailDetailEditActivity.TYPE_EDIT);
                 startActivity(intent);
                 break;
@@ -83,12 +90,14 @@ public class LmDetailDetailActivity extends BaseActivity {
             @Override
             public void onNext(HttpResult<LmDetail> result) {
                 if (result.status == 200) {
-                    Img.loadC(img, result.data.logo);
-                    name.setText(result.data.name);
-                    desc.setText(result.data.intro);
-                    cjr.setText(result.data.leader.real_name);
-                    Img.loadC(ewm, result.data.qr_code);
-                    address.setText(result.data.province_id + " " + result.data.city_id + " " + result.data.region_id);
+                    lmDetail = result.data;
+
+                    Img.loadC(img, lmDetail.logo);
+                    name.setText(lmDetail.name);
+                    desc.setText(lmDetail.intro);
+                    cjr.setText(lmDetail.leader.real_name);
+                    Img.loadC(ewm, lmDetail.qr_code);
+                    address.setText(lmDetail.province_id + " " + lmDetail.city_id + " " + lmDetail.region_id);
                 } else {
 //                    App.showToast(result.message);
                 }

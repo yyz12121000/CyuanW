@@ -1,11 +1,14 @@
 package com.yyz.cyuanw.activity;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.tools.Img;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -15,10 +18,16 @@ public class LmDetailDetailEditActivity extends BaseActivity {
     TextView id_tv_title;
     @BindView(R.id.save)
     TextView save;
+    @BindView(R.id.address)
+    TextView address;
     @BindView(R.id.edit_name)
     EditText edit_name;
     @BindView(R.id.desc)
     EditText desc;
+    @BindView(R.id.er_code)
+    ImageView er_code;
+    @BindView(R.id.img)
+    ImageView img;
 
 
     public static final String TYPE = "type";
@@ -53,6 +62,15 @@ public class LmDetailDetailEditActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        Intent intent = getIntent();
+        String imgS = intent.getStringExtra("img");
+        String nameS = intent.getStringExtra("name");
+        String descS = intent.getStringExtra("desc");
+        String ewmS = intent.getStringExtra("ewm");
+
+        Img.loadC(img,imgS);
+        edit_name.setText(nameS);
+        desc.setText(descS);
     }
 
     @OnClick({R.id.save})
@@ -64,9 +82,6 @@ public class LmDetailDetailEditActivity extends BaseActivity {
                 if (TextUtils.isEmpty(name) || TextUtils.isEmpty(descStr)){
 
                 }
-
-
-
                 break;
         }
     }

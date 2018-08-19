@@ -4,6 +4,7 @@ package com.yyz.cyuanw.apiClient;
 import com.yyz.cyuanw.bean.AdData;
 import com.yyz.cyuanw.bean.CheyListData;
 import com.yyz.cyuanw.bean.CyListData;
+import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
@@ -86,6 +87,10 @@ public interface ApiService {
     Observable<HttpResult<CheyListData>> lmcheylist(@Url String url);
     @GET
     Observable<HttpResult<LmDetail>> lmDetail(@Url String url);
+    //车源列表
+    @FormUrlEncoded
+    @POST("shareList")
+    Observable<HttpResult<Data1>> searchCy(@Field("key_word") String key_word);
 
 //    //修改密码
 //    @FormUrlEncoded

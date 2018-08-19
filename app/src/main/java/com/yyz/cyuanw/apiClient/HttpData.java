@@ -3,6 +3,7 @@ package com.yyz.cyuanw.apiClient;
 import com.yyz.cyuanw.bean.AdData;
 import com.yyz.cyuanw.bean.CheyListData;
 import com.yyz.cyuanw.bean.CyListData;
+import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
@@ -111,6 +112,10 @@ public class HttpData extends RetrofitUtils {
     }
      public void lmDetail(int lm_id, Observer<HttpResult<LmDetail>> observer) {
         Observable observable = service.lmDetail("alliances/" + lm_id);
+        setSubscribe(observable, observer);
+    }
+    public void searchCy(String key_word,Observer<HttpResult<Data1>> observer) {
+        Observable observable = service.searchCy(key_word);
         setSubscribe(observable, observer);
     }
 
