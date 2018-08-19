@@ -66,6 +66,15 @@ public class JgqjPopuwindow extends BasePopuwindow implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
+        gj_a.setTextColor(Color.parseColor("#666666"));
+        gj_b.setTextColor(Color.parseColor("#666666"));
+        gj_c.setTextColor(Color.parseColor("#666666"));
+        gj_d.setTextColor(Color.parseColor("#666666"));
+        gj_e.setTextColor(Color.parseColor("#666666"));
+        gj_f.setTextColor(Color.parseColor("#666666"));
+        gj_g.setTextColor(Color.parseColor("#666666"));
+        gj_h.setTextColor(Color.parseColor("#666666"));
+        gj_i.setTextColor(Color.parseColor("#666666"));
         switch (view.getId()) {
             case R.id.sure://确定
                 int jgA = Integer.parseInt(jg_a.getText().toString());
@@ -74,24 +83,28 @@ public class JgqjPopuwindow extends BasePopuwindow implements View.OnClickListen
                     ToastUtil.show(context, "请输入正确的价格区间!");
                     return;
                 }
-                gj_a.setTextColor(Color.parseColor("#666666"));
-                gj_b.setTextColor(Color.parseColor("#666666"));
-                gj_c.setTextColor(Color.parseColor("#666666"));
-                gj_d.setTextColor(Color.parseColor("#666666"));
-                gj_e.setTextColor(Color.parseColor("#666666"));
-                gj_f.setTextColor(Color.parseColor("#666666"));
-                gj_g.setTextColor(Color.parseColor("#666666"));
-                gj_h.setTextColor(Color.parseColor("#666666"));
-                gj_i.setTextColor(Color.parseColor("#666666"));
                 if (listenner != null) {
-                    listenner.onItemClick(-1, jgA + "万-" + jgB + "万");
+                    listenner.onItemClick(-1, jgA + "万-" + jgB + "万", jgA, jgB);
                 }
                 break;
             default:
                 TextView tv = (TextView) view;
+                String jgS = tv.getText().toString();
+                int a = 0,b = 0;
+
+                if (view.getId() == R.id.gj_a){
+
+                }else if (view.getId() == R.id.gj_i){
+                    a = 35;
+                }else {
+                    String ss[] = jgS.split("-");
+                    a = Integer.parseInt(ss[0].substring(0,ss[0].length()-1));
+                    b = Integer.parseInt(ss[1].substring(0,ss[1].length()-1));
+                }
+
                 tv.setTextColor(Color.parseColor("#EA6F5A"));
                 if (listenner != null) {
-                    listenner.onItemClick(-1, tv.getText().toString());
+                    listenner.onItemClick(-1, jgS,a,b);
                 }
         }
         dismiss();

@@ -90,7 +90,11 @@ public interface ApiService {
     //车源列表
     @FormUrlEncoded
     @POST("shareList")
-    Observable<HttpResult<Data1>> searchCy(@Field("key_word") String key_word);
+    Observable<HttpResult<Data1>> searchCy(@Field("source") int source,
+                                           @Field("order") int order,
+                                           @Field("min_price") int min_price,
+                                           @Field("max_price") int max_price,
+                                           @Field("key_word") String key_word);
 
 //    //修改密码
 //    @FormUrlEncoded

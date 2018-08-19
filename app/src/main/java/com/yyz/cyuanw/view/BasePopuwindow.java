@@ -15,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.adapter.IOnListItemClickListenner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +47,12 @@ public class BasePopuwindow extends PopupWindow {
         //this.setAnimationStyle(R.style.AnimationPreview);
 
     }
+
     protected IOnListItemClickListenner listenner;
 
     public void setItemListenner(IOnListItemClickListenner listenner) {
         this.listenner = listenner;
     }
 
-    public interface IOnListItemClickListenner {
-        void onItemClick(int position, String text);
-    }
+
 }

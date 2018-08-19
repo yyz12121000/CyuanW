@@ -114,8 +114,8 @@ public class HttpData extends RetrofitUtils {
         Observable observable = service.lmDetail("alliances/" + lm_id);
         setSubscribe(observable, observer);
     }
-    public void searchCy(String key_word,Observer<HttpResult<Data1>> observer) {
-        Observable observable = service.searchCy(key_word);
+    public void searchCy(int source,int order,int min_price,int max_price,String key_word,Observer<HttpResult<Data1>> observer) {
+        Observable observable = service.searchCy(source,order,min_price,max_price,key_word);
         setSubscribe(observable, observer);
     }
 

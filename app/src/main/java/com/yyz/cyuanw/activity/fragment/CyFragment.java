@@ -19,6 +19,7 @@ import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.CyDetailActivity;
 import com.yyz.cyuanw.activity.GdsxActivity;
 import com.yyz.cyuanw.activity.PpxzActivity;
+import com.yyz.cyuanw.adapter.IOnListItemClickListenner;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data2;
@@ -40,6 +41,29 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     private JgqjPopuwindow jgqjPopuwindow;
     private TextView tv_1, tv_2, tv_3, tv_4;
     private ListAdapter adapter;
+
+    private int is_self = 0;//是否搜索自己的共享车源 0 否 1是
+    private String key_word = "";//搜索关键词
+    private int source = 0;//车源来源 0全部 1 批发 2 急售 3 新车
+    private int order = 0;//排序 0默认排序 1价格最低 2价格最高 3 车龄最短 4里程最少
+
+    private int province_id = 0;//省份ID
+    private int city_id = 0;//城市ID
+    private int region_id = 0;//地区ID
+
+    private int brand_id = 0;//品牌ID
+    private int series_id = 0;//品牌系列ID
+    private int color = 0;//颜色ID
+    private int gearbox = 0;//变速箱ID
+    private int emission_standard = 0;//排放标准ID
+    private int fuel_type = 0;//燃油类型ID
+    private int max_price = 0;//最高价 (默认0)
+    private int min_price = 0;//最低价 (默认0)
+    private int max_mileage = 0;//最高里程 (默认0)
+    private int min_mileage = 0;//最低里程 (默认0)
+    private int max_year = 0;//最高车龄 (默认0)
+    private int min_year = 0;//最低车龄 (默认0)
+    private int page = 1;//页码 从1开始 默认第一页
 
     @Nullable
     @Override
@@ -67,6 +91,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         cydatas.add("全部车源");
         cydatas.add("批发车源");
         cydatas.add("急售车源");
+        cydatas.add("新车车源");
         List<String> pxDatas = new ArrayList<>();
         pxDatas.add("默认排序（发布时间降序）");
         pxDatas.add("价格最低");
@@ -83,22 +108,32 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         adapter = new CyFragment.ListAdapter();
         list.setAdapter(adapter);
 
-        cyPopuwindow.setItemListenner(new ListPopuwindow.IOnListItemClickListenner() {
+        cyPopuwindow.setItemListenner(new IOnListItemClickListenner() {
             @Override
             public void onItemClick(int position, String text) {
+//               source = 0;//车源来源 0全部 1 批发 2 急售 3 新车
                 tv_1.setText(text);
+                source = position;
+                searchCy();
             }
         });
-        pxPopuwindow.setItemListenner(new ListPopuwindow.IOnListItemClickListenner() {
+        pxPopuwindow.setItemListenner(new IOnListItemClickListenner() {
             @Override
             public void onItemClick(int position, String text) {
                 tv_2.setText(text);
+//                order = 0;//排序 0默认排序 1价格最低 2价格最高 3 车龄最短 4里程最少
+                order = position;
+                searchCy();
             }
         });
-        jgqjPopuwindow.setItemListenner(new JgqjPopuwindow.IOnListItemClickListenner() {
-            @Override
-            public void onItemClick(int position, String text) {
+        jgqjPopuwindow.setItemListenner(new IOnListItemClickListenner() {
+            public void onItemClick(int position, String text, int a, int b) {
                 tv_4.setText(text);
+//                private int max_price = 0;//最高价 (默认0)
+//                private int min_price = 0;//最低价 (默认0)
+                min_price = a;
+                max_price = b;
+                searchCy();
             }
         });
         cyPopuwindow.setOnDismissListener(this);
@@ -244,7 +279,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     }
 
     public void searchCy() {
-        HttpData.getInstance().searchCy("", new Observer<HttpResult<Data1>>() {
+        HttpData.getInstance().searchCy(source,order,min_price,max_price,"", new Observer<HttpResult<Data1>>() {
             @Override
             public void onCompleted() {
 //                App.showToast("999");
