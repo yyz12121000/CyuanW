@@ -85,7 +85,7 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemClickListener.onItemClick(holder.itemView, position);
+                    mOnItemClickListener.onItemClick(holder.itemView,  mData.get(position).getId());
                 }
             });
 
@@ -119,7 +119,7 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     //**************************************************************
 
-    public static class ViewTopHolder extends RecyclerView.ViewHolder {
+    public class ViewTopHolder extends RecyclerView.ViewHolder {
         TextView tvTag, tvName;
 
         LinearLayout row_1, row_2;
@@ -141,6 +141,16 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 String url = list.get(i).getLogo();
                 Img.load(icon, url);
                 name.setText(nameS);
+
+                int finalI = i;
+                row_1.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (mOnItemClickListener != null) {
+                            mOnItemClickListener.onItemClick(row_1,  list.get(finalI).getId());
+                        }
+                    }
+                });
             }
 
             if (list.size() > 5) {
@@ -152,6 +162,16 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     String url = list.get(i + 5).getLogo();
                     Img.load(icon, url);
                     name.setText(nameS);
+
+                    int finalI = i;
+                    row_2.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (mOnItemClickListener != null) {
+                                mOnItemClickListener.onItemClick(row_1,  list.get(finalI + 5).getId());
+                            }
+                        }
+                    });
                 }
             }
 

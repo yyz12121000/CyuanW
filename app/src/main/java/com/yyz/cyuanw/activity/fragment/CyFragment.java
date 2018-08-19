@@ -176,7 +176,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 }
                 break;
             case R.id.tv_3:
-                startActivity(new Intent(CyFragment.this.getActivity(), PpxzActivity.class));
+                startActivityForResult(new Intent(CyFragment.this.getActivity(), PpxzActivity.class), 55);
                 break;
             case R.id.tv_4:
                 ((TextView) view).setTextColor(Color.parseColor("#EA6F5A"));
@@ -190,6 +190,22 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 Intent intent = new Intent(CyFragment.this.getActivity(), GdsxActivity.class);
                 startActivity(intent);
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == getActivity().RESULT_OK) {
+            if (requestCode == 55) {
+                int pp_id = data.getIntExtra("pp_id", -1);
+                int xl_id = data.getIntExtra("xl_id", -1);
+                if (xl_id != -1 && pp_id != -1) {
+                    brand_id = pp_id;
+                    series_id = xl_id;
+                    searchCy();
+                }
+            }
         }
     }
 
@@ -292,7 +308,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     }
 
     public void searchCy() {
-        HttpData.getInstance().searchCy(source, order, min_price, max_price, "", new Observer<HttpResult<Data1>>() {
+        HttpData.getInstance().searchCy(source, order, min_price, max_price,  brand_id, series_id,"", new Observer<HttpResult<Data1>>() {
             @Override
             public void onCompleted() {
 //                App.showToast("999");
@@ -342,7 +358,6 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
             }
         });
     }
-
 
 
 }

@@ -1,5 +1,6 @@
 package com.yyz.cyuanw.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -11,8 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.adapter.IOnListItemClickListenner;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.HttpListResult;
+import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.view.PpxzSecondPopuwindow;
 import com.yyz.cyuanw.view.sortrecyclerview.ClearEditText;
@@ -27,6 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import okhttp3.Response;
@@ -92,7 +96,8 @@ public class PpxzActivity extends BaseActivity implements View.OnClickListener {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
         adapter = new SortAdapter(this);
-        mRecyclerView.setAdapter(adapter);adapter.notifyDataSetChanged();
+        mRecyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         //item点击事件
         /*adapter.setOnItemClickListener(new SortAdapter.OnItemClickListener() {
             @Override
@@ -123,22 +128,18 @@ public class PpxzActivity extends BaseActivity implements View.OnClickListener {
         });
 
         popuwindow = new PpxzSecondPopuwindow(this);
-        List<String> pxDatas = new ArrayList<>();
-        pxDatas.add("默认排序（发布时间降序）");
-        pxDatas.add("价格最低");
-        pxDatas.add("价格最高");
-        pxDatas.add("车龄最短");
-        pxDatas.add("里程最少");
-        popuwindow.setDatas(pxDatas);
+//        List<String> pxDatas = new ArrayList<>();
+//        pxDatas.add("默认排序（发布时间降序）");
+//        pxDatas.add("价格最低");
+//        pxDatas.add("价格最高");
+//        pxDatas.add("车龄最短");
+//        pxDatas.add("里程最少");
+
         adapter.setOnItemClickListener(new SortAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (!popuwindow.isShowing()) {
-                    popuwindow.showAsDropDown(tv_sd_input, 0, 3);
-                    zzc.setVisibility(View.VISIBLE);
-                } else {
-                    popuwindow.dismiss();
-                }
+                pp_id = position;
+                brandNext(position);
             }
         });
         popuwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -147,13 +148,35 @@ public class PpxzActivity extends BaseActivity implements View.OnClickListener {
                 zzc.setVisibility(View.GONE);
             }
         });
+        popuwindow.setItemListenner(new IOnListItemClickListenner() {
+            @Override
+            public void onItemClick(int position, String text) {
+                Intent intent = new Intent();
+                intent.putExtra("pp_id", pp_id);
+                intent.putExtra("xl_id", position);
+                setResult(RESULT_OK,intent);
+                PpxzActivity.this.finish();
+            }
+        });
     }
+
+    private int pp_id = -1;
 
     @Override
     public void initData() {
 
         dictionary2();
         top_brand();
+    }
+
+    private void showSecond(List<SortModel> list) {
+        popuwindow.setDatas(list);
+        if (!popuwindow.isShowing()) {
+            popuwindow.showAsDropDown(tv_sd_input, 0, 3);
+            zzc.setVisibility(View.VISIBLE);
+        } else {
+            popuwindow.dismiss();
+        }
     }
 
     private void setData1(List<SortModel> sortModels) {
@@ -290,6 +313,67 @@ public class PpxzActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
+    public void brandNext(int id) {
+        HttpData.getInstance().brandNext(id, new Observer<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+//                App.showToast("服务器请求超时");
+                LogManager.e("解析出错" + e.getMessage());
+            }
+
+            @Override
+            public void onNext(ResponseBody result) {
+                try {
+                    String body = result.string();
+                    JSONObject object = new JSONObject(body);
+                    if (object.optInt("status") == 200) {
+                        List<SortModel> list = bl(object.optJSONObject("data"));
+                        showSecond(list);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private List<SortModel> bl(JSONObject object) {
+        Iterator it = object.keys();
+        List<SortModel> listdata = new ArrayList<>();
+        while (it.hasNext()) {
+            String key = (String) it.next();
+            JSONArray array = object.optJSONArray(key);
+
+            SortModel sortModel = new SortModel();
+            sortModel.setType(1);
+            sortModel.setName(key);
+
+            listdata.add(sortModel);
+
+
+            List<SortModel> list = jx2(array);
+            listdata.addAll(list);
+        }
+        return listdata;
+    }
+
+    private List<SortModel> jx2(JSONArray array) {
+        List<SortModel> list = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject object = array.optJSONObject(i);
+            SortModel sortModel = new SortModel();
+            sortModel.setType(2);
+            sortModel.setId(object.optInt("id"));
+            sortModel.setName(object.optString("name"));
+            list.add(sortModel);
+        }
+        return list;
+    }
 
     private List<SortModel> jx(JSONObject jsonObject) {
         String[] arr = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",

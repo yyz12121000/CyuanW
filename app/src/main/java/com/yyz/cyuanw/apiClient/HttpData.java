@@ -120,8 +120,8 @@ public class HttpData extends RetrofitUtils {
         Observable observable = service.lmDetail("alliances/" + lm_id);
         setSubscribe(observable, observer);
     }
-    public void searchCy(int source,int order,int min_price,int max_price,String key_word,Observer<HttpResult<Data1>> observer) {
-        Observable observable = service.searchCy(source,order,min_price,max_price,key_word);
+    public void searchCy(int source,int order,int min_price,int max_price,int brand_id,int series_id,String key_word,Observer<HttpResult<Data1>> observer) {
+        Observable observable = service.searchCy(source,order,min_price,max_price,brand_id,series_id,key_word);
         setSubscribe(observable, observer);
     }
     public void dictionary(Observer<HttpResult<Data3>> observer) {
@@ -134,6 +134,10 @@ public class HttpData extends RetrofitUtils {
     }
     public void top_brand(Observer<HttpListResult<SortModel>> observer) {
         Observable observable = service.top_brand(App.get(Constant.KEY_USER_TOKEN));
+        setSubscribe(observable, observer);
+    }
+    public void brandNext(int id,Observer<ResponseBody> observer) {
+        Observable observable = service.brandNext(App.get(Constant.KEY_USER_TOKEN),id);
         setSubscribe(observable, observer);
     }
 

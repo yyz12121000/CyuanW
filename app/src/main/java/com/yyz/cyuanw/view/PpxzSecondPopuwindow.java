@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class PpxzSecondPopuwindow extends BasePopuwindow {
     public View mView;
     private ListAdapter adapter;
     private RecyclerView list;
-    private List<String> datas = new ArrayList<>();
+    private List<SortModel> datas = new ArrayList<>();
 
     public PpxzSecondPopuwindow(Activity context) {
         super(context);
@@ -45,7 +46,7 @@ public class PpxzSecondPopuwindow extends BasePopuwindow {
         list.setAdapter(adapter);
     }
 
-    public void setDatas(List<String> datas) {
+    public void setDatas(List<SortModel> datas) {
         this.datas = datas;
         adapter.notifyDataSetChanged();
     }
@@ -61,8 +62,8 @@ public class PpxzSecondPopuwindow extends BasePopuwindow {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-            String text = datas.get(i);
-            ((VHolder) viewHolder).setData(text);
+
+            ((VHolder) viewHolder).setData(datas.get(i));
         }
 
         @Override
@@ -84,7 +85,7 @@ public class PpxzSecondPopuwindow extends BasePopuwindow {
                     public void onClick(View view) {
                         index = getAdapterPosition();
                         if (null != listenner){
-                            listenner.onItemClick(index,datas.get(index));
+                            listenner.onItemClick(datas.get(index).getId(),datas.get(index).getName());
                         }
                         notifyDataSetChanged();
                         PpxzSecondPopuwindow.this.dismiss();
@@ -92,13 +93,18 @@ public class PpxzSecondPopuwindow extends BasePopuwindow {
                 });
             }
 
-            public void setData(String text) {
-                tv.setText(text);
-                tv.setTextColor(Color.parseColor("#999999"));
-                int position = getAdapterPosition();
-                if (index == position) {
-                    tv.setTextColor(Color.parseColor("#ff0000"));
+            public void setData(SortModel sortModel) {
+                tv.setText(sortModel.getName());
+                if (sortModel.getType() == 1){
+                    tv.setTextColor(Color.parseColor("#333333"));
+                }else {
+                    tv.setTextColor(Color.parseColor("#999999"));
                 }
+//                tv.setTextColor(Color.parseColor("#999999"));
+//                int position = getAdapterPosition();
+//                if (index == position) {
+//                    tv.setTextColor(Color.parseColor("#ff0000"));
+//                }
             }
         }
     }

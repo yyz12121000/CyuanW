@@ -87,10 +87,13 @@ public interface ApiService {
 
     @GET
     Observable<HttpResult<CyListData>> lmcylist(@Url String url);
+
     @GET
     Observable<HttpResult<CheyListData>> lmcheylist(@Url String url);
+
     @GET
     Observable<HttpResult<LmDetail>> lmDetail(@Url String url);
+
     //车源列表
     @FormUrlEncoded
     @POST("shareList")
@@ -98,15 +101,24 @@ public interface ApiService {
                                            @Field("order") int order,
                                            @Field("min_price") int min_price,
                                            @Field("max_price") int max_price,
-                                           @Field("key_word") String key_word);
+                                           @Field("brand_id") int brand_id,
+                                           @Field("series_id") int series_id,
+                                           @Field("key_word") String key_word
+    );
+
     //
     @FormUrlEncoded
     @POST("dictionary")
-    Observable<HttpResult<Data3>> dictionary(@Field("token") String token ,@Field("key_word") String key_word);
+    Observable<HttpResult<Data3>> dictionary(@Field("token") String token, @Field("key_word") String key_word);
 
     @FormUrlEncoded
     @POST("dictionary")
-    Observable<ResponseBody> dictionary2(@Field("token") String token , @Field("key_word") String key_word);
+    Observable<ResponseBody> dictionary2(@Field("token") String token, @Field("key_word") String key_word);
+
+    @FormUrlEncoded
+    @POST("brandNext")
+    Observable<ResponseBody> brandNext(@Field("token") String token, @Field("id") int id);
+
     //注销登录
     @GET("top_brand")
     Observable<HttpListResult<SortModel>> top_brand(@Query("token") String token);
