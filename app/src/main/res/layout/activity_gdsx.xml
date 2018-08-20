@@ -19,6 +19,7 @@
 
         <include
             android:id="@+id/item_1"
+            android:visibility="gone"
             layout="@layout/layout_common_oper2" />
 
         <include

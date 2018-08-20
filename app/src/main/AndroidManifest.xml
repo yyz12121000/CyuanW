@@ -92,6 +92,7 @@
         <activity android:name=".activity.LmMemberActivity"/>
         <activity android:name=".activity.LmMemberJoinActivity"/>
         <activity android:name=".activity.ChooseCityActivity" android:theme="@style/DefaultCityPickerTheme" android:launchMode="singleTask"/>
+        <activity android:name=".activity.ListChooseActivity"/>
 
         <meta-data android:name="com.amap.api.v2.apikey" android:value="e842a2da67058a7677c44b4ec4de18a4"></meta-data>
         <service android:name="com.amap.api.location.APSService"></service>
