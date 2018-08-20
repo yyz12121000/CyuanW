@@ -89,6 +89,7 @@ public class ListChooseActivity extends BaseActivity {
 //                        ListPopuwindow.this.dismiss();
 
                         Intent intent = new Intent();
+                        intent.putExtra("index", index);
                         intent.putExtra("text", datas.get(index));
                         setResult(RESULT_OK, intent);
                         finish();

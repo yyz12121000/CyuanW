@@ -6,6 +6,7 @@ import com.yyz.cyuanw.bean.CheyListData;
 import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data3;
+import com.yyz.cyuanw.bean.Data5;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
@@ -151,8 +152,41 @@ public interface ApiService {
                                            @Field("max_price") int max_price,
                                            @Field("brand_id") int brand_id,
                                            @Field("series_id") int series_id,
-                                           @Field("key_word") String key_word
+
+                                           @Field("color") int color,
+                                           @Field("gearbox") int gearbox,
+                                           @Field("emission_standard") int emission_standard,
+                                           @Field("fuel_type") int fuel_type,
+                                           @Field("min_year") int min_year,
+                                           @Field("max_year") int max_year,
+                                           @Field("min_mileage") int min_mileage,
+                                           @Field("max_mileage") int max_mileage,
+                                           @Field("key_word") String key_word,
+                                           @Field("is_self ") int is_self,
+                                           @Field("token") String token
     );
+    //共享车源筛选结果数量
+    @FormUrlEncoded
+    @POST("carScreeningCount")
+    Observable<HttpResult<Data5>> carScreeningCount(@Field("source") int source,
+                                                    @Field("order") int order,
+                                                    @Field("min_price") int min_price,
+                                                    @Field("max_price") int max_price,
+                                                    @Field("brand_id") int brand_id,
+                                                    @Field("series_id") int series_id,
+
+                                                    @Field("color") int color,
+                                                    @Field("gearbox") int gearbox,
+                                                    @Field("emission_standard") int emission_standard,
+                                                    @Field("fuel_type") int fuel_type,
+                                                    @Field("min_year") int min_year,
+                                                    @Field("max_year") int max_year,
+                                                    @Field("min_mileage") int min_mileage,
+                                                    @Field("max_mileage") int max_mileage,
+                                                    @Field("key_word") String key_word,
+
+                                                    @Field("is_self ") int is_self,
+                                                    @Field("token") String token);
 
     //
     @FormUrlEncoded
@@ -167,9 +201,12 @@ public interface ApiService {
     @POST("brandNext")
     Observable<ResponseBody> brandNext(@Field("token") String token, @Field("id") int id);
 
-    //注销登录
+    //
     @GET("top_brand")
     Observable<HttpListResult<SortModel>> top_brand(@Query("token") String token);
+    //搜索筛选参数
+    @GET("search_criteria")
+    Observable<HttpResult<Data3>> search_criteria(@Query("token") String token);
 //    //修改密码
 //    @FormUrlEncoded
 //    @POST("yycs/merchant/inspection/getUpdatePad")

@@ -189,7 +189,24 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 break;
             case R.id.gdsx:
                 Intent intent = new Intent(CyFragment.this.getActivity(), GdsxActivity.class);
-                startActivity(intent);
+                intent.putExtra("key_word", key_word);
+                intent.putExtra("source", source);
+                intent.putExtra("order", order);
+                intent.putExtra("order", order);
+                intent.putExtra("brand_id", brand_id);
+                intent.putExtra("series_id", series_id);
+                intent.putExtra("color", color);
+                intent.putExtra("gearbox", gearbox);
+                intent.putExtra("emission_standard", emission_standard);
+                intent.putExtra("fuel_type", fuel_type);
+                intent.putExtra("max_price", max_price);
+                intent.putExtra("min_price", min_price);
+                intent.putExtra("max_mileage", max_mileage);
+                intent.putExtra("min_mileage", min_mileage);
+                intent.putExtra("max_year", max_year);
+                intent.putExtra("min_year", min_year);
+
+                startActivityForResult(intent, 66);
                 break;
         }
     }
@@ -206,6 +223,19 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                     series_id = xl_id;
                     searchCy();
                 }
+            } else if (requestCode == 66) {
+                color = data.getIntExtra("color", 0);//颜色ID
+                gearbox = data.getIntExtra("gearbox", 0);//变速箱ID
+                emission_standard = data.getIntExtra("emission_standard", 0);//排放标准ID
+                fuel_type = data.getIntExtra("fuel_type", 0);//燃油类型ID
+
+                min_year = data.getIntExtra("min_year", 0);//最低车龄 (默认0)
+                max_year = data.getIntExtra("max_year", 0);//最高车龄 (默认0)
+
+                min_mileage = data.getIntExtra("min_mileage", 0);//最低里程 (默认0)
+                max_mileage = data.getIntExtra("max_mileage", 0);//最高里程 (默认0)
+
+                searchCy();
             }
         }
     }
@@ -314,7 +344,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     }
 
     public void searchCy() {
-        HttpData.getInstance().searchCy(source, order, min_price, max_price, brand_id, series_id, key_word, new Observer<HttpResult<Data1>>() {
+        HttpData.getInstance().searchCy(source, order, min_price, max_price, brand_id, series_id, color, gearbox, emission_standard, fuel_type, min_year, max_year, min_mileage, max_mileage, key_word, new Observer<HttpResult<Data1>>() {
             @Override
             public void onCompleted() {
 //                App.showToast("999");
@@ -338,8 +368,6 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
             }
         });
     }
-
-
 
 
 }

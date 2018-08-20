@@ -57,7 +57,7 @@
         android:background="#ffffff"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
-        android:text="共找到1200个车源" />
+       />
 
     <TextView
         android:id="@+id/sure"
