@@ -83,7 +83,7 @@ public class HttpData extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
-    public void changeSend(String phone,int type,String no,String token,Observer<HttpCodeResult> observer){
+    public void changeSend(String phone,int type,String token,Observer<HttpCodeResult> observer){
         Observable observable = service.changeSend(phone,type,token);
         setSubscribe(observable, observer);
     }
@@ -93,17 +93,17 @@ public class HttpData extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
-    public void setUserInfo(String name,String token,Observer<HttpCodeResult> observer){
+    public void setUserInfo(String name,String value,String token,Observer<HttpCodeResult> observer){
         Observable observable = null;
         switch (name){
             case "gender":
-                observable = service.setGender(name,token);
+                observable = service.setGender(value,token);
                 break;
             case "signature":
-                observable = service.setSignature(name,token);
+                observable = service.setSignature(value,token);
                 break;
             case "virtual_number":
-                observable = service.setVirtualNumber(name,token);
+                observable = service.setVirtualNumber(value,token);
                 break;
         }
         setSubscribe(observable, observer);

@@ -9,6 +9,7 @@
         layout="@layout/layout_common_title" />
 
     <TextView
+        android:id="@+id/id_tv_notice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -24,6 +25,7 @@
         android:background="#ffffff">
 
         <TextView
+            android:id="@+id/id_tv_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -32,12 +34,14 @@
             android:textSize="16dp"/>
 
         <EditText
+            android:id="@+id/id_et_phone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
             android:gravity="center_vertical"
             android:hint="请输入手机号码"
-            android:textColor="#d9d9d9"
+            android:textColorHint="#d9d9d9"
+            android:textColor="#333333"
             android:textSize="16dp"
             android:background="@android:color/transparent"/>
     </LinearLayout>
@@ -59,13 +63,15 @@
             android:textSize="16dp"/>
 
         <EditText
+            android:id="@+id/id_et_code"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="28dp"
             android:gravity="center_vertical"
             android:hint="请输入验证码"
-            android:textColor="#d9d9d9"
+            android:textColorHint="#d9d9d9"
+            android:textColor="#333333"
             android:textSize="16dp"
             android:background="@android:color/transparent"/>
         <View
@@ -76,6 +82,7 @@
             android:background="#d9d9d9"/>
 
         <TextView
+            android:id="@+id/id_tv_getcode"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="16dp"

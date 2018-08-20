@@ -15,14 +15,18 @@ import com.google.gson.Gson;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
+import com.yyz.cyuanw.apiClient.HttpData;
+import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.GlideCircleTransformWithBorder;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.StringUtil;
+import com.yyz.cyuanw.view.CustomProgress;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Observer;
 
 public class UserActivity extends BaseActivity{
 
@@ -40,7 +44,7 @@ public class UserActivity extends BaseActivity{
     @BindView(R.id.id_tv_myshop) TextView shopNumView;
     @BindView(R.id.id_tv_myunion) TextView unionNumView;
 
-    private LoginData userBean;
+    private LoginData userData;
 
     @Override
     protected int getLayoutId() {
@@ -48,46 +52,57 @@ public class UserActivity extends BaseActivity{
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (App.updataUserData){
+            App.updataUserData = false;
+            getUserInfo();
+        }
+    }
+
+    @Override
     public void initView() {
-
         mImmersionBar.reset().transparentBar().init();
-
     }
 
     @Override
     public void initData() {
+        getUserInfo();
+    }
 
+    public void setViewData(){
         String jsonStr = App.get(Constant.KEY_USER_DATA);
         if (StringUtil.isNotNull(jsonStr)){
-            userBean = new Gson().fromJson(jsonStr,LoginData.class);
+            userData = new Gson().fromJson(jsonStr,LoginData.class);
 
-            if (StringUtil.isNotNull(userBean.pic))
-                Img.loadC(photoView,userBean.pic);
+            if (StringUtil.isNotNull(userData.pic))
+                Img.loadC(photoView,userData.pic);
 
-            if (StringUtil.isNotNull(userBean.bg_image))
-                Img.loadP(bgView,userBean.bg_image,R.mipmap.bg_user);
+            if (StringUtil.isNotNull(userData.bg_image))
+                Img.loadP(bgView,userData.bg_image,R.mipmap.bg_user);
 
-            if (StringUtil.isNotNull(userBean.name)){
-                nameView.setText(userBean.name);
+            if (StringUtil.isNotNull(userData.name)){
+                nameView.setText(userData.name);
             }else {
-                nameView.setText(userBean.phone);
+                nameView.setText(userData.phone);
             }
 
-            if (StringUtil.isNotNull(userBean.bind_dealer)){
-                shopView.setText(userBean.bind_dealer);
+            if (StringUtil.isNotNull(userData.bind_dealer)){
+                shopView.setText(userData.bind_dealer);
             }else {
                 shopView.setText("暂时还未绑定车商");
             }
 
-            if (StringUtil.isNotNull(userBean.signature)){
-                signView.setText(userBean.signature);
+            if (StringUtil.isNotNull(userData.signature)){
+                signView.setText(userData.signature);
             }else {
                 signView.setText("暂时还没有个性签名");
             }
 
-            carNumView.setText(getString(R.string.str_user_mycar,userBean.my_cars));
-            shopNumView.setText(getString(R.string.str_user_myshop,userBean.my_shops));
-            unionNumView.setText(getString(R.string.str_user_myunion,userBean.my_union));
+            carNumView.setText(getString(R.string.str_user_mycar,userData.my_cars));
+            shopNumView.setText(getString(R.string.str_user_myshop,userData.my_shops));
+            unionNumView.setText(getString(R.string.str_user_myunion,userData.my_union));
 
         }
     }
@@ -112,6 +127,33 @@ public class UserActivity extends BaseActivity{
 
     public void startActivity(Class<?> cls){
         startActivity(new Intent(this,cls));
+    }
+
+    public void getUserInfo(){
+        //CustomProgress.show(this, "加载中...", false, null);
+
+        HttpData.getInstance().getUserInfo(App.get(Constant.KEY_USER_TOKEN),new Observer<HttpResult<LoginData>>() {
+            @Override
+            public void onCompleted() {
+                //CustomProgress.dismis();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                //CustomProgress.dismis();
+                App.showToast("服务器请求超时");
+            }
+
+            @Override
+            public void onNext(HttpResult<LoginData> result) {
+                if (result.status == 200 && result.data != null){
+                    App.set(Constant.KEY_USER_DATA,new Gson().toJson(result.data));
+                    setViewData();
+                }else{
+                    App.showToast(result.message);
+                }
+            }
+        });
     }
 
 }

@@ -78,8 +78,10 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.user_model.PhoneBindActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.user_model.PhoneChangeActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.user_model.PhoneSubmitActivity"
-        android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.user_model.HelpActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.PpxzActivity"/>

@@ -1,7 +1,9 @@
 package com.yyz.cyuanw.activity.user_model;
 
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,75 +20,56 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Observer;
 
-public class PhoneSubmitActivity extends BaseActivity{
+public class PhoneChangeActivity extends BaseActivity{
 
     @BindView(R.id.id_tv_title) TextView titleView;
-    @BindView(R.id.id_tv_notice) TextView noticeView;
+    @BindView(R.id.id_tv_phone) TextView phoneView;
     @BindView(R.id.id_tv_getcode) TextView getCodeView;
-    @BindView(R.id.id_tv_phone) TextView tvPhoneView;
-    @BindView(R.id.id_et_phone) EditText phoneView;
     @BindView(R.id.id_et_code) EditText codeView;
 
-    private int flag;// 0 更换手机号 1 绑定手机号
-    private String code;
-
+    private String phone;
     private TimeCount time;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_phonesubmit;
+        return R.layout.activity_phonechange;
     }
 
     @Override
     public void initView() {
+        phone = getIntent().getStringExtra("phone");
 
-        flag = getIntent().getIntExtra("flag",0);
-        code = getIntent().getStringExtra("code");
-
-        if (flag == 0){
-            setTitle(titleView,"更换手机号");
-            tvPhoneView.setText("新手机号");
-            noticeView.setVisibility(View.VISIBLE);
-        }else{
-            setTitle(titleView,"绑定手机号");
-            tvPhoneView.setText("手机号码");
-            noticeView.setVisibility(View.GONE);
-        }
+        setTitle(titleView,"更换手机号");
+        phoneView.setText("原手机号："+phone);
 
     }
 
     @Override
     public void initData() {
         time = new TimeCount(60000, 1000);
+
     }
 
-    @OnClick({R.id.id_btn_submit,R.id.id_tv_getcode})
+    @OnClick({R.id.id_btn_next,R.id.id_tv_getcode})
     public void onClickEvent(View view){
         switch (view.getId()){
-            case R.id.id_btn_submit:
+            case R.id.id_btn_next:
 
-                String phone = phoneView.getText().toString().trim();
-                if (!StringUtil.isNotNull(phone)){
-                    App.showToast("请输入新手机号");
-                    return;
-                }
-
-                String code = codeView.getText().toString().trim();
-                if (!StringUtil.isNotNull(code)){
+                String strCode = codeView.getText().toString().trim();
+                if (!StringUtil.isNotNull(strCode)){
                     App.showToast("请输入短信验证码");
                     return;
                 }
 
-                changePhone(phone,code);
+                Intent intent = new Intent(this,PhoneSubmitActivity.class);
+                intent.putExtra("flag",0);
+                intent.putExtra("code",strCode);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.id_tv_getcode:
 
-                String strPhone = phoneView.getText().toString().trim();
-                if (!StringUtil.isNotNull(strPhone)){
-                    App.showToast("请输入新手机号");
-                    return;
-                }
-                getValidateCode(strPhone,2);
+                getValidateCode(phone,1);
                 break;
         }
     }
@@ -112,34 +95,6 @@ public class PhoneSubmitActivity extends BaseActivity{
 
                 if (result.status == 200){
                     time.start();
-                }
-            }
-        });
-    }
-
-    public void changePhone(String phone,String newcode){
-        CustomProgress.show(this, "提交中...", false, null);
-
-        HttpData.getInstance().changePhone(phone, code,newcode,App.get(Constant.KEY_USER_TOKEN),new Observer<HttpCodeResult>() {
-            @Override
-            public void onCompleted() {
-                CustomProgress.dismis();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                CustomProgress.dismis();
-                App.showToast("服务器请求超时");
-            }
-
-            @Override
-            public void onNext(HttpCodeResult result) {
-                App.showToast(result.message);
-
-                if (result.status == 200){
-                    App.updataUserData = true;
-                    App.set(Constant.KEY_USER_PHONE,phone);
-                    finish();
                 }
             }
         });
@@ -172,7 +127,6 @@ public class PhoneSubmitActivity extends BaseActivity{
             }
         }
     }
-
 }
 
 

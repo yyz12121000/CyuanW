@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
@@ -72,9 +73,21 @@ public class UserInfoActivity extends BaseActivity{
 
     private int uploadPicType = 0;
 
+    private LoginData userData;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_userinfo;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (StringUtil.isNotNull(App.get(Constant.KEY_USER_PHONE))){
+            tvNoView.setText(App.get(Constant.KEY_USER_PHONE));
+            App.set(Constant.KEY_USER_PHONE,"");
+        }
     }
 
     @Override
@@ -87,23 +100,19 @@ public class UserInfoActivity extends BaseActivity{
         nameView.getChildAt(2).setVisibility(View.INVISIBLE);
         tvNameView = (TextView) nameView.getChildAt(1);
         ((TextView)sexView.getChildAt(0)).setText("性别");
-        tvSexView = (TextView) nameView.getChildAt(1);
+        tvSexView = (TextView) sexView.getChildAt(1);
         ((TextView)noView.getChildAt(0)).setText("手机号");
-        tvNoView = (TextView) nameView.getChildAt(1);
+        tvNoView = (TextView) noView.getChildAt(1);
         ((TextView)shortnoView.getChildAt(0)).setText("短号");
-        tvShortNoView = (TextView) nameView.getChildAt(1);
+        tvShortNoView = (TextView) shortnoView.getChildAt(1);
         ((TextView)cityView.getChildAt(0)).setText("城市");
-        tvCityView = (TextView) nameView.getChildAt(1);
+        tvCityView = (TextView) cityView.getChildAt(1);
         ((TextView)signView.getChildAt(0)).setText("个性签名");
-        tvSignView = (TextView) nameView.getChildAt(1);
-
-        tvNameView.setText("黄劲");
+        tvSignView = (TextView) signView.getChildAt(1);
     }
 
     @Override
     public void initData() {
-        getInfo();
-
         mLqrPhotoSelectUtils = new LQRPhotoSelectUtils(this, (outputFile,outputUri) -> {
             LogManager.e(outputFile.getAbsolutePath());
 
@@ -113,18 +122,53 @@ public class UserInfoActivity extends BaseActivity{
             uploadFile(getMultipartBody(outputFile));
 
         },true);
+
+        String jsonStr = App.get(Constant.KEY_USER_DATA);
+        if (StringUtil.isNotNull(jsonStr)){
+            userData = new Gson().fromJson(jsonStr,LoginData.class);
+
+            if (StringUtil.isNotNull(userData.pic))
+                Img.loadC(ivPhotoView,userData.pic);
+            tvNameView.setText(userData.name);
+            tvNoView.setText(userData.phone);
+            if ("1".equals(userData.gender)){
+                tvSexView.setText("男");
+            }else if ("2".equals(userData.gender)){
+                tvSexView.setText("女");
+            }
+            tvShortNoView.setText(userData.virtual_number);
+            tvCityView.setText(userData.province+" "+userData.city+" "+userData.region);
+            tvSignView.setText(userData.signature);
+        }
     }
 
-    @OnClick({R.id.id_oper_setphoto,R.id.id_oper_setbg})
+    @OnClick({R.id.id_oper_setphoto,R.id.id_oper_setbg,R.id.id_oper_setsex,R.id.id_oper_setshortno,R.id.id_oper_setsign,R.id.id_oper_setno})
     public void onClickEvent(View view){
         switch (view.getId()){
             case R.id.id_oper_setphoto:
                 uploadPicType = 0;
-                showPopupDialog();
+                showPopupDialog(0);
                 break;
             case R.id.id_oper_setbg:
                 uploadPicType = 1;
-                showPopupDialog();
+                showPopupDialog(0);
+                break;
+            case R.id.id_oper_setsex:
+                showPopupDialog(1);
+                break;
+            case R.id.id_oper_setshortno:
+                showModifyDialog("请输入短号",tvShortNoView.getText().toString(),"virtual_number",tvShortNoView);
+                break;
+            case R.id.id_oper_setsign:
+                showModifyDialog("请输入个性签名",tvSignView.getText().toString(),"signature",tvSignView);
+                break;
+            case R.id.id_oper_setno:
+
+                if (userData != null){
+                    Intent intent = new Intent(this,PhoneBindActivity.class);
+                    intent.putExtra("phone",userData.phone);
+                    startActivity(intent);
+                }
                 break;
         }
     }
@@ -145,7 +189,7 @@ public class UserInfoActivity extends BaseActivity{
         return multipartBody;
     }
 
-    public void showModifyDialog(String title){
+    public void showModifyDialog(String title,String content,String name,TextView nameView){
         if (mDialog == null){
             mDialog = new AlertDialog.Builder(this,R.style.MyDialog).create();
         }
@@ -164,45 +208,71 @@ public class UserInfoActivity extends BaseActivity{
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         TextView titleView = dialogView.findViewById(R.id.id_tv_title);
-        final EditText codeView = dialogView.findViewById(R.id.id_et_content);
+        final EditText contentView = dialogView.findViewById(R.id.id_et_content);
 
         titleView.setText(title);
+        contentView.setText(content);
+        contentView.setSelection(contentView.getText().toString().length());
 
         dialogView.findViewById(R.id.id_iv_close).setOnClickListener(view -> mDialog.dismiss() );
         dialogView.findViewById(R.id.id_tv_submit).setOnClickListener(view -> {
-            String strCode = codeView.getText().toString().trim();
-            if (!StringUtil.isNotNull(strCode)){
+            String strContent = contentView.getText().toString().trim();
+            if (!StringUtil.isNotNull(strContent)){
                 App.showToast("内容不能为空");
                 return;
             }
+
+            setInfo(name,strContent,nameView);
 
             mDialog.dismiss();
         });
 
     }
 
-    public void showPopupDialog() {
+    public void showPopupDialog(int showType) {
         if (popupDialogView == null) {
             popupDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_uploadpic, null);
 
             popupDialogView.findViewById(R.id.id_root_view).setOnClickListener(view -> mPopupDialog.dismiss() );
             popupDialogView.findViewById(R.id.id_btn_cancel).setOnClickListener(view -> mPopupDialog.dismiss() );
-            popupDialogView.findViewById(R.id.id_btn_camera).setOnClickListener(view -> {
-                PermissionGen.with(UserInfoActivity.this)
-                        .addRequestCode(LQRPhotoSelectUtils.REQ_TAKE_PHOTO)
-                        .permissions(Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.CAMERA
-                        ).request();
+
+            Button button1 = popupDialogView.findViewById(R.id.id_btn_camera);
+            Button button2 = popupDialogView.findViewById(R.id.id_btn_selectpic);
+
+            if (showType == 0){
+                button1.setText("拍照");
+                button2.setText("从相册选择");
+            }else{
+                button1.setText("男");
+                button2.setText("女");
+            }
+
+            button1.setOnClickListener(view -> {
+                if (showType == 0){
+                    PermissionGen.with(UserInfoActivity.this)
+                            .addRequestCode(LQRPhotoSelectUtils.REQ_TAKE_PHOTO)
+                            .permissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.CAMERA
+                            ).request();
+                }else{
+                    setInfo("gender","1",tvSexView);
+                }
+
                 mPopupDialog.dismiss();
             });
 
-            popupDialogView.findViewById(R.id.id_btn_selectpic).setOnClickListener(view -> {
-                PermissionGen.needPermission(UserInfoActivity.this,
-                        LQRPhotoSelectUtils.REQ_SELECT_PHOTO,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE}
-                );
+            button2.setOnClickListener(view -> {
+                if (showType == 0){
+                    PermissionGen.needPermission(UserInfoActivity.this,
+                            LQRPhotoSelectUtils.REQ_SELECT_PHOTO,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE}
+                    );
+                }else{
+                    setInfo("gender","2",tvSexView);
+                }
+
                 mPopupDialog.dismiss();
             });
         }
@@ -219,39 +289,10 @@ public class UserInfoActivity extends BaseActivity{
 
     }
 
-    public void getInfo(){
-        CustomProgress.show(this, "加载中...", false, null);
-
-        HttpData.getInstance().getUserInfo(App.get(Constant.KEY_USER_TOKEN),new Observer<HttpResult<LoginData>>() {
-            @Override
-            public void onCompleted() {
-                CustomProgress.dismis();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                CustomProgress.dismis();
-                App.showToast("服务器请求超时");
-            }
-
-            @Override
-            public void onNext(HttpResult<LoginData> result) {
-
-                if (result.status == 200 && result.data != null){
-                    tvNameView.setText(result.data.phone);
-                    if (StringUtil.isNotNull(result.data.pic))
-                        Img.loadC(ivPhotoView,result.data.pic);
-                }else{
-                    App.showToast(result.message);
-                }
-            }
-        });
-    }
-
-    public void setInfo(String name){
+    public void setInfo(String name,String value,TextView nameView){
         CustomProgress.show(this, "请求中...", false, null);
 
-        HttpData.getInstance().setUserInfo(name,App.get(Constant.KEY_USER_TOKEN),new Observer<HttpCodeResult>() {
+        HttpData.getInstance().setUserInfo(name,value,App.get(Constant.KEY_USER_TOKEN),new Observer<HttpCodeResult>() {
             @Override
             public void onCompleted() {
                 CustomProgress.dismis();
@@ -268,7 +309,16 @@ public class UserInfoActivity extends BaseActivity{
                 App.showToast(result.message);
 
                 if (result.status == 200){
-
+                    if (name.equals("gender")){
+                        if ("1".equals(value)){
+                            nameView.setText("男");
+                        }else{
+                            nameView.setText("女");
+                        }
+                    }else{
+                        nameView.setText(value);
+                    }
+                    App.updataUserData = true;
                 }
             }
         });
@@ -299,6 +349,7 @@ public class UserInfoActivity extends BaseActivity{
                     }else {
                         LogManager.e(result.data.bg_image);
                     }
+                    App.updataUserData = true;
                 }
 
             }
@@ -311,7 +362,7 @@ public class UserInfoActivity extends BaseActivity{
         if (uploadPicType == 0){
             mLqrPhotoSelectUtils.setParams(1,1,400,400);
         }else{
-            mLqrPhotoSelectUtils.setParams(1,2,480,800);
+            mLqrPhotoSelectUtils.setParams(2,1,800,480);
         }
         mLqrPhotoSelectUtils.takePhoto();
     }
@@ -321,7 +372,7 @@ public class UserInfoActivity extends BaseActivity{
         if (uploadPicType == 0){
             mLqrPhotoSelectUtils.setParams(1,1,400,400);
         }else{
-            mLqrPhotoSelectUtils.setParams(1,2,480,800);
+            mLqrPhotoSelectUtils.setParams(1,1,480,800);
         }
         mLqrPhotoSelectUtils.selectPhoto();
     }
