@@ -68,7 +68,7 @@ public class LmFragment extends Fragment {
         private List<LmData> dataList = new ArrayList();
         public VAHolder vaHolder;
 
-        public ListAdapter(){
+        public ListAdapter() {
             this.dataList.add(null);
         }
 
@@ -209,7 +209,7 @@ public class LmFragment extends Fragment {
                         } else if (position == (getItemCount() - 1)) {
                             name.setText("查看全部");
                             img.setImageResource(R.mipmap.img_36);
-                        }else {
+                        } else {
                             LmMyListData lmMyListData = myLmdataList.get(position);
                             Img.loadC(img, lmMyListData.alliance.logo);
                             name.setText(lmMyListData.alliance.name);
@@ -240,10 +240,10 @@ public class LmFragment extends Fragment {
                         int position = getAdapterPosition();
                         LmData lmData = dataList.get(position);
                         Intent intent = new Intent(LmFragment.this.getActivity(), LmDetailActivity.class);
-                        intent.putExtra("id",lmData.id);
-                        intent.putExtra("img",lmData.logo);
-                        intent.putExtra("name",lmData.name);
-                        intent.putExtra("intro",lmData.intro);
+                        intent.putExtra("id", lmData.id);
+                        intent.putExtra("img", lmData.logo);
+                        intent.putExtra("name", lmData.name);
+                        intent.putExtra("intro", lmData.intro);
                         startActivity(intent);
                     }
                 });
@@ -276,8 +276,15 @@ public class LmFragment extends Fragment {
 
     }
 
+    private String key_word = "";
+
+    public void doSearch(String key_word) {
+        this.key_word = key_word;
+        loadLmList();
+    }
+
     public void loadLmList() {
-        HttpData.getInstance().getLmList("", 1, new Observer<HttpResult<LmListData>>() {
+        HttpData.getInstance().getLmList(key_word, 1, new Observer<HttpResult<LmListData>>() {
             @Override
             public void onCompleted() {
 //                App.showToast("999");

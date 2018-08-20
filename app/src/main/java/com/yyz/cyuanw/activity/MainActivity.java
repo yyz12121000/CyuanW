@@ -11,10 +11,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ import com.yyz.cyuanw.tools.Location;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.tools.StringUtil;
 import com.yyz.cyuanw.tools.ToastUtil;
+import com.yyz.cyuanw.tools.Tools;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
 import com.zaaach.citypicker.model.City;
@@ -55,8 +58,10 @@ public class MainActivity extends BaseActivity {
     private List<android.support.v4.app.Fragment> mFragments;
     private List<String> titleList;
     private ViewPager mViewPager;
-
+private View search_ll;
     private TextView left_text;
+    private EditText search_text;
+    private int index = 0;
 
     private Dialog mDialog;
     private Location location;
@@ -77,9 +82,9 @@ public class MainActivity extends BaseActivity {
                     if (null != city) {
                         left_text.setText(city);
                     }
-                    LogManager.e("定位到"+city);
-                    SyFragment syFragment = (SyFragment) mFragments.get(1);
-                    syFragment.loadJjr(aMapLocation.getLongitude()+"",aMapLocation.getLatitude()+"");
+                    LogManager.e("定位到" + city);
+                    SyFragment syFragment = (SyFragment) mFragments.get(0);
+                    syFragment.loadJjr(aMapLocation.getLongitude() + "", aMapLocation.getLatitude() + "");
 
                 }
                 location.stop();
@@ -111,8 +116,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         setSwipeBackEnable(false);
+        search_ll = findViewById(R.id.search_ll);
         mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
         left_text = (TextView) findViewById(R.id.left_text);
+        search_text = (EditText) findViewById(R.id.search_text);
         //设置ViewPager里面也要显示的图片
         mFragments = new ArrayList<>();
 
@@ -120,16 +127,15 @@ public class MainActivity extends BaseActivity {
         Fragment syFragment = new SyFragment();
         Fragment lmFragment = new LmFragment();
 
-
-        mFragments.add(cyFragment);
         mFragments.add(syFragment);
+        mFragments.add(cyFragment);
         mFragments.add(lmFragment);
 
         //设置标题
         titleList = new ArrayList<>();
 
-        titleList.add("车源");
         titleList.add("首页");
+        titleList.add("车源");
         titleList.add("联盟");
 
         mTab = (TabLayout) findViewById(R.id.main_tab);
@@ -154,6 +160,65 @@ public class MainActivity extends BaseActivity {
                 startActivityForResult(intent, 2);
             }
         });
+
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                index = i;
+                switch (index) {
+                    case 0:
+                        search_ll.setVisibility(View.GONE);
+                        search_text.setHint("搜索经纪人");
+                        break;
+                    case 1:
+                        search_ll.setVisibility(View.VISIBLE);
+                        search_text.setHint("搜索您需要的车源");
+                        break;
+                    case 2:
+                        search_ll.setVisibility(View.VISIBLE);
+                        search_text.setHint("搜索你感兴趣的联盟吧~");
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+        search_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+                // TODO Auto-generated method stub
+                if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
+                    String text = search_text.getText().toString();
+
+                    Tools.hideSoftInput(MainActivity.this, search_text);
+
+                    switch (index) {
+                        case 0:
+
+                            break;
+                        case 1:
+                            ((CyFragment) mFragments.get(1)).doSearch(text);
+                            break;
+                        case 2:
+                            ((LmFragment) mFragments.get(2)).doSearch(text);
+                            break;
+                    }
+                }
+                return false;
+            }
+
+        });
+
+
     }
 
     @Override

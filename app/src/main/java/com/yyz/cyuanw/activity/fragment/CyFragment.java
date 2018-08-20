@@ -72,6 +72,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     private int min_year = 0;//最低车龄 (默认0)
     private int page = 1;//页码 从1开始 默认第一页
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -307,8 +308,13 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         }
     }
 
+    public void doSearch(String key_word) {
+        this.key_word = key_word;
+        searchCy();
+    }
+
     public void searchCy() {
-        HttpData.getInstance().searchCy(source, order, min_price, max_price,  brand_id, series_id,"", new Observer<HttpResult<Data1>>() {
+        HttpData.getInstance().searchCy(source, order, min_price, max_price, brand_id, series_id, key_word, new Observer<HttpResult<Data1>>() {
             @Override
             public void onCompleted() {
 //                App.showToast("999");
