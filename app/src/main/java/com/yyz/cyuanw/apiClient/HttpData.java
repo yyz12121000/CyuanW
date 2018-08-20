@@ -20,6 +20,7 @@ import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
 
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.http.Field;
@@ -56,23 +57,72 @@ public class HttpData extends RetrofitUtils {
     }
 
     //用户登录
-    public void login(String phone, String code, Observer<HttpResult<LoginData>> observer) {
-        Observable observable = service.login(phone, code);
+    public void login(String phone,String code, Observer<HttpResult<LoginData>> observer){
+        Observable observable = service.login(phone,code);
         setSubscribe(observable, observer);
     }
 
-    public void getImgCode(String phone, Observer<HttpResult<ImgData>> observer) {
+    public void getUserInfo(String token,Observer<HttpResult<LoginData>> observer){
+        Observable observable = service.getUserInfo(token);
+        setSubscribe(observable, observer);
+    }
+
+    public void getImgCode(String phone, Observer<HttpResult<ImgData>> observer){
         Observable observable = service.getImgCode(phone);
         setSubscribe(observable, observer);
     }
 
-    public void getValidateCode(String phone, String imgCode, Observer<HttpCodeResult> observer) {
-        Observable observable = service.getValidateCode(phone, imgCode);
+    public void getValidateCode(String phone,String imgCode,Observer<HttpCodeResult> observer){
+        Observable observable = service.getValidateCode(phone,imgCode);
         setSubscribe(observable, observer);
     }
 
-    public void logout(String token, Observer<HttpCodeResult> observer) {
-        Observable observable = service.logout(token, "");
+    public void nameConfirm(String name,String no,String token,Observer<HttpCodeResult> observer){
+        Observable observable = service.nameConfrim(name,no,token);
+        setSubscribe(observable, observer);
+    }
+
+    public void changeSend(String phone,int type,String no,String token,Observer<HttpCodeResult> observer){
+        Observable observable = service.changeSend(phone,type,token);
+        setSubscribe(observable, observer);
+    }
+
+    public void changePhone(String phone,String oldcode,String newcode,String token,Observer<HttpCodeResult> observer){
+        Observable observable = service.changePhone(phone,oldcode,newcode,token);
+        setSubscribe(observable, observer);
+    }
+
+    public void setUserInfo(String name,String token,Observer<HttpCodeResult> observer){
+        Observable observable = null;
+        switch (name){
+            case "gender":
+                observable = service.setGender(name,token);
+                break;
+            case "signature":
+                observable = service.setSignature(name,token);
+                break;
+            case "virtual_number":
+                observable = service.setVirtualNumber(name,token);
+                break;
+        }
+        setSubscribe(observable, observer);
+    }
+
+    public void uploadFile(RequestBody body, int type, Observer<HttpResult<ImgData>> observer){
+        Observable observable = null;
+        switch (type){
+            case 0:
+                observable = service.setPic(body);
+                break;
+            case 1:
+                observable = service.setBgPic(body);
+                break;
+        }
+        setSubscribe(observable, observer);
+    }
+
+    public void logout(String token,Observer<HttpCodeResult> observer){
+        Observable observable = service.logout(token);
         setSubscribe(observable, observer);
     }
 
@@ -80,8 +130,7 @@ public class HttpData extends RetrofitUtils {
         Observable observable = service.getHotLmData();
         setSubscribe(observable, observer);
     }
-
-    public void getAdData(Observer<HttpResult<AdData>> observer) {
+    public void getAdData(Observer<HttpResult<AdData>> observer){
         Observable observable = service.getAdData();
         setSubscribe(observable, observer);
     }
@@ -144,7 +193,6 @@ public class HttpData extends RetrofitUtils {
 
     /**
      * 插入观察者
-     *
      * @param observable
      * @param observer
      * @param <T>

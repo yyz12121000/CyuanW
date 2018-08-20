@@ -35,4 +35,9 @@
         <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
 
+    <style name="Top_bottom">
+        <item name="android:windowEnterAnimation">@anim/top</item>
+        <item name="android:windowExitAnimation">@anim/bottom</item>
+    </style>
+
 </resources>

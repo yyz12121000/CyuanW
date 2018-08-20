@@ -20,8 +20,7 @@
         android:layout_height="32dp"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/id_iv_arrow"
-        android:layout_marginRight="12dp"
-        android:background="#666666"/>
+        android:layout_marginRight="12dp" />
 
     <ImageView
         android:id="@+id/id_iv_arrow"

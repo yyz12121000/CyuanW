@@ -13,6 +13,8 @@ public class Constant {
     public static String KEY_USER_TOKEN = "token";
     public static String KEY_USER_DATA = "userData";
 
+    public static String CONSTANT_CONNECTION_PHONE = "0574-88273310";
+
     public static boolean DEBUG = true;
 
 

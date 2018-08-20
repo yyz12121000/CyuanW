@@ -7,6 +7,7 @@ import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +15,7 @@ import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
 import android.text.TextUtils;
@@ -564,4 +566,10 @@ public class Tools {
 //        Observable observable = Observable.just("").observeOn(Schedulers.io()).map(func1);
 //        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(action1);
 //    }
+
+    public static void openSysPhone(Context context,String phone){
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 }

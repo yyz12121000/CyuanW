@@ -50,6 +50,54 @@ public interface ApiService {
     //注销登录
     @FormUrlEncoded
     @POST("logout")
+    Observable<HttpCodeResult> logout(@Field("token") String token);
+
+    //获取个人信息
+    @FormUrlEncoded
+    @POST("user")
+    Observable<HttpResult<LoginData>> getUserInfo(@Field("token") String token);
+
+    //实名验证
+    @FormUrlEncoded
+    @POST("realNameAuthentication")
+    Observable<HttpCodeResult> nameConfrim(@Field("real_name") String real_name,@Field("id_num") String id_num,@Field("token") String token);
+
+    //修改性别
+    @FormUrlEncoded
+    @POST("setGender")
+    Observable<HttpCodeResult> setGender(@Field("gender") String gender,@Field("token") String token);
+
+    //修改个性签名
+    @FormUrlEncoded
+    @POST("signature")
+    Observable<HttpCodeResult> setSignature(@Field("signature") String signature,@Field("token") String token);
+
+    //修改短号
+    @FormUrlEncoded
+    @POST("setVirtualNumber")
+    Observable<HttpCodeResult> setVirtualNumber(@Field("virtual_number") String virtual_number,@Field("token") String token);
+
+    //修改绑定手机短信验证码
+    @FormUrlEncoded
+    @POST("changeSend")
+    Observable<HttpCodeResult> changeSend(@Field("phone") String phone,@Field("send_type") int type,@Field("token") String token);
+
+    //修改绑定手机
+    @FormUrlEncoded
+    @POST("changePhone")
+    Observable<HttpCodeResult> changePhone(@Field("phone") String phone,@Field("old_code") String oldcode,@Field("new_code") String newcode,@Field("token") String token);
+
+    //修改用户头像
+    @POST("setPic")
+    Observable<HttpResult<ImgData>> setPic(@Body RequestBody Body);
+
+    //修改背景图
+    @POST("BGImage")
+    Observable<HttpResult<ImgData>> setBgPic(@Body RequestBody Body);
+
+    //经纪人认证
+    @POST("certificationBroker")
+    Observable<HttpResult<ImgData>> certificationBroker(@Body RequestBody Body);
     Observable<HttpCodeResult> logout(@Header("token") String token, @Field("token") String empty);
 
     //获取短信验证码

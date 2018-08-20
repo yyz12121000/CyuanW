@@ -113,7 +113,7 @@ public class SettingActivity extends BaseActivity{
 
             @Override
             public void onNext(HttpCodeResult result) {
-                App.set(Constant.KEY_USER_TOKEN,"");
+                //App.set(Constant.KEY_USER_TOKEN,"");
                 if (result.status == 200){
                     App.set(Constant.KEY_USER_ISLOGIN,"");
                     App.set(Constant.KEY_USER_TOKEN,"");

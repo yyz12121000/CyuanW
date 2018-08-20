@@ -24,12 +24,14 @@
             android:textSize="16dp"/>
 
         <EditText
+            android:id="@+id/id_et_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
             android:gravity="center_vertical"
             android:hint="请输入真实姓名"
-            android:textColor="#d9d9d9"
+            android:textColorHint="#d9d9d9"
+            android:textColor="#333333"
             android:textSize="16dp"
             android:background="@android:color/transparent"/>
     </LinearLayout>
@@ -51,12 +53,14 @@
             android:textSize="16dp"/>
 
         <EditText
+            android:id="@+id/id_et_no"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
             android:gravity="center_vertical"
             android:hint="请输入身份证号"
-            android:textColor="#d9d9d9"
+            android:textColorHint="#d9d9d9"
+            android:textColor="#333333"
             android:textSize="16dp"
             android:background="@android:color/transparent"/>
     </LinearLayout>

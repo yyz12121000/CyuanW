@@ -14,10 +14,10 @@ public class Img {
         Glide.with(App.context).load(url)
                 .apply(new RequestOptions()
                         .error(App.context.getResources().getDrawable(R.mipmap.ic_launcher))
-                        .placeholder(R.mipmap.ic_launcher)
+                        .placeholder(R.mipmap.ic_defaultphoto)
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .transform(new GlideCircleTransformWithBorder(App.context, 2, Color.parseColor("#ccffffff")))
+                        .transform(new GlideCircleTransformWithBorder(App.context, 1, Color.parseColor("#ccffffff")))
                 ).into(iv);
     }
 
@@ -26,6 +26,16 @@ public class Img {
                 .apply(new RequestOptions()
                         .error(App.context.getResources().getDrawable(R.mipmap.ic_launcher))
                         .placeholder(R.mipmap.ic_launcher)
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                ).into(iv);
+    }
+
+    public static void loadP(ImageView iv, String url,int defaultPic) {
+        Glide.with(App.context).load(url)
+                .apply(new RequestOptions()
+                        .error(App.context.getResources().getDrawable(defaultPic))
+                        .placeholder(defaultPic)
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                 ).into(iv);

@@ -14,6 +14,7 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/id_iv_bg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
@@ -59,7 +60,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginLeft="12dp"
                     android:layout_toRightOf="@+id/id_iv_persion"
-                    android:text="NO.88888888"
+                    android:text=""
                     android:textColor="#EA6F5A"
                     android:textSize="14dp"/>
                 <ImageView
@@ -150,7 +151,9 @@
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_marginLeft="32dp"
-                android:layout_marginTop="120dp" />
+                android:layout_marginTop="120dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_defaultphoto"/>
             
             <LinearLayout
                 android:layout_width="match_parent"

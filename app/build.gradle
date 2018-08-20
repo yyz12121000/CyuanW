@@ -79,4 +79,6 @@ dependencies {
     implementation 'com.zaaach:citypicker:2.0.2'
     //高德定位
     implementation 'com.amap.api:location:latest.integration'
+   //权限检测
+    implementation 'com.lovedise:permissiongen:0.0.6'
 }
