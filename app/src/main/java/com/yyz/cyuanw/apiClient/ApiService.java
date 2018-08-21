@@ -25,10 +25,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -213,6 +216,21 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("carInfo")
     Observable<HttpResult<Data6>> carInfo(@Field("token") String token, @Field("id") int id);
+    //收藏车源
+    @FormUrlEncoded
+    @POST("collections")
+    Observable<HttpListResult<String>> collections(@Field("token") String token, @Field("car_resources_id") int car_resources_id);
+    //移除收藏
+    @DELETE()
+    Observable<HttpListResult<String>> collections(@Field("token") String token, @Url String url);
+
+
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @HTTP(method = "DELETE",  hasBody = true)
+    @FormUrlEncoded
+    Observable<HttpListResult<String>> rmCollections(@Field("token") String token, @Url String url);
+//    Call<ResultInfo> setNotAttention(@Field("user_id") String user_id, @Field("token") String token, @Field("attu_id") String attu_id, @Field("type") String type);
+
 
 //    //修改密码
 //    @FormUrlEncoded

@@ -14,9 +14,11 @@ import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data6;
+import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
+import com.yyz.cyuanw.tools.ToastUtil;
 import com.yyz.cyuanw.tools.Tools;
 
 import java.util.List;
@@ -30,6 +32,8 @@ public class CyDetailActivity extends BaseActivity {
     TextView title;
     @BindView(R.id.title_right_icon)
     ImageView right_icon;
+    @BindView(R.id.sc_iv)
+    ImageView sc_iv;
 
     @BindView(R.id.title)
     TextView title_;
@@ -57,6 +61,8 @@ public class CyDetailActivity extends BaseActivity {
     TextView csys;
     @BindView(R.id.desc)
     TextView desc;
+    @BindView(R.id.sc_tv)
+    TextView sc_tv;
     @BindView(R.id.imgs)
     LinearLayout imgs;
 
@@ -64,6 +70,7 @@ public class CyDetailActivity extends BaseActivity {
     private int cy_id;
 
     public Banner banner;
+    private Data6 data6;
 
     @Override
     protected int getLayoutId() {
@@ -123,6 +130,17 @@ public class CyDetailActivity extends BaseActivity {
         csys.setText(data6.color);
         desc.setText(data6.describe);
         adapterImgs(data6.images);
+
+        setSc(data6.collection);
+
+    }
+
+    public void setSc(int flag) {
+        if (flag == 1) {//是否收藏 0否 1是
+            sc_tv.setText("取消收藏");
+        } else {
+            sc_tv.setText("收藏该车源");
+        }
     }
 
     private void adapterImgs(List<String> urls) {
@@ -130,7 +148,7 @@ public class CyDetailActivity extends BaseActivity {
         for (int i = 0; i < urls.size(); i++) {
             ImageView iv = new ImageView(this);
             LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Tools.dip2px(this, 240));
-            imgs.addView(iv,llp);
+            imgs.addView(iv, llp);
             Img.load(iv, urls.get(i));
         }
     }
@@ -139,7 +157,14 @@ public class CyDetailActivity extends BaseActivity {
     public void click(View v) {
         switch (v.getId()) {
             case R.id.sc:
-
+                if (null == data6) {
+                    ToastUtil.show(CyDetailActivity.this, "没有找到车源");
+                }
+                if (data6.collection == 1) {
+                    rmCollections(data6.id);
+                } else {
+                    collections(data6.id);
+                }
                 break;
             case R.id.lx:
 
@@ -163,9 +188,60 @@ public class CyDetailActivity extends BaseActivity {
             @Override
             public void onNext(HttpResult<Data6> result) {
                 if (result.status == 200) {
+                    data6 = result.data;
                     setData(result.data);
                 } else {
 
+                }
+            }
+        });
+    }
+
+    public void collections(int car_resources_id) {
+        HttpData.getInstance().collections(car_resources_id, new Observer<HttpListResult<String>>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ToastUtil.show(CyDetailActivity.this, "收藏失败");
+            }
+
+            @Override
+            public void onNext(HttpListResult<String> result) {
+                if (result.status == 200) {
+                    ToastUtil.show(CyDetailActivity.this, "收藏成功！");
+                    data6.collection = 1;
+                    setSc(data6.collection);
+                } else {
+                    ToastUtil.show(CyDetailActivity.this, "收藏失败");
+                }
+            }
+        });
+    }
+
+    public void rmCollections(int car_resources_id) {
+        HttpData.getInstance().rmCollections(car_resources_id, new Observer<HttpListResult<String>>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ToastUtil.show(CyDetailActivity.this, "取消收藏失败");
+            }
+
+            @Override
+            public void onNext(HttpListResult<String> result) {
+                if (result.status == 200) {
+                    ToastUtil.show(CyDetailActivity.this, "取消收藏成功！");
+                    data6.collection = 0;
+                    setSc(data6.collection);
+                } else {
+                    ToastUtil.show(CyDetailActivity.this, "取消收藏失败");
                 }
             }
         });

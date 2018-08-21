@@ -208,6 +208,14 @@ public class HttpData extends RetrofitUtils {
         Observable observable = service.carInfo(App.get(Constant.KEY_USER_TOKEN),id);
         setSubscribe(observable, observer);
     }
+    public void collections(int car_resources_id,Observer<HttpListResult<String>> observer) {
+        Observable observable = service.collections(App.get(Constant.KEY_USER_TOKEN),car_resources_id);
+        setSubscribe(observable, observer);
+    }
+    public void rmCollections(int car_resources_id,Observer<HttpListResult<String>> observer) {
+        Observable observable = service.rmCollections(App.get(Constant.KEY_USER_TOKEN),"collections/"+car_resources_id);
+        setSubscribe(observable, observer);
+    }
     /**
      * 插入观察者
      * @param observable
