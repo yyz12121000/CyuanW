@@ -9,7 +9,7 @@ public class LoginData {
     public String pic;
     public String bg_image;
     public String gender;
-    public String is_broker;
+    public int is_broker;
     public String bind_dealer;
     public String is_adviser;
     public String dealer_manager;
@@ -18,6 +18,7 @@ public class LoginData {
     public String region;
     public String address;
     public String signature;
+    public String virtual_number;
     public int pageviews,badge_number,my_cars,my_shops,my_union;
     public int have_dealer,publish_car,relation_dealer,dealer_car_source,car_source,jump;
     public String token;

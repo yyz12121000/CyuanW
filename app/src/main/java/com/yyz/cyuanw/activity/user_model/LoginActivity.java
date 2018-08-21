@@ -210,7 +210,7 @@ public class LoginActivity extends BaseActivity{
                 if (result.status == 200 && result.data != null){
                     App.set(Constant.KEY_USER_ISLOGIN,"true");
                     App.set(Constant.KEY_USER_TOKEN,result.data.token);
-                    App.set(Constant.KEY_USER_DATA,new Gson().toJson(result.data));
+                    //App.set(Constant.KEY_USER_DATA,new Gson().toJson(result.data));
 
                     finish();
                 }else{

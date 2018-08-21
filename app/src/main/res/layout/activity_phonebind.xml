@@ -14,13 +14,15 @@
         android:background="#ffffff">
 
         <ImageView
+            android:id="@+id/id_iv_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/ic_phoneunbind" />
+            android:background="@mipmap/ic_phonebind" />
 
         <TextView
+            android:id="@+id/id_tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
