@@ -298,7 +298,9 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        int position = getAdapterPosition();
                         Intent intent = new Intent(CyFragment.this.getActivity(), CyDetailActivity.class);
+                        intent.putExtra("id",data.get(position).id);
                         CyFragment.this.getActivity().startActivity(intent);
                     }
                 });

@@ -33,8 +33,8 @@ android {
     buildToolsVersion '28.0.1'
 
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -51,7 +51,6 @@ dependencies {
     implementation 'io.reactivex:rxandroid:1.2.0'
     implementation 'io.reactivex:rxjava:1.1.4'
     /*图片开源库*/
-
     //implementation 'jp.wasabeef:glide-transformations:2.0.2'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.7.1@aar'
@@ -61,7 +60,8 @@ dependencies {
     //    implementation 'me.imid.swipebacklayout.lib:library:1.1.0'
     implementation 'com.android.support:design:28.0.0-beta01'
     //banner
-    implementation 'com.youth.banner:banner:1.4.10'  //最新版本
+    implementation 'com.youth.banner:banner:1.4.10'
+    //最新版本
     //注解
     implementation 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
@@ -79,6 +79,6 @@ dependencies {
     implementation 'com.zaaach:citypicker:2.0.2'
     //高德定位
     implementation 'com.amap.api:location:latest.integration'
-   //权限检测
+    //权限检测
     implementation 'com.lovedise:permissiongen:0.0.6'
 }

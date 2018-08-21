@@ -7,6 +7,7 @@ import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.Data5;
+import com.yyz.cyuanw.bean.Data6;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
@@ -207,6 +208,12 @@ public interface ApiService {
     //搜索筛选参数
     @GET("search_criteria")
     Observable<HttpResult<Data3>> search_criteria(@Query("token") String token);
+
+    //车源详情接口
+    @FormUrlEncoded
+    @POST("carInfo")
+    Observable<HttpResult<Data6>> carInfo(@Field("token") String token, @Field("id") int id);
+
 //    //修改密码
 //    @FormUrlEncoded
 //    @POST("yycs/merchant/inspection/getUpdatePad")
@@ -316,5 +323,4 @@ public interface ApiService {
 //    Observable<HttpListResult<ImagBean>> uploadFile(@Body RequestBody Body);
 
 }
-
 

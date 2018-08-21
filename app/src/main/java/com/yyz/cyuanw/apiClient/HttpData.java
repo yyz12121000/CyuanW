@@ -7,6 +7,7 @@ import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.Data5;
+import com.yyz.cyuanw.bean.Data6;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
@@ -166,7 +167,7 @@ public class HttpData extends RetrofitUtils {
         Observable observable = service.lmcheylist("alliances/" + lm_id + "/cars");
         setSubscribe(observable, observer);
     }
-     public void lmDetail(int lm_id, Observer<HttpResult<LmDetail>> observer) {
+    public void lmDetail(int lm_id, Observer<HttpResult<LmDetail>> observer) {
         Observable observable = service.lmDetail("alliances/" + lm_id);
         setSubscribe(observable, observer);
     }
@@ -203,7 +204,10 @@ public class HttpData extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
-
+    public void carInfo(int id,Observer<HttpResult<Data6>> observer) {
+        Observable observable = service.carInfo(App.get(Constant.KEY_USER_TOKEN),id);
+        setSubscribe(observable, observer);
+    }
     /**
      * 插入观察者
      * @param observable

@@ -13,11 +13,14 @@ import com.zaaach.citypicker.model.HotCity;
 import com.zaaach.citypicker.model.LocateState;
 import com.zaaach.citypicker.model.LocatedCity;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseCityActivity extends BaseActivity {
     private Location location;
+    private String addressJson = "";
 
     @Override
     public void initView() {
@@ -26,6 +29,16 @@ public class ChooseCityActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        try {
+            InputStreamReader inputReader = new InputStreamReader(getResources().getAssets().open("address.txt"));
+            BufferedReader bufReader = new BufferedReader(inputReader);
+            String line = "";
+
+            while ((line = bufReader.readLine()) != null)
+                addressJson += line;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

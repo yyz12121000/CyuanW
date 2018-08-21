@@ -20,14 +20,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <ImageView
+            <com.youth.banner.Banner
+                android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/gaoyuanyuan" />
+                android:layout_height="240dp" />
+
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="9dp"
@@ -39,6 +39,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/bh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="9dp"
@@ -55,6 +56,7 @@
                 android:paddingRight="16dp">
 
                 <TextView
+                    android:id="@+id/jg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="28.96万元"
@@ -62,6 +64,7 @@
                     android:textSize="24sp" />
 
                 <TextView
+                    android:id="@+id/rq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -115,6 +118,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/gl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
@@ -138,6 +142,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/cprq"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
@@ -161,6 +166,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/szd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
@@ -195,6 +201,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/pfbz"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
@@ -220,6 +227,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/bsx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
@@ -243,6 +251,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/pl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
@@ -276,6 +285,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/rylx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
@@ -299,6 +309,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/csys"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
@@ -352,13 +363,13 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述车辆描述"
                 android:textColor="#666666"
                 android:textSize="14sp" />
 
@@ -389,17 +400,13 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <ImageView
+            <LinearLayout
+                android:id="@+id/imgs"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/gaoyuanyuan" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/gaoyuanyuan" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -450,6 +457,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/sc"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_weight="1"
@@ -472,6 +480,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lx"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_weight="1"
