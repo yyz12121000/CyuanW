@@ -1,7 +1,13 @@
 package com.yyz.cyuanw.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,14 +16,17 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.loader.ImageLoader;
+import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data6;
 import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
+import com.yyz.cyuanw.tools.ImageTools;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
+import com.yyz.cyuanw.tools.StringUtil;
 import com.yyz.cyuanw.tools.ToastUtil;
 import com.yyz.cyuanw.tools.Tools;
 
@@ -63,6 +72,10 @@ public class CyDetailActivity extends BaseActivity {
     TextView desc;
     @BindView(R.id.sc_tv)
     TextView sc_tv;
+    @BindView(R.id.see_all_cy)
+    TextView see_all_cy;
+    @BindView(R.id.to_wx)
+    TextView to_wx;
     @BindView(R.id.imgs)
     LinearLayout imgs;
 
@@ -72,9 +85,47 @@ public class CyDetailActivity extends BaseActivity {
     public Banner banner;
     private Data6 data6;
 
+    private Dialog mDialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_cy_detail;
+    }
+
+    public void showImgDialog() {
+        if (mDialog == null) {
+            mDialog = new AlertDialog.Builder(this, R.style.MyDialog).create();
+        }
+        mDialog.show();
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_llcy, null);
+        ViewGroup parent = (ViewGroup) dialogView.getParent();
+        if (parent != null) {
+            parent.removeAllViews();
+        }
+
+        mDialog.setCanceledOnTouchOutside(true);
+        mDialog.getWindow().setContentView(dialogView);
+        mDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        mDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+      /*  ImageView imageView = dialogView.findViewById(R.id.id_iv_code);
+        final EditText codeView = dialogView.findViewById(R.id.id_et_code);
+
+        dialogView.findViewById(R.id.id_iv_close).setOnClickListener(view -> mDialog.dismiss() );
+        imageView.setImageBitmap(ImageTools.base64ToBitmap(imageData));
+        imageView.setOnClickListener(view -> getImgCode(phoneView.getText().toString(),imageView));
+        dialogView.findViewById(R.id.id_tv_submit).setOnClickListener(view -> {
+            String strCode = codeView.getText().toString().trim();
+            if (!StringUtil.isNotNull(strCode)){
+                App.showToast("请输入图形验证码");
+                return;
+            }
+            getValidateCode(phoneView.getText().toString(),strCode);
+            mDialog.dismiss();
+        });*/
+
     }
 
     @Override
@@ -153,7 +204,7 @@ public class CyDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.sc, R.id.lx})
+    @OnClick({R.id.sc, R.id.lx, R.id.see_all_cy, R.id.to_wx})
     public void click(View v) {
         switch (v.getId()) {
             case R.id.sc:
@@ -167,6 +218,12 @@ public class CyDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.lx:
+                showImgDialog();
+                break;
+            case R.id.see_all_cy:
+
+                break;
+            case R.id.to_wx:
 
                 break;
         }
