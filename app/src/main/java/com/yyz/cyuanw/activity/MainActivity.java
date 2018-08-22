@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity {
     private List<android.support.v4.app.Fragment> mFragments;
     private List<String> titleList;
     private ViewPager mViewPager;
-private View search_ll;
+    private View search_ll;
     private TextView left_text;
     private EditText search_text;
     private int index = 0;
@@ -227,6 +227,8 @@ private View search_ll;
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 2:
+                    int sheng_id = data.getIntExtra("sheng_id", 0);
+                    int shi_id = data.getIntExtra("shi_id", 0);
                     String city = data.getStringExtra("city");
                     left_text.setText(city);
                     break;
