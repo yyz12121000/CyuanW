@@ -8,10 +8,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.apiClient.HttpData;
+import com.yyz.cyuanw.bean.HttpListResult;
+import com.yyz.cyuanw.bean.HttpResult;
+import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.tools.Img;
+import com.yyz.cyuanw.tools.LogManager;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Observer;
 
 public class LmDetailDetailEditActivity extends BaseActivity {
     @BindView(R.id.id_tv_title)
@@ -34,6 +40,8 @@ public class LmDetailDetailEditActivity extends BaseActivity {
     public static final int TYPE_CREATE = 1;//创建联盟
     public static final int TYPE_EDIT = 2;//编辑联盟
 
+    private   int type ;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_lm_detail_detail_edit;
@@ -41,7 +49,8 @@ public class LmDetailDetailEditActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        switch (getIntent().getIntExtra(TYPE, -1)) {
+        type = getIntent().getIntExtra(TYPE, -1);
+        switch (type) {
             case 1:
                 setTitle(id_tv_title, "创建联盟");
                 save.setText("创建联盟");
@@ -62,15 +71,18 @@ public class LmDetailDetailEditActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        Intent intent = getIntent();
-        String imgS = intent.getStringExtra("img");
-        String nameS = intent.getStringExtra("name");
-        String descS = intent.getStringExtra("desc");
-        String ewmS = intent.getStringExtra("ewm");
+        if(type == TYPE_EDIT){
+            Intent intent = getIntent();
+            String imgS = intent.getStringExtra("img");
+            String nameS = intent.getStringExtra("name");
+            String descS = intent.getStringExtra("desc");
+            String ewmS = intent.getStringExtra("ewm");
 
-        Img.loadC(img,imgS);
-        edit_name.setText(nameS);
-        desc.setText(descS);
+            Img.loadC(img,imgS);
+            edit_name.setText(nameS);
+            desc.setText(descS);
+        }
+
     }
 
     @OnClick({R.id.save})
@@ -85,5 +97,30 @@ public class LmDetailDetailEditActivity extends BaseActivity {
                 break;
         }
     }
+
+    /*private void submit(){
+            HttpData.getInstance().createLm(0, new Observer<HttpResult<String>>() {
+                @Override
+                public void onCompleted() {
+//                App.showToast("999");
+                }
+
+                @Override
+                public void onError(Throwable e) {
+//                App.showToast("服务器请求超时");
+                    LogManager.e(e.getMessage());
+                }
+
+                @Override
+                public void onNext(HttpResult<String> result) {
+                    if (result.status == 200) {
+                        adapter.vaHolder.myLmListAdapter.setData(result.data);
+                    } else {
+//                    App.showToast(result.message);
+                    }
+                }
+            });
+
+    }*/
 
 }

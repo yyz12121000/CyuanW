@@ -1,12 +1,15 @@
 package com.yyz.cyuanw.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +21,7 @@ import com.youth.banner.Transformer;
 import com.youth.banner.loader.ImageLoader;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.activity.user_model.UserInfoActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data6;
@@ -25,15 +29,19 @@ import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.tools.ImageTools;
 import com.yyz.cyuanw.tools.Img;
+import com.yyz.cyuanw.tools.LQRPhotoSelectUtils;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.tools.StringUtil;
 import com.yyz.cyuanw.tools.ToastUtil;
 import com.yyz.cyuanw.tools.Tools;
+import com.yyz.cyuanw.tools.WX;
+import com.yyz.cyuanw.view.CommonPopupDialog;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import kr.co.namee.permissiongen.PermissionGen;
 import rx.Observer;
 
 public class CyDetailActivity extends BaseActivity {
@@ -72,10 +80,10 @@ public class CyDetailActivity extends BaseActivity {
     TextView desc;
     @BindView(R.id.sc_tv)
     TextView sc_tv;
-    @BindView(R.id.see_all_cy)
-    TextView see_all_cy;
-    @BindView(R.id.to_wx)
-    TextView to_wx;
+    /*  @BindView(R.id.see_all_cy)
+      TextView see_all_cy;
+      @BindView(R.id.to_wx)
+      TextView to_wx;*/
     @BindView(R.id.imgs)
     LinearLayout imgs;
 
@@ -86,6 +94,8 @@ public class CyDetailActivity extends BaseActivity {
     private Data6 data6;
 
     private Dialog mDialog;
+
+    private WX wx;
 
     @Override
     protected int getLayoutId() {
@@ -140,6 +150,8 @@ public class CyDetailActivity extends BaseActivity {
                 Img.load(imageView, path.toString());
             }
         });
+
+        wx = new WX();
 
     }
 
@@ -204,7 +216,7 @@ public class CyDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.sc, R.id.lx, R.id.see_all_cy, R.id.to_wx})
+    @OnClick({R.id.sc, R.id.lx, /*R.id.see_all_cy, R.id.to_wx,*/ R.id.title_right_icon})
     public void click(View v) {
         switch (v.getId()) {
             case R.id.sc:
@@ -220,11 +232,14 @@ public class CyDetailActivity extends BaseActivity {
             case R.id.lx:
                 showImgDialog();
                 break;
-            case R.id.see_all_cy:
+          /*  case R.id.see_all_cy:
 
                 break;
             case R.id.to_wx:
 
+                break;*/
+            case R.id.title_right_icon:
+                showPopupDialog();
                 break;
         }
     }
@@ -302,5 +317,43 @@ public class CyDetailActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+
+    private View popupDialogView;
+    private CommonPopupDialog mPopupDialog;
+
+    public void showPopupDialog() {
+        if (null == data6){
+            ToastUtil.show(this,"没找到车源数据");
+            return;
+        }
+        if (popupDialogView == null) {
+            popupDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_share_wx, null);
+
+            popupDialogView.findViewById(R.id.id_root_view).setOnClickListener(view -> mPopupDialog.dismiss());
+
+
+            popupDialogView.findViewById(R.id.wx_1).setOnClickListener(view -> {
+                wx.share(false, data6.share_info.title, data6.share_info.content,  data6.share_info.img, data6.share_info.url);
+                mPopupDialog.dismiss();
+            });
+
+            popupDialogView.findViewById(R.id.wx_2).setOnClickListener(view -> {
+                wx.share(true,  data6.share_info.title, data6.share_info.content,  data6.share_info.img, data6.share_info.url);
+                mPopupDialog.dismiss();
+            });
+        }
+
+        if (mPopupDialog == null) {
+            mPopupDialog = new CommonPopupDialog(this, android.R.style.Theme_Panel);
+            mPopupDialog.setCanceledOnTouchOutside(true);
+            mPopupDialog.setContentView(popupDialogView);
+        }
+
+
+        mPopupDialog.showAtLocation(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0,
+                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+
     }
 }
