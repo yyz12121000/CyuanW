@@ -42,9 +42,11 @@
                 android:textSize="16dp" />
 
             <ImageView
+                android:id="@+id/is_leader"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
-                android:src="@mipmap/icon_1" />
+                android:src="@mipmap/icon_1"
+                android:visibility="gone" />
 
         </LinearLayout>
 

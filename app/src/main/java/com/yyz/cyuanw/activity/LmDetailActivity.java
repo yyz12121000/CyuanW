@@ -165,6 +165,7 @@ public class LmDetailActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(LmDetailActivity.this, LmMemberActivity.class);
+                        intent.putExtra("lm_id",lm_id);
                         startActivity(intent);
                     }
                 });

@@ -147,6 +147,16 @@ public interface ApiService {
     @GET
     Observable<HttpResult<LmDetail>> lmDetail(@Url String url);
 
+
+    @FormUrlEncoded
+    @POST
+    Observable<HttpListResult<String>> cancel_administrator(@Url String url, @Field("token") String token);
+
+   @FormUrlEncoded
+    @POST
+    Observable<HttpListResult<String>> set_administrator(@Url String url, @Field("token") String token);
+
+
     //车源列表
     @FormUrlEncoded
     @POST("shareList")
