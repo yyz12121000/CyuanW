@@ -53,6 +53,7 @@ public class LmMemberActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LmMemberActivity.this, LmMemberJoinActivity.class);
+                intent.putExtra("lm_id",lm_id);
                 startActivity(intent);
             }
         });
@@ -69,7 +70,7 @@ public class LmMemberActivity extends BaseActivity {
     }
 
     private class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private List<CyData> dataList = new ArrayList();
+        public List<CyData> dataList = new ArrayList();
 
         @Override
         public int getItemViewType(int position) {
@@ -154,7 +155,7 @@ public class LmMemberActivity extends BaseActivity {
                         }
                         break;
                     case R.id.delete:
-                        ToastUtil.show(LmMemberActivity.this, "删除");
+                        delete_alliances(cyData);
                         break;
                 }
             }
@@ -201,6 +202,27 @@ public class LmMemberActivity extends BaseActivity {
             public void onNext(HttpListResult result) {
                 if (result.status == 200) {
                     cyData.is_administrator = 0;
+                    adapter.notifyDataSetChanged();
+                }
+                ToastUtil.show(LmMemberActivity.this, result.message);
+            }
+        });
+    } private void delete_alliances(CyData cyData) {
+        HttpData.getInstance().delete_alliances(lm_id, cyData.user.id, new Observer<HttpListResult>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                LogManager.e(e.getMessage());
+            }
+
+            @Override
+            public void onNext(HttpListResult result) {
+                if (result.status == 200) {
+                  adapter.dataList.remove(cyData);
                     adapter.notifyDataSetChanged();
                 }
                 ToastUtil.show(LmMemberActivity.this, result.message);

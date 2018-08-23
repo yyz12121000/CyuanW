@@ -5,6 +5,7 @@ import com.yyz.cyuanw.bean.AdData;
 import com.yyz.cyuanw.bean.CheyListData;
 import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.Data1;
+import com.yyz.cyuanw.bean.Data10;
 import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.Data5;
 import com.yyz.cyuanw.bean.Data6;
@@ -221,6 +222,9 @@ public interface ApiService {
     //搜索筛选参数
     @GET("search_criteria")
     Observable<HttpResult<Data3>> search_criteria(@Query("token") String token);
+    //加入申请会员列表
+    @GET()
+    Observable<HttpResult<Data10>> apply_join_users(@Url String url, @Query("token") String token);
 
     //车源详情接口
     @FormUrlEncoded
@@ -239,7 +243,17 @@ public interface ApiService {
     @HTTP(method = "DELETE",  hasBody = true)
     @FormUrlEncoded
     Observable<HttpListResult<String>> rmCollections(@Field("token") String token, @Url String url);
-//    Call<ResultInfo> setNotAttention(@Field("user_id") String user_id, @Field("token") String token, @Field("attu_id") String attu_id, @Field("type") String type);
+
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @HTTP(method = "DELETE",  hasBody = true)
+    @FormUrlEncoded
+    Observable<HttpListResult> delete_alliances(@Field("token") String token, @Url String url);
+
+
+    //审核会员加入申请
+    @FormUrlEncoded
+    @POST()
+    Observable<HttpListResult<String>> audit_apply(@Url String url,@Field("is_pass") int is_pass,@Field("token") String token);
 
 
 //    //修改密码

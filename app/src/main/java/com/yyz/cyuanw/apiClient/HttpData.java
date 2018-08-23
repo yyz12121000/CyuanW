@@ -5,6 +5,7 @@ import com.yyz.cyuanw.bean.AdData;
 import com.yyz.cyuanw.bean.CheyListData;
 import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.Data1;
+import com.yyz.cyuanw.bean.Data10;
 import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.Data5;
 import com.yyz.cyuanw.bean.Data6;
@@ -222,6 +223,19 @@ public class HttpData extends RetrofitUtils {
     }
     public void rmCollections(int car_resources_id,Observer<HttpListResult<String>> observer) {
         Observable observable = service.rmCollections(App.get(Constant.KEY_USER_TOKEN),"collections/"+car_resources_id);
+        setSubscribe(observable, observer);
+    }
+
+    public void delete_alliances(int alliance_id,int delete_user_id,Observer<HttpListResult> observer) {
+        Observable observable = service.delete_alliances(App.get(Constant.KEY_USER_TOKEN),"alliances/"+alliance_id+"/users/"+delete_user_id);
+        setSubscribe(observable, observer);
+    }
+    public void apply_join_users(int alliance_id,Observer<HttpResult<Data10>> observer) {
+        Observable observable = service.apply_join_users("alliances/"+alliance_id+"/apply_join_users",App.get(Constant.KEY_USER_TOKEN));
+        setSubscribe(observable, observer);
+    }
+    public void audit_apply(int alliance_id,int apply_user_id,int is_pass,Observer<HttpResult<Data10>> observer) {
+        Observable observable = service.audit_apply("alliances/"+alliance_id+"/audit_apply/"+apply_user_id,is_pass,App.get(Constant.KEY_USER_TOKEN));
         setSubscribe(observable, observer);
     }
     /**
