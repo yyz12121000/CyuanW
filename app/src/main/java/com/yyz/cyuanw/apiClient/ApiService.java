@@ -161,7 +161,12 @@ public interface ApiService {
     //车源列表
     @FormUrlEncoded
     @POST("shareList")
-    Observable<HttpResult<Data1>> searchCy(@Field("source") int source,
+    Observable<HttpResult<Data1>> searchCy(
+                                           @Field("province_id") int province_id,
+                                           @Field("city_id") int city_id,
+                                           @Field("region_id") int region_id,
+
+                                           @Field("source") int source,
                                            @Field("order") int order,
                                            @Field("min_price") int min_price,
                                            @Field("max_price") int max_price,

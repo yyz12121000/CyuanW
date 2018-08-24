@@ -294,6 +294,16 @@ public class LmFragment extends Fragment {
                         startActivity(intent);
                     }
                 });
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int position = getAdapterPosition();
+                        LmData lmData = dataList.get(position);
+                        if (lmData.join_status == 1) {//1未加入
+                            apply_join(lmData.id);
+                        }
+                    }
+                });
             }
 
             public void setData() {
@@ -361,6 +371,30 @@ public class LmFragment extends Fragment {
         });
     }
 
+    private void apply_join(int id) {
+        HttpData.getInstance().apply_join(id, new Observer<HttpListResult>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+//                App.showToast("服务器请求超时");
+                LogManager.e(e.getMessage());
+            }
+
+            @Override
+            public void onNext(HttpListResult result) {
+                if (result.status == 200) {
+
+                } else {
+//                    App.showToast(result.message);
+                }
+                ToastUtil.show(getContext(), result.message);
+            }
+        });
+    }
     //我的所有联盟
     public void loadLmAllList() {
         HttpData.getInstance().getLmMyList(0, new Observer<HttpListResult<LmMyListData>>() {

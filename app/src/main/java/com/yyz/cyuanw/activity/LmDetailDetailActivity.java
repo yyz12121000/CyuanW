@@ -1,7 +1,13 @@
 package com.yyz.cyuanw.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,10 +30,14 @@ public class LmDetailDetailActivity extends BaseActivity {
     TextView name;
     @BindView(R.id.desc)
     TextView desc;
+    @BindView(R.id.exit)
+    TextView exit;
     @BindView(R.id.cjr)
     TextView cjr;
     @BindView(R.id.address)
     TextView address;
+    @BindView(R.id.edit)
+    TextView edit;
     @BindView(R.id.img)
     ImageView img;
     @BindView(R.id.ewm)
@@ -36,7 +46,7 @@ public class LmDetailDetailActivity extends BaseActivity {
     private int lm_id;
 
     LmDetail lmDetail;
-
+    private Dialog mDialog;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_lm_detail_detail;
@@ -48,7 +58,32 @@ public class LmDetailDetailActivity extends BaseActivity {
         setTitle(id_tv_title, "联盟详情");
 
     }
+    public void showHintDialog() {
+        if (mDialog == null) {
+            mDialog = new AlertDialog.Builder(this, R.style.MyDialog).create();
+        }
+        mDialog.show();
 
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_lm_hint_1, null);
+        ViewGroup parent = (ViewGroup) dialogView.getParent();
+        if (parent != null) {
+            parent.removeAllViews();
+        }
+
+        mDialog.setCanceledOnTouchOutside(true);
+        mDialog.getWindow().setContentView(dialogView);
+        mDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        mDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        dialogView.findViewById(R.id.know).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDialog.dismiss();
+            }
+        });
+
+    }
     @Override
     public void initData() {
         int lm_id = getIntent().getIntExtra("id", -1);
@@ -58,7 +93,7 @@ public class LmDetailDetailActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.edit})
+    @OnClick({R.id.edit,R.id.exit})
     public void click(View view) {
         switch (view.getId()) {
             case R.id.edit:
@@ -70,6 +105,9 @@ public class LmDetailDetailActivity extends BaseActivity {
 //                intent.putExtra("address",lmDetail.logo);
                 intent.putExtra(LmDetailDetailEditActivity.TYPE, LmDetailDetailEditActivity.TYPE_EDIT);
                 startActivity(intent);
+                break;
+            case R.id.exit:
+                showHintDialog();
                 break;
         }
     }
@@ -98,6 +136,15 @@ public class LmDetailDetailActivity extends BaseActivity {
                     cjr.setText(lmDetail.leader.real_name);
                     Img.loadC(ewm, lmDetail.qr_code);
                     address.setText(lmDetail.province_id + " " + lmDetail.city_id + " " + lmDetail.region_id);
+
+                    if (lmDetail.audit_status == 1)//审核状态 1未通过 2已通过
+                    {
+                        edit.setText("审核中");
+                        edit.setBackgroundColor(Color.parseColor("#D9D9D9"));
+                    }else {
+                        exit.setVisibility(View.VISIBLE);
+                    }
+
                 } else {
 //                    App.showToast(result.message);
                 }

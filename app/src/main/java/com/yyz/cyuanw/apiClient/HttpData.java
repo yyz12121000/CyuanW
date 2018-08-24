@@ -180,9 +180,9 @@ public class HttpData extends RetrofitUtils {
         Observable observable = service.set_administrator("alliances/set_administrator/" + lm_id+"/"+set_user_id,App.get(Constant.KEY_USER_TOKEN));
         setSubscribe(observable, observer);
     }
-    public void searchCy(int source,int order,int min_price,int max_price,int brand_id,int series_id,int color,int gearbox, int emission_standard ,
+    public void searchCy(int province_id,int city_id,int region_id,int source,int order,int min_price,int max_price,int brand_id,int series_id,int color,int gearbox, int emission_standard ,
                          int  fuel_type ,int  min_year ,int  max_year , int min_mileage, int max_mileage,String key_word,Observer<HttpResult<Data1>> observer) {
-        Observable observable = service.searchCy(source,order,min_price,max_price,brand_id,series_id,color,gearbox, emission_standard , fuel_type ,
+        Observable observable = service.searchCy(province_id,city_id,region_id,source,order,min_price,max_price,brand_id,series_id,color,gearbox, emission_standard , fuel_type ,
                 min_year , max_year , min_mileage, max_mileage,key_word,0,App.get(Constant.KEY_USER_TOKEN));
         setSubscribe(observable, observer);
     }

@@ -189,5 +189,6 @@
         android:paddingBottom="24dp"
         android:text="申请退出联盟"
         android:textColor="#666666"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="gone" />
 </RelativeLayout>

@@ -300,7 +300,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                     public void onClick(View view) {
                         int position = getAdapterPosition();
                         Intent intent = new Intent(CyFragment.this.getActivity(), CyDetailActivity.class);
-                        intent.putExtra("id",data.get(position).id);
+                        intent.putExtra("id", data.get(position).id);
                         CyFragment.this.getActivity().startActivity(intent);
                     }
                 });
@@ -345,8 +345,15 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         searchCy();
     }
 
+    public void doSearchByAdress(int province_id,int city_id) {
+        this.province_id = province_id;//省份ID
+        this.city_id = city_id;//城市ID
+//        this.region_id = 0;//地区ID
+        searchCy();
+    }
+
     public void searchCy() {
-        HttpData.getInstance().searchCy(source, order, min_price, max_price, brand_id, series_id, color, gearbox, emission_standard, fuel_type, min_year, max_year, min_mileage, max_mileage, key_word, new Observer<HttpResult<Data1>>() {
+        HttpData.getInstance().searchCy(province_id,city_id,region_id,source, order, min_price, max_price, brand_id, series_id, color, gearbox, emission_standard, fuel_type, min_year, max_year, min_mileage, max_mileage, key_word, new Observer<HttpResult<Data1>>() {
             @Override
             public void onCompleted() {
 //                App.showToast("999");

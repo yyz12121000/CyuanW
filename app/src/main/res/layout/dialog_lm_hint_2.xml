@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="52dp"
+        android:layout_marginRight="52dp"
+        android:background="@drawable/bg_login_code"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:text="亲爱的车缘家人："
+            android:textColor="#333333"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="           您退出联盟，需要盟主与所有联盟成员达成一致，当协商一致后，由盟主操作您的退出联盟请求，也可通过【我的】 - 【帮助中心】与客服取得联系，平台收到申请后，会及时核实确认，由平台完成您的退出申请。"
+            android:textColor="#666666"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="         您退出该联盟后，在我的联盟中就无该联盟，并且您的商铺无法读取到该联盟中的共享车源。"
+            android:textColor="#333333"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="          请谨慎处理该操作，如有疑虑，请及时与客服联系。"
+            android:textColor="#EA6F5A"
+            android:textSize="14dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="#EA6F5A"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/know"
+                android:layout_width="140dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bt_bg_3"
+                android:gravity="center"
+                android:text="车辆来源"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

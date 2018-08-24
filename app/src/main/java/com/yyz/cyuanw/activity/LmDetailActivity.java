@@ -1,5 +1,7 @@
 package com.yyz.cyuanw.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,6 +47,7 @@ public class LmDetailActivity extends BaseActivity {
     Button bottom_bt;
 
     private ListAdapter adapter;
+
 
     @Override
     protected int getLayoutId() {
@@ -263,6 +267,7 @@ public class LmDetailActivity extends BaseActivity {
 //            adapter.stopBanner();
         }
     }
+
     private void apply_join(int id) {
         HttpData.getInstance().apply_join(id, new Observer<HttpListResult>() {
             @Override
@@ -283,10 +288,11 @@ public class LmDetailActivity extends BaseActivity {
                 } else {
 //                    App.showToast(result.message);
                 }
-                ToastUtil.show(LmDetailActivity.this,result.message);
+                ToastUtil.show(LmDetailActivity.this, result.message);
             }
         });
     }
+
     private void loadCyList(int id) {
         HttpData.getInstance().lmcylist(id, new Observer<HttpResult<CyListData>>() {
             @Override

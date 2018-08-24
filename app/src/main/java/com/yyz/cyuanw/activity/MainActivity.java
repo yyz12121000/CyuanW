@@ -231,6 +231,7 @@ public class MainActivity extends BaseActivity {
                     int shi_id = data.getIntExtra("shi_id", 0);
                     String city = data.getStringExtra("city");
                     left_text.setText(city);
+                    ((CyFragment) mFragments.get(1)).doSearchByAdress(sheng_id,shi_id);
                     break;
             }
         }
