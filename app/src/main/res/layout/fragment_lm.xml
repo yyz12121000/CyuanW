@@ -4,8 +4,16 @@
     android:layout_height="match_parent"
     android:background="#ffffff">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
+    <com.yyz.cyuanw.view.PullRV
+        android:id="@+id/ptr_class"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.yyz.cyuanw.view.PullRV>
+
+
 </RelativeLayout>

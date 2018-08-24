@@ -238,6 +238,10 @@ public class HttpData extends RetrofitUtils {
         Observable observable = service.audit_apply("alliances/"+alliance_id+"/audit_apply/"+apply_user_id,is_pass,App.get(Constant.KEY_USER_TOKEN));
         setSubscribe(observable, observer);
     }
+    public void apply_join(int alliance_id,Observer<HttpListResult> observer) {
+        Observable observable = service.apply_join("alliances/"+alliance_id+"/apply_join",App.get(Constant.KEY_USER_TOKEN));
+        setSubscribe(observable, observer);
+    }
     /**
      * 插入观察者
      * @param observable

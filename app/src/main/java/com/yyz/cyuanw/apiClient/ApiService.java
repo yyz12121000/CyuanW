@@ -255,6 +255,11 @@ public interface ApiService {
     @POST()
     Observable<HttpListResult<String>> audit_apply(@Url String url,@Field("is_pass") int is_pass,@Field("token") String token);
 
+    //申请加入联盟
+    @FormUrlEncoded
+    @POST()
+    Observable<HttpListResult> apply_join(@Url String url,@Field("token") String token);
+
 
 //    //修改密码
 //    @FormUrlEncoded

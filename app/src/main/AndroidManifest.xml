@@ -37,6 +37,7 @@
     <!--用于申请获取蓝牙信息进行室内定位-->
     <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
         android:name=".App"
@@ -96,6 +97,8 @@
         <activity android:name=".activity.ListChooseActivity"/>
 
         <activity android:name=".activity.ListCityChooseActivity"/>
+
+        <activity android:name=".oss.sample.customprovider.AuthTestActivity"/>
 
         <meta-data android:name="com.amap.api.v2.apikey" android:value="e842a2da67058a7677c44b4ec4de18a4"></meta-data>
         <service android:name="com.amap.api.location.APSService"></service>

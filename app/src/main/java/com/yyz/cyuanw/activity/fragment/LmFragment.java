@@ -3,6 +3,7 @@ package com.yyz.cyuanw.activity.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chanven.lib.cptr.PtrClassicFrameLayout;
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.PtrFrameLayout;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.LmDetailActivity;
 import com.yyz.cyuanw.activity.LmDetailDetailEditActivity;
@@ -24,9 +30,12 @@ import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.LmData;
 import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
+import com.yyz.cyuanw.oss.sample.customprovider.AuthTestActivity;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.tools.ToastUtil;
+import com.yyz.cyuanw.view.PullRV;
+import com.yyz.cyuanw.view.RecyclerAdapterWithHF;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +48,9 @@ public class LmFragment extends Fragment {
 
     private ListAdapter adapter;
 
+    RecyclerAdapterWithHF mAdapterWithHF;//第三方的适配器，我觉得是进行刷新和加载而设置的
+    PullRV pullRV;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,18 +62,45 @@ public class LmFragment extends Fragment {
     }
 
     private void init(View view) {
-
-
+        pullRV = (PullRV) view.findViewById(R.id.ptr_class);
+        pullRV.setLoadMoreEnable(false);
         list = view.findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new LmFragment.ListAdapter();
-        list.setAdapter(adapter);
+//        list.setAdapter(adapter);
+
+        mAdapterWithHF = new RecyclerAdapterWithHF(adapter);//自带的适配器,带刷新和加载
+        list.setAdapter(mAdapterWithHF);
+        initListener();
 
         adapter.setMyLmData(new ArrayList<LmMyListData>());
 
-        loadLmList();
         loadLmAllList();
         loadLmMyList();
+    }
+
+    private void initListener() {
+        //进入Activity就进行自动下拉刷新
+        pullRV.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pullRV.autoRefresh();
+            }
+        }, 100);
+        //下拉刷新
+        pullRV.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                loadLmList(true, pullRV.page = 1);
+            }
+        });
+        //上拉加载
+        pullRV.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void loadMore() {
+                loadLmList(false, ++pullRV.page);
+            }
+        });
     }
 
     private class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -85,6 +124,11 @@ public class LmFragment extends Fragment {
             if (null == dataList) return;
             this.dataList.clear();
             this.dataList.add(null);
+            this.dataList.addAll(dataList);
+            notifyDataSetChanged();
+        }
+        public void appendData(List<LmData> dataList) {
+            if (null == dataList) return;
             this.dataList.addAll(dataList);
             notifyDataSetChanged();
         }
@@ -191,6 +235,9 @@ public class LmFragment extends Fragment {
                             public void onClick(View view) {
                                 int position = getAdapterPosition();
                                 if (position == 0) {
+
+//                                    startActivity(new Intent(getActivity(), AuthTestActivity.class));
+
                                     Intent intent = new Intent(LmFragment.this.getActivity(), LmDetailDetailEditActivity.class);
                                     intent.putExtra(LmDetailDetailEditActivity.TYPE, LmDetailDetailEditActivity.TYPE_CREATE);
                                     startActivity(intent);
@@ -280,11 +327,11 @@ public class LmFragment extends Fragment {
 
     public void doSearch(String key_word) {
         this.key_word = key_word;
-        loadLmList();
+        loadLmList(true, pullRV.page = 1);
     }
 
-    public void loadLmList() {
-        HttpData.getInstance().getLmList(key_word, 1, new Observer<HttpResult<LmListData>>() {
+    public void loadLmList(boolean isRefesh, int page) {
+        HttpData.getInstance().getLmList(key_word, page, new Observer<HttpResult<LmListData>>() {
             @Override
             public void onCompleted() {
 //                App.showToast("999");
@@ -299,7 +346,14 @@ public class LmFragment extends Fragment {
             @Override
             public void onNext(HttpResult<LmListData> result) {
                 if (result.status == 200) {
-                    adapter.setData(result.data.data);
+                    if (isRefesh) {
+                        adapter.setData(result.data.data);
+                        pullRV.refreshFinish(result.data.last_page);
+                    } else {
+                        adapter.appendData(result.data.data);
+                        pullRV.checkhasMore(result.data.last_page);
+                    }
+
                 } else {
 //                    App.showToast(result.message);
                 }

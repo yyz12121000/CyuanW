@@ -7,9 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.CheyData;
@@ -20,8 +22,10 @@ import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
+import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
+import com.yyz.cyuanw.tools.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,8 @@ public class LmDetailActivity extends BaseActivity {
     TextView id_tv_title;
     @BindView(R.id.list)
     RecyclerView list;
+    @BindView(R.id.bottom_bt)
+    Button bottom_bt;
 
     private ListAdapter adapter;
 
@@ -46,14 +52,21 @@ public class LmDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        title_right_icon.setVisibility(View.VISIBLE);
-        title_right_icon.setImageResource(R.mipmap.ing_35);
+//        title_right_icon.setVisibility(View.VISIBLE);
+//        title_right_icon.setImageResource(R.mipmap.ing_35);
         setTitle(id_tv_title, "联盟主页");
 
 
         list.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ListAdapter();
         list.setAdapter(adapter);
+
+        bottom_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                apply_join(lm_id);
+            }
+        });
     }
 
     private int lm_id;
@@ -76,7 +89,9 @@ public class LmDetailActivity extends BaseActivity {
             }
         });
 
-
+        if (!"true".equals(App.get(Constant.KEY_USER_ISLOGIN))) {//没登陆
+            bottom_bt.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -165,7 +180,7 @@ public class LmDetailActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(LmDetailActivity.this, LmMemberActivity.class);
-                        intent.putExtra("lm_id",lm_id);
+                        intent.putExtra("lm_id", lm_id);
                         startActivity(intent);
                     }
                 });
@@ -248,7 +263,30 @@ public class LmDetailActivity extends BaseActivity {
 //            adapter.stopBanner();
         }
     }
+    private void apply_join(int id) {
+        HttpData.getInstance().apply_join(id, new Observer<HttpListResult>() {
+            @Override
+            public void onCompleted() {
+//                App.showToast("999");
+            }
 
+            @Override
+            public void onError(Throwable e) {
+//                App.showToast("服务器请求超时");
+                LogManager.e(e.getMessage());
+            }
+
+            @Override
+            public void onNext(HttpListResult result) {
+                if (result.status == 200) {
+
+                } else {
+//                    App.showToast(result.message);
+                }
+                ToastUtil.show(LmDetailActivity.this,result.message);
+            }
+        });
+    }
     private void loadCyList(int id) {
         HttpData.getInstance().lmcylist(id, new Observer<HttpResult<CyListData>>() {
             @Override

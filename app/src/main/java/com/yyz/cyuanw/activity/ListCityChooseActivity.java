@@ -49,7 +49,7 @@ public class ListCityChooseActivity extends BaseActivity {
 
         datas = dbManager.getCityByShengId(id);
 
-        setTitle(titleView, getIntent().getStringExtra("title"));
+        setTitle(titleView, getIntent().getStringExtra("sheng_name"));
         adapter.notifyDataSetChanged();
     }
 

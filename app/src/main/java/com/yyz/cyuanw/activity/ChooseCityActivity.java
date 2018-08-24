@@ -63,19 +63,19 @@ public class ChooseCityActivity extends BaseActivity {
                         if (null != data) {
                             if (position == 0) {
                                 Data9 sheng = dbManager.findLocationCity(data.getName());
-
-
                                 Intent intent = getIntent();
+                                intent.putExtra("sheng_name", sheng.name);
                                 intent.putExtra("sheng_id", sheng.id);
                                 intent.putExtra("shi_id", sheng.son.get(0).id);
                                 intent.putExtra("city", sheng.son.get(0).name);
                                 setResult(RESULT_OK, intent);
                                 finish();
                             } else {
-                                Intent intent = new Intent(ChooseCityActivity.this, ListCityChooseActivity.class);
                                 sheng_id = Integer.parseInt(data.getCode());
+
+                                Intent intent = new Intent(ChooseCityActivity.this, ListCityChooseActivity.class);
                                 intent.putExtra("sheng_id", sheng_id);
-                                intent.putExtra("title", data.getName());
+                                intent.putExtra("sheng_name", data.getName());
                                 startActivityForResult(intent, 2);
                             }
                         }

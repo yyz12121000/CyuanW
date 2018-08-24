@@ -1,6 +1,7 @@
 package com.yyz.cyuanw.activity;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -85,7 +86,7 @@ public class LmDetailDetailEditActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.save})
+    @OnClick({R.id.save,R.id.address})
     public void onClickEvent(View view){
         switch (view.getId()){
             case R.id.save:
@@ -95,9 +96,27 @@ public class LmDetailDetailEditActivity extends BaseActivity {
 
                 }
                 break;
+            case R.id.address:
+                Intent intent = new Intent(this, ChooseCityActivity.class);
+                startActivityForResult(intent, 2);
+                break;
         }
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 2:
+                    String sheng_name = data.getStringExtra("sheng_name");
+                    int sheng_id = data.getIntExtra("sheng_id", 0);
+                    int shi_id = data.getIntExtra("shi_id", 0);
+                    String city = data.getStringExtra("city");
+                    address.setText(sheng_name + " " +city);
+                    break;
+            }
+        }
+    }
     /*private void submit(){
             HttpData.getInstance().createLm(0, new Observer<HttpResult<String>>() {
                 @Override
