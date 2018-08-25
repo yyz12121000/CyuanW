@@ -2,6 +2,7 @@ package com.yyz.cyuanw.bean;
 
 public class LoginData {
 
+    public int id;
     public String phone;
     public String name;
     public String nickname;

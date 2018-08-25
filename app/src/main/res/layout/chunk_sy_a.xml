@@ -275,7 +275,8 @@
                 android:layout_marginRight="16dp"
                 android:text="查看更多"
                 android:textColor="#EA6F5A"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <include

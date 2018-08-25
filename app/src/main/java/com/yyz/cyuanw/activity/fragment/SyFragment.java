@@ -285,7 +285,9 @@ public class SyFragment extends Fragment {
                 JjrData jjrData = dataList.get(position);
                 Img.loadC(tx, jjrData.profile_picture);
                 name.setText(jjrData.real_name);
-                bh.setText(jjrData.broker_number);
+                if (!TextUtils.isEmpty(jjrData.broker_number)){
+                    bh.setText("编号："+jjrData.broker_number);
+                }
                 tv_sp.setText(jjrData.bind_dealer);
                 tc.setText(jjrData.signature);
 
