@@ -5,7 +5,7 @@
     android:background="#ffffff">
 
     <com.yyz.cyuanw.view.PullRV
-        android:id="@+id/ptr_class"
+        android:id="@+id/xrefreshview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

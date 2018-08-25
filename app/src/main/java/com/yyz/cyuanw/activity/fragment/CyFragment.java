@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.andview.refreshview.XRefreshView;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.CyDetailActivity;
 import com.yyz.cyuanw.activity.GdsxActivity;
@@ -23,22 +24,16 @@ import com.yyz.cyuanw.adapter.IOnListItemClickListenner;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data2;
-import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.view.JgqjPopuwindow;
 import com.yyz.cyuanw.view.ListPopuwindow;
-import com.yyz.cyuanw.view.sortrecyclerview.PinyinUtils;
-import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.yyz.cyuanw.view.PullRV;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Response;
 import rx.Observer;
 
 public class CyFragment extends Fragment implements View.OnClickListener, PopupWindow.OnDismissListener {
@@ -70,9 +65,10 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     private int min_mileage = 0;//最低里程 (默认0)
     private int max_year = 0;//最高车龄 (默认0)
     private int min_year = 0;//最低车龄 (默认0)
-    private int page = 1;//页码 从1开始 默认第一页
+//    private int page = 1;//页码 从1开始 默认第一页
 
 
+    PullRV pullRV;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -116,13 +112,32 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         adapter = new CyFragment.ListAdapter();
         list.setAdapter(adapter);
 
+        pullRV = view.findViewById(R.id.xrefreshview);
+        pullRV.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pullRV.startRefresh();
+            }
+        }, 500);
+        pullRV.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
+            @Override
+            public void onRefresh(boolean isPullDown) {
+                searchCy(true, pullRV.page = 1);
+            }
+
+            @Override
+            public void onLoadMore(boolean isSilence) {
+                searchCy(false, ++pullRV.page);
+            }
+        });
+
         cyPopuwindow.setItemListenner(new IOnListItemClickListenner() {
             @Override
             public void onItemClick(int position, String text) {
 //               source = 0;//车源来源 0全部 1 批发 2 急售 3 新车
                 tv_1.setText(text);
                 source = position;
-                searchCy();
+                searchCy(true, pullRV.page = 1);
             }
         });
         pxPopuwindow.setItemListenner(new IOnListItemClickListenner() {
@@ -131,7 +146,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 tv_2.setText(text);
 //                order = 0;//排序 0默认排序 1价格最低 2价格最高 3 车龄最短 4里程最少
                 order = position;
-                searchCy();
+                searchCy(true, pullRV.page = 1);
             }
         });
         jgqjPopuwindow.setItemListenner(new IOnListItemClickListenner() {
@@ -141,20 +156,13 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
 //                private int min_price = 0;//最低价 (默认0)
                 min_price = a;
                 max_price = b;
-                searchCy();
+                searchCy(true, pullRV.page = 1);
             }
         });
         cyPopuwindow.setOnDismissListener(this);
         pxPopuwindow.setOnDismissListener(this);
         jgqjPopuwindow.setOnDismissListener(this);
 
-        searchCy();
-//        tv_1.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                dictionary();
-//            }
-//        }, 2000);
     }
 
     @Override
@@ -221,7 +229,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 if (xl_id != -1 && pp_id != -1) {
                     brand_id = pp_id;
                     series_id = xl_id;
-                    searchCy();
+                    searchCy(true, pullRV.page = 1);
                 }
             } else if (requestCode == 66) {
                 color = data.getIntExtra("color", 0);//颜色ID
@@ -235,7 +243,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 min_mileage = data.getIntExtra("min_mileage", 0);//最低里程 (默认0)
                 max_mileage = data.getIntExtra("max_mileage", 0);//最高里程 (默认0)
 
-                searchCy();
+                searchCy(true, pullRV.page = 1);
             }
         }
     }
@@ -255,6 +263,12 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         public void setData(List<Data2> data) {
             if (null != data) {
                 this.data = data;
+                notifyDataSetChanged();
+            }
+        }
+        public void appendData(List<Data2> data) {
+            if (null != data) {
+                this.data.addAll(data);
                 notifyDataSetChanged();
             }
         }
@@ -342,18 +356,18 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
 
     public void doSearch(String key_word) {
         this.key_word = key_word;
-        searchCy();
+        searchCy(true, pullRV.page = 1);
     }
 
     public void doSearchByAdress(int province_id,int city_id) {
         this.province_id = province_id;//省份ID
         this.city_id = city_id;//城市ID
 //        this.region_id = 0;//地区ID
-        searchCy();
+        searchCy(true, pullRV.page = 1);
     }
 
-    public void searchCy() {
-        HttpData.getInstance().searchCy(province_id,city_id,region_id,source, order, min_price, max_price, brand_id, series_id, color, gearbox, emission_standard, fuel_type, min_year, max_year, min_mileage, max_mileage, key_word, new Observer<HttpResult<Data1>>() {
+    public void searchCy(boolean isRefresh,int page) {
+        HttpData.getInstance().searchCy(page,province_id,city_id,region_id,source, order, min_price, max_price, brand_id, series_id, color, gearbox, emission_standard, fuel_type, min_year, max_year, min_mileage, max_mileage, key_word, new Observer<HttpResult<Data1>>() {
             @Override
             public void onCompleted() {
 //                App.showToast("999");
@@ -368,7 +382,14 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
             @Override
             public void onNext(HttpResult<Data1> result) {
                 if (result.status == 200) {
-                    adapter.setData(result.data.info);
+                    if (isRefresh){
+                        adapter.setData(result.data.info);
+                        pullRV.stopRefresh();
+                    }else {
+                        adapter.appendData(result.data.info);
+                        pullRV.checkhasMore(result.data.info.size());
+                    }
+
 //                    adapter.setData(result.data.info);
 //                    adapter.startBanner(result.data.ads);
                 } else {

@@ -3,7 +3,6 @@ package com.yyz.cyuanw.activity.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,27 +14,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chanven.lib.cptr.PtrClassicFrameLayout;
-import com.chanven.lib.cptr.PtrDefaultHandler;
-import com.chanven.lib.cptr.PtrFrameLayout;
-import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
-
+import com.andview.refreshview.XRefreshView;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.LmDetailActivity;
 import com.yyz.cyuanw.activity.LmDetailDetailEditActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
-import com.yyz.cyuanw.bean.AdData;
 import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.LmData;
 import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
-import com.yyz.cyuanw.oss.sample.customprovider.AuthTestActivity;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.tools.ToastUtil;
 import com.yyz.cyuanw.view.PullRV;
-import com.yyz.cyuanw.view.RecyclerAdapterWithHF;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +40,9 @@ public class LmFragment extends Fragment {
 
     private ListAdapter adapter;
 
-    RecyclerAdapterWithHF mAdapterWithHF;//第三方的适配器，我觉得是进行刷新和加载而设置的
-    PullRV pullRV;
+    private PullRV pullRV;
+
+    private boolean isList = true;//false 为grid布局
 
     @Nullable
     @Override
@@ -62,16 +55,31 @@ public class LmFragment extends Fragment {
     }
 
     private void init(View view) {
-        pullRV = (PullRV) view.findViewById(R.id.ptr_class);
-        pullRV.setLoadMoreEnable(false);
+
         list = view.findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new LmFragment.ListAdapter();
-//        list.setAdapter(adapter);
+        list.setAdapter(adapter);
 
-        mAdapterWithHF = new RecyclerAdapterWithHF(adapter);//自带的适配器,带刷新和加载
-        list.setAdapter(mAdapterWithHF);
-        initListener();
+
+        pullRV = view.findViewById(R.id.xrefreshview);
+        pullRV.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pullRV.startRefresh();
+            }
+        }, 500);
+        pullRV.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
+            @Override
+            public void onRefresh(boolean isPullDown) {
+                loadLmList(true, pullRV.page = 1);
+            }
+
+            @Override
+            public void onLoadMore(boolean isSilence) {
+                loadLmList(false, ++pullRV.page);
+            }
+        });
 
         adapter.setMyLmData(new ArrayList<LmMyListData>());
 
@@ -79,29 +87,7 @@ public class LmFragment extends Fragment {
         loadLmMyList();
     }
 
-    private void initListener() {
-        //进入Activity就进行自动下拉刷新
-        pullRV.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                pullRV.autoRefresh();
-            }
-        }, 100);
-        //下拉刷新
-        pullRV.setPtrHandler(new PtrDefaultHandler() {
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                loadLmList(true, pullRV.page = 1);
-            }
-        });
-        //上拉加载
-        pullRV.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void loadMore() {
-                loadLmList(false, ++pullRV.page);
-            }
-        });
-    }
+
 
     private class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private List<LmData> dataList = new ArrayList();
@@ -127,6 +113,7 @@ public class LmFragment extends Fragment {
             this.dataList.addAll(dataList);
             notifyDataSetChanged();
         }
+
         public void appendData(List<LmData> dataList) {
             if (null == dataList) return;
             this.dataList.addAll(dataList);
@@ -358,12 +345,11 @@ public class LmFragment extends Fragment {
                 if (result.status == 200) {
                     if (isRefesh) {
                         adapter.setData(result.data.data);
-                        pullRV.refreshFinish(result.data.last_page);
+                        pullRV.stopRefresh();
                     } else {
                         adapter.appendData(result.data.data);
-                        pullRV.checkhasMore(result.data.last_page);
+                        pullRV.checkhasMore(result.data.data.size());
                     }
-
                 } else {
 //                    App.showToast(result.message);
                 }
@@ -395,6 +381,7 @@ public class LmFragment extends Fragment {
             }
         });
     }
+
     //我的所有联盟
     public void loadLmAllList() {
         HttpData.getInstance().getLmMyList(0, new Observer<HttpListResult<LmMyListData>>() {

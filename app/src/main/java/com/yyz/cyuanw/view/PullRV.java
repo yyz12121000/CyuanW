@@ -3,37 +3,37 @@ package com.yyz.cyuanw.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.chanven.lib.cptr.PtrClassicFrameLayout;
+import com.andview.refreshview.XRefreshView;
 
-public class PullRV extends PtrClassicFrameLayout {
+public class PullRV extends XRefreshView {
     public int page = 1;
 
     public PullRV(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        //        pullRV.setLastUpdateTimeRelateObject(this);//设置刷新支持时间
-//        pullRV.setResistance(1.7f);
-//        pullRV.setDurationToCloseHeader(1000);
-//        // 默认为false
-//        pullRV.setPullToRefresh(false);
-//        // 默认为true
-//        pullRV.setKeepHeaderWhenRefresh(true);
+        //设置刷新完成以后，headerview固定的时间
+        setPinnedTime(1000);
+        setMoveForHorizontal(true);
+        setPullLoadEnable(true);
+        setAutoLoadMore(false);
+//        adapter.setCustomLoadMoreView(new XRefreshViewFooter(this));
+        enableReleaseToLoadMore(true);
+        enableRecyclerViewPullUp(true);
+        enablePullUpWhenLoadCompleted(true);
     }
 
-    public void refreshFinish(int serverLastPage) {
-        refreshComplete();//
-        setLoadMoreEnable(true);
-        checkhasMore(serverLastPage);
-    }
-
-    public void checkhasMore(int serverLastPage) {
-        if (serverLastPage != -9) {
-            if (page >= serverLastPage) {
-                loadMoreComplete(false);
-            }else {
-                loadMoreComplete(true);
-            }
+    public void checkhasMore(int size) {
+        if (size == 0) {
+            // 刷新完成必须调用此方法停止加载
+            stopLoadMore(true);
+        } else {
+            // 刷新完成必须调用此方法停止加载
+            stopLoadMore(false);
         }
+
+        //当数据加载失败 不需要隐藏footerview时，可以调用以下方法，传入false，不传默认为true
+        // 同时在Footerview的onStateFinish(boolean hideFooter)，可以在hideFooter为false时，显示数据加载失败的ui
+//                            xRefreshView1.stopLoadMore(false);
     }
 
 }

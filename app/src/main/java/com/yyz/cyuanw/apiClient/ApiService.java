@@ -162,6 +162,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("shareList")
     Observable<HttpResult<Data1>> searchCy(
+                                           @Field("page") int page,
                                            @Field("province_id") int province_id,
                                            @Field("city_id") int city_id,
                                            @Field("region_id") int region_id,

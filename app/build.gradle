@@ -88,7 +88,7 @@ dependencies {
 //    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
 //    implementation 'com.squareup.okio:okio:1.9.0'
 
-      implementation 'com.chanven.lib:cptr:1.0.0'
 
+    implementation 'com.huxq17.xrefreshview:xrefreshview:3.6.9'
 
 }

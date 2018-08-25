@@ -74,8 +74,14 @@
 
     <include layout="@layout/line_h_a" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
+    <com.yyz.cyuanw.view.PullRV
+        android:id="@+id/xrefreshview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.yyz.cyuanw.view.PullRV>
 </LinearLayout>
