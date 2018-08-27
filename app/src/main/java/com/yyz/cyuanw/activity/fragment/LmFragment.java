@@ -180,7 +180,7 @@ public class LmFragment extends Fragment {
                     myLmdataList.clear();
                     myLmdataList.add(null);
                     myLmdataList.addAll(data);
-                    myLmdataList.add(null);
+//                    myLmdataList.add(null);
                     MyLmListAdapter.this.notifyDataSetChanged();
                 }
 
@@ -229,7 +229,7 @@ public class LmFragment extends Fragment {
                                     intent.putExtra(LmDetailDetailEditActivity.TYPE, LmDetailDetailEditActivity.TYPE_CREATE);
                                     startActivity(intent);
                                 } else if (position == (getItemCount() - 1)) {
-                                    ToastUtil.show(LmFragment.this.getActivity(), "查看全部");
+//                                    ToastUtil.show(LmFragment.this.getActivity(), "查看全部");
                                 }
                             }
                         });
@@ -241,8 +241,8 @@ public class LmFragment extends Fragment {
                             name.setText("创建联盟");
                             img.setImageResource(R.mipmap.img_33);
                         } else if (position == (getItemCount() - 1)) {
-                            name.setText("查看全部");
-                            img.setImageResource(R.mipmap.img_36);
+//                            name.setText("查看全部");
+//                            img.setImageResource(R.mipmap.img_36);
                         } else {
                             LmMyListData lmMyListData = myLmdataList.get(position);
                             Img.loadC(img, lmMyListData.alliance.logo);
