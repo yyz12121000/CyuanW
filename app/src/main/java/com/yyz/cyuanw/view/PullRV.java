@@ -15,7 +15,7 @@ public class PullRV extends XRefreshView {
         setPinnedTime(1000);
         setMoveForHorizontal(true);
         setPullLoadEnable(true);
-        setAutoLoadMore(false);
+        setAutoLoadMore(true);
 //        adapter.setCustomLoadMoreView(new XRefreshViewFooter(this));
         enableReleaseToLoadMore(true);
         enableRecyclerViewPullUp(true);
@@ -28,7 +28,7 @@ public class PullRV extends XRefreshView {
             stopLoadMore(true);
         } else {
             // 刷新完成必须调用此方法停止加载
-            stopLoadMore(false);
+            stopLoadMore();
         }
 
         //当数据加载失败 不需要隐藏footerview时，可以调用以下方法，传入false，不传默认为true

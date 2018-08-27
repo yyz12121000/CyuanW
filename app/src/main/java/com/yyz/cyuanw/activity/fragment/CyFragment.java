@@ -324,7 +324,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 int position = getAdapterPosition();
                 Data2 data2 = data.get(position);
 
-                Img.load(gx_iv, data2.profile_picture);
+                Img.load(gx_iv, data2.cover);
                 tv_title.setText(data2.name);
                 tv_sp.setText(data2.license_plate_time);
                 tv_gl.setText(data2.mileage + "公里");

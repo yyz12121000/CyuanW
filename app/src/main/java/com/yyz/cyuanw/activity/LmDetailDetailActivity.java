@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,18 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.CheyListData;
+import com.yyz.cyuanw.bean.Data14;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.LmDetail;
+import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -47,6 +53,7 @@ public class LmDetailDetailActivity extends BaseActivity {
 
     LmDetail lmDetail;
     private Dialog mDialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_lm_detail_detail;
@@ -58,13 +65,19 @@ public class LmDetailDetailActivity extends BaseActivity {
         setTitle(id_tv_title, "联盟详情");
 
     }
-    public void showHintDialog() {
+
+    public void showHintDialog(int type) {
         if (mDialog == null) {
             mDialog = new AlertDialog.Builder(this, R.style.MyDialog).create();
         }
         mDialog.show();
+        View dialogView = null;
+        if (type == 1) {
+            dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_lm_hint_1, null);
+        } else {
+            dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_lm_hint_2, null);
+        }
 
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_lm_hint_1, null);
         ViewGroup parent = (ViewGroup) dialogView.getParent();
         if (parent != null) {
             parent.removeAllViews();
@@ -84,6 +97,7 @@ public class LmDetailDetailActivity extends BaseActivity {
         });
 
     }
+
     @Override
     public void initData() {
         int lm_id = getIntent().getIntExtra("id", -1);
@@ -93,21 +107,25 @@ public class LmDetailDetailActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.edit,R.id.exit})
+    @OnClick({R.id.edit, R.id.exit})
     public void click(View view) {
         switch (view.getId()) {
             case R.id.edit:
                 Intent intent = new Intent(LmDetailDetailActivity.this, LmDetailDetailEditActivity.class);
-                intent.putExtra("img",lmDetail.logo);
-                intent.putExtra("name",lmDetail.name);
-                intent.putExtra("desc",lmDetail.intro);
-                intent.putExtra("ewm",lmDetail.qr_code);
+                intent.putExtra("img", lmDetail.logo);
+                intent.putExtra("name", lmDetail.name);
+                intent.putExtra("desc", lmDetail.intro);
+                intent.putExtra("ewm", lmDetail.qr_code);
 //                intent.putExtra("address",lmDetail.logo);
                 intent.putExtra(LmDetailDetailEditActivity.TYPE, LmDetailDetailEditActivity.TYPE_EDIT);
                 startActivity(intent);
                 break;
             case R.id.exit:
-                showHintDialog();
+                if ("申请解散联盟".equals(exit.getText().toString())) {
+                    showHintDialog(1);
+                } else {
+                    showHintDialog(2);
+                }
                 break;
         }
     }
@@ -141,14 +159,35 @@ public class LmDetailDetailActivity extends BaseActivity {
                     {
                         edit.setText("审核中");
                         edit.setBackgroundColor(Color.parseColor("#D9D9D9"));
-                    }else {
+                    } else {
                         exit.setVisibility(View.VISIBLE);
                     }
 
+                    String login_idS = App.get(Constant.KEY_USER_ID);
+                    if (!TextUtils.isEmpty(login_idS)) {
+                        int login_id = Integer.parseInt(login_idS);
+                        if (login_id == lmDetail.leader.id) {//是盟主
+                            exit.setText("申请解散联盟");
+                        } else if (isCy(login_id, lmDetail.users)) {//是成员
+                            exit.setText("申请退出联盟");
+
+                        }
+                    }
+                    exit.setVisibility(View.GONE);
                 } else {
 //                    App.showToast(result.message);
                 }
             }
         });
     }
+
+    private boolean isCy(int id, List<Data14> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (id == list.get(i).id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

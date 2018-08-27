@@ -11,6 +11,7 @@ public class Constant {
 
     public static String KEY_USER_ISLOGIN = "isLogin";
     public static String KEY_USER_TOKEN = "token";
+    public static String KEY_USER_ID = "id";
     public static String KEY_USER_DATA = "userData";
     public static String KEY_USER_PHONE = "phone";
 
