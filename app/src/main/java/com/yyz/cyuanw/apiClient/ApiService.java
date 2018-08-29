@@ -137,7 +137,7 @@ public interface ApiService {
     @POST("alliances")
     Observable<HttpResult> createLm(@Field("name") String name, @Field("logo") String logo,
                                     @Field("intro") String intro, @Field("province_id") int province_id,
-                                    @Field("city_id") int city_id, @Field("region_id") int region_id, @Field("qr_code") String qr_code);
+                                    @Field("city_id") int city_id, @Field("region_id") int region_id, @Field("qr_code") String qr_code, @Field("token") String token);
 
     @GET
     Observable<HttpResult<CyListData>> lmcylist(@Url String url);

@@ -32,7 +32,6 @@ public class App extends Application {
         LogManager.e("===============App start=====================");
         context = getApplicationContext();
 
-        Oss.loadInfo();
     }
 
     public static void showToast(String text) {

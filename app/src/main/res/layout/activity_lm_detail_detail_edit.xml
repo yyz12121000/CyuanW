@@ -110,6 +110,7 @@
                 <include layout="@layout/line_h_a" />
 
                 <RelativeLayout
+                    android:id="@+id/ewm_layout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp">
 

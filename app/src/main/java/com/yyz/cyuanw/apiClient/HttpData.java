@@ -156,7 +156,7 @@ public class HttpData extends RetrofitUtils {
     public void createLm(String name, String logo,
                          String intro, int province_id,
                          int city_id, int region_id, String qr_code, Observer<HttpResult> observer) {
-        Observable observable = service.createLm(name, logo, intro, province_id, city_id, region_id, qr_code);
+        Observable observable = service.createLm(name, logo, intro, province_id, city_id, region_id, qr_code,App.get(Constant.KEY_USER_TOKEN));
         setSubscribe(observable, observer);
     }
 

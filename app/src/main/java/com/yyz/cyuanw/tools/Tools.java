@@ -29,6 +29,7 @@ import com.yyz.cyuanw.App;
 
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -317,15 +318,15 @@ public class Tools {
     public static List<?> insertSort(List<?> list) {
         /*
          * if (list != null && list.size() > 0) { for (int i = 1; i <
-		 * list.size(); i++)// 循环从第二个数组元素开始，因为arr[0]作为最初已排序部分 { TrackPoint temp
-		 * = list.get(i);// temp标记为未排序第一个元素 int j = i - 1; TrackPoint
-		 * mTrackPoint = list.get(j); String str1 = mTrackPoint.getTime();
-		 * String str2 = temp.getTime();
-		 * 
-		 * long time1=Long.parseLong(str1); long time2=Long.parseLong(str2);
-		 * while (j >= 0 && time1 < time2)//将temp与已排序元素从小到大比较，寻找temp应插入的位置 {
-		 * list.set(j + 1, mTrackPoint); j--; } list.set(j + 1, temp); } }
-		 */
+         * list.size(); i++)// 循环从第二个数组元素开始，因为arr[0]作为最初已排序部分 { TrackPoint temp
+         * = list.get(i);// temp标记为未排序第一个元素 int j = i - 1; TrackPoint
+         * mTrackPoint = list.get(j); String str1 = mTrackPoint.getTime();
+         * String str2 = temp.getTime();
+         *
+         * long time1=Long.parseLong(str1); long time2=Long.parseLong(str2);
+         * while (j >= 0 && time1 < time2)//将temp与已排序元素从小到大比较，寻找temp应插入的位置 {
+         * list.set(j + 1, mTrackPoint); j--; } list.set(j + 1, temp); } }
+         */
         return list;
     }
 
@@ -481,24 +482,25 @@ public class Tools {
         return null;
     }
 
-    public static void showSoftInput(Context context, View view){
+    public static void showSoftInput(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         //imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
     }
 
-    public static void hideSoftInput(Context context, View view){
+    public static void hideSoftInput(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
     }
 
-    public static boolean isShowSoftInput(Context context){
+    public static boolean isShowSoftInput(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         //获取状态信息
         return imm.isActive();//true 打开
     }
 
     private static final String TAG = "Config";
+
     public static int getVerCode(Context context) {
         int verCode = -1;
         try {
@@ -567,9 +569,21 @@ public class Tools {
 //        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(action1);
 //    }
 
-    public static void openSysPhone(Context context,String phone){
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone));
+    public static void openSysPhone(Context context, String phone) {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
+
+    public static String getNYR() {
+        Calendar calendar = Calendar.getInstance();  //获取当前时间，作为图标的名字
+        String year = calendar.get(Calendar.YEAR) + "";
+        String month = calendar.get(Calendar.MONTH) + 1 + "";
+        String day = calendar.get(Calendar.DAY_OF_MONTH) + "";
+//        String hour=calendar.get(Calendar.HOUR_OF_DAY)+"";
+//        String minute=calendar.get(Calendar.MINUTE)+"";
+//        String second=calendar.get(Calendar.SECOND)+"";
+        return year + month + day;
+    }
+
 }
