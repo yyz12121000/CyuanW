@@ -2,60 +2,39 @@ package com.yyz.cyuanw.activity;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationListener;
 import com.yyz.cyuanw.App;
+import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.fragment.CyFragment;
-import com.yyz.cyuanw.activity.fragment.SyFragment;
 import com.yyz.cyuanw.activity.fragment.LmFragment;
+import com.yyz.cyuanw.activity.fragment.SyFragment;
 import com.yyz.cyuanw.activity.user_model.LoginActivity;
 import com.yyz.cyuanw.activity.user_model.NameConfirmActivity;
 import com.yyz.cyuanw.activity.user_model.UserActivity;
 import com.yyz.cyuanw.adapter.MyFragPagerAdapter;
-import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.bean.LocationO;
 import com.yyz.cyuanw.common.Constant;
-import com.yyz.cyuanw.tools.ImageTools;
 import com.yyz.cyuanw.tools.Location;
-import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.tools.StringUtil;
-import com.yyz.cyuanw.tools.ToastUtil;
 import com.yyz.cyuanw.tools.Tools;
-import com.zaaach.citypicker.CityPicker;
-import com.zaaach.citypicker.adapter.OnPickListener;
-import com.zaaach.citypicker.model.City;
-import com.zaaach.citypicker.model.HotCity;
-import com.zaaach.citypicker.model.LocateState;
-import com.zaaach.citypicker.model.LocatedCity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,24 +61,16 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        location = new Location(this, new AMapLocationListener() {
+        location = new Location(this, new Location.ILocationListener() {
             @Override
-            public void onLocationChanged(AMapLocation aMapLocation) {
-                if (aMapLocation.getErrorCode() == 0) {
-                    location.stop();
-                    String city = aMapLocation.getCity();
-                    if (null != city) {
-                        left_text.setText(city);
-                    }
-                    LogManager.e("定位到" + city);
+            public void location(LocationO locationO) {
+                if (null != locationO.city) {
+                    left_text.setText(locationO.city);
                     SyFragment syFragment = (SyFragment) mFragments.get(0);
-                    syFragment.loadJjr(aMapLocation.getLongitude() + "", aMapLocation.getLatitude() + "");
-
+                    syFragment.loadJjr(locationO.longitude, locationO.latitude);
                 }
-                location.stop();
             }
         });
-        location.start();
     }
 
     @Override
@@ -159,6 +130,7 @@ public class MainActivity extends BaseActivity {
         mTab.setupWithViewPager(mViewPager);
         //实例化adapter
         mAdapter = new MyFragPagerAdapter(getSupportFragmentManager(), mFragments, titleList);
+        mViewPager.setOffscreenPageLimit(2);
         //给ViewPager绑定Adapter
         mViewPager.setAdapter(mAdapter);
 

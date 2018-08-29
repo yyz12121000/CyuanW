@@ -15,6 +15,13 @@ public class Constant {
     public static String KEY_USER_DATA = "userData";
     public static String KEY_USER_PHONE = "phone";
 
+    public static String KEY_LOCATION_CITY = "key_location_city";
+    public static String KEY_LOCATION_LON = "key_location_lon";
+    public static String KEY_LOCATION_LAT = "key_location_lat";
+
+    public static String KEY_LOCATION_PROVINCE = "key_location_province";
+    public static String KEY_LOCATION_CITYCODE = "key_location_citycode";
+
     public static String CONSTANT_CONNECTION_PHONE = "0574-88273310";
 
     public static boolean DEBUG = true;

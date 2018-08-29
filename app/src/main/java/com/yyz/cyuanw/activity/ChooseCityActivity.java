@@ -1,11 +1,13 @@
 package com.yyz.cyuanw.activity;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.yyz.cyuanw.bean.Data9;
+import com.yyz.cyuanw.bean.LocationO;
 import com.yyz.cyuanw.tools.Location;
 import com.yyz.cyuanw.view.choosecity.CityPicker;
 import com.yyz.cyuanw.view.choosecity.DBManager;
@@ -62,14 +64,18 @@ public class ChooseCityActivity extends BaseActivity {
                     public void onPick(int position, City data) {
                         if (null != data) {
                             if (position == 0) {
-                                Data9 sheng = dbManager.findLocationCity(data.getName());
-                                Intent intent = getIntent();
-                                intent.putExtra("sheng_name", sheng.name);
-                                intent.putExtra("sheng_id", sheng.id);
-                                intent.putExtra("shi_id", sheng.son.get(0).id);
-                                intent.putExtra("city", sheng.son.get(0).name);
-                                setResult(RESULT_OK, intent);
-                                finish();
+                                try {
+                                    Data9 sheng = dbManager.findLocationCity(data.getName());
+                                    Intent intent = getIntent();
+                                    intent.putExtra("sheng_name", sheng.name);
+                                    intent.putExtra("sheng_id", sheng.id);
+                                    intent.putExtra("shi_id", sheng.son.get(0).id);
+                                    intent.putExtra("city", sheng.son.get(0).name);
+                                    setResult(RESULT_OK, intent);
+                                    finish();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             } else {
                                 sheng_id = Integer.parseInt(data.getCode());
 
@@ -83,19 +89,18 @@ public class ChooseCityActivity extends BaseActivity {
 
                     @Override
                     public void onLocate() {
-                        location = new Location(ChooseCityActivity.this, new AMapLocationListener() {
+                        location = new Location(ChooseCityActivity.this, new Location.ILocationListener() {
                             @Override
-                            public void onLocationChanged(AMapLocation aMapLocation) {
-                                if (aMapLocation.getErrorCode() == 0) {
-                                    String city = aMapLocation.getCity();
-
-                                    //定位完成之后更新数据
-                                    CityPicker.getInstance().locateComplete(new LocatedCity(city, aMapLocation.getProvince(), aMapLocation.getCityCode()), LocateState.SUCCESS);
-                                }
-                                location.stop();
+                            public void location(LocationO locationO) {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //定位完成之后更新数据
+                                        CityPicker.getInstance().locateComplete(new LocatedCity(locationO.city, locationO.province, locationO.cityCode), LocateState.SUCCESS);
+                                    }
+                                }, 0);
                             }
                         });
-                        location.start();
                     }
                 })
                 .show();
