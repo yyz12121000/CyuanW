@@ -164,7 +164,22 @@ public class DBManager {
         Collections.sort(list, new CityComparator());
         return list;
     }
-
+    public List<Data9> getQuByShengId(int id) {
+        try {
+            List<Data9> list = parse();
+            for (int i = 0; i < list.size(); i++) {
+                List<Data9> shi_list = list.get(i).son;
+                for (int j = 0; j < shi_list.size(); j++) {
+                    if (shi_list.get(j).id == id) {
+                        return shi_list.get(j).son;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
     public List<Data9> getCityByShengId(int id) {
 //        String jsonStr = getJson("address.txt", mContext);
         try {

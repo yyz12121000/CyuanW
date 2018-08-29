@@ -140,6 +140,7 @@ public class LmDetailDetailEditActivity extends BaseActivity {
                 break;
             case R.id.address:
                 Intent intent = new Intent(this, ChooseCityActivity.class);
+                intent.putExtra("type", 3);
                 startActivityForResult(intent, 2);
                 break;
 
@@ -272,22 +273,20 @@ public class LmDetailDetailEditActivity extends BaseActivity {
                     sheng_id = data.getIntExtra("sheng_id", 0);
                     shi_id = data.getIntExtra("shi_id", 0);
                     String city = data.getStringExtra("city");
-                    address.setText(sheng_name + " " + city);
-                    break;
-                case LQRPhotoSelectUtils.REQ_TAKE_PHOTO:
 
-                    break;
-                case LQRPhotoSelectUtils.REQ_SELECT_PHOTO:
+                    qu_id = data.getIntExtra("qu_id", 0);
+                    String qu = data.getStringExtra("qu");
 
+                    address.setText(sheng_name + " " + city + " " + qu);
                     break;
             }
         }
     }
 
     private void submit() {
-        String name = edit_name.getText().toString();
+        String lnName = edit_name.getText().toString();
         String descStr = desc.getText().toString();
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(descStr) || sheng_id == -1 || shi_id == -1 /*|| qu_id == -1*/ || TextUtils.isEmpty(iconPath)) {
+        if (TextUtils.isEmpty(lnName) || TextUtils.isEmpty(descStr) || sheng_id == -1 || shi_id == -1 /*|| qu_id == -1*/ || TextUtils.isEmpty(iconPath)) {
             ToastUtil.show(this, "请完善必要信息");
             return;
         }
@@ -297,13 +296,13 @@ public class LmDetailDetailEditActivity extends BaseActivity {
             public void onSuccess(String name) {
                 String logo = "alliances/logo/" + Tools.getNYR() + "/" + name + ".jpg";
                 if (TextUtils.isEmpty(ewmPath)) {
-                    doSubmit(name, logo, descStr, sheng_id, choose_type, qu_id, "");
+                    doSubmit(lnName, logo, descStr, sheng_id, choose_type, qu_id, "");
                 } else {
                     oss.uploadImage(ewmPath, new Oss.IOnFinishListenner() {
                         @Override
                         public void onSuccess(String name) {
                             String ewm = "alliances/qr_code/" + Tools.getNYR() + "/" + name + ".jpg";
-                            doSubmit(name, logo, descStr, sheng_id, choose_type, qu_id, ewm);
+                            doSubmit(lnName, logo, descStr, sheng_id, choose_type, qu_id, ewm);
                         }
 
                         @Override
@@ -342,10 +341,11 @@ public class LmDetailDetailEditActivity extends BaseActivity {
             public void onNext(HttpResult result) {
                 if (result.status == 200) {
 //                    adapter.vaHolder.myLmListAdapter.setData(result.data);
-
+                    finish();
                 } else {
 //                    App.showToast(result.message);
                 }
+                CustomProgress.dismis();
                 ToastUtil.show(LmDetailDetailEditActivity.this, result.message);
             }
         });

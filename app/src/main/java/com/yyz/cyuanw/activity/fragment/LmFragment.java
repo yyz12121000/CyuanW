@@ -74,6 +74,7 @@ public class LmFragment extends Fragment {
             @Override
             public void onRefresh(boolean isPullDown) {
                 loadLmList(true, pullRV.page = 1);
+                loadLmMyList();
             }
 
             @Override
@@ -410,7 +411,7 @@ public class LmFragment extends Fragment {
 
     //我的联盟分页
     public void loadLmMyList() {
-        HttpData.getInstance().getLmMyList(1, new Observer<HttpListResult<LmMyListData>>() {
+        HttpData.getInstance().getLmMyList(0, new Observer<HttpListResult<LmMyListData>>() {
             @Override
             public void onCompleted() {
 //                App.showToast("999");

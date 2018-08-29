@@ -2,6 +2,7 @@ package com.yyz.cyuanw.activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +27,8 @@ public class ListCityChooseActivity extends BaseActivity {
     private RecyclerView list;
     private List<Data9> datas = new ArrayList<>();
     DBManager dbManager;
+    private int type;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_list_choose;
@@ -39,18 +42,27 @@ public class ListCityChooseActivity extends BaseActivity {
         list.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ListAdapter();
         list.setAdapter(adapter);
-         dbManager = new DBManager(this);
+        dbManager = new DBManager(this);
 
     }
 
     @Override
     public void initData() {
-        int id  = getIntent().getIntExtra("sheng_id",-100);
+        type = getIntent().getIntExtra("type", -100);
 
-        datas = dbManager.getCityByShengId(id);
+        if (type == 4) {
+            int id = getIntent().getIntExtra("shi_id", -100);
+            datas = dbManager.getQuByShengId(id);
+            setTitle(titleView, getIntent().getStringExtra("city"));
+            adapter.notifyDataSetChanged();
+        } else {
+            int id = getIntent().getIntExtra("sheng_id", -100);
+            datas = dbManager.getCityByShengId(id);
+            setTitle(titleView, getIntent().getStringExtra("sheng_name"));
+            adapter.notifyDataSetChanged();
+        }
 
-        setTitle(titleView, getIntent().getStringExtra("sheng_name"));
-        adapter.notifyDataSetChanged();
+
     }
 
     private class ListAdapter extends RecyclerView.Adapter {
@@ -86,17 +98,29 @@ public class ListCityChooseActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         index = getAdapterPosition();
-//                        if (null != listenner) {
-//                            listenner.onItemClick(index, datas.get(index));
-//                        }
-                        notifyDataSetChanged();
-//                        ListPopuwindow.this.dismiss();
 
-                        Intent intent = getIntent();
-                        intent.putExtra("shi_id", datas.get(index).id);
-                        intent.putExtra("city", datas.get(index).name);
-                        setResult(RESULT_OK, intent);
-                        finish();
+                        notifyDataSetChanged();
+                        if (type == 4) {
+                            Intent intent = getIntent();
+                            intent.putExtra("qu_id", datas.get(index).id);
+                            intent.putExtra("qu", datas.get(index).name);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        } else if (type == 3) {
+                            Intent intent = getIntent();
+                            intent.setClass(ListCityChooseActivity.this, ListCityChooseActivity.class);
+
+                            intent.putExtra("type", 4);
+                            intent.putExtra("shi_id", datas.get(index).id);
+                            intent.putExtra("city", datas.get(index).name);
+                            startActivityForResult(intent, 2);
+                        } else {
+                            Intent intent = getIntent();
+                            intent.putExtra("shi_id", datas.get(index).id);
+                            intent.putExtra("city", datas.get(index).name);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
                     }
                 });
             }
@@ -111,6 +135,17 @@ public class ListCityChooseActivity extends BaseActivity {
             }
         }
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) return;
+        switch (requestCode) {
+            case 2:
+                if (null == data) return;
+                setResult(RESULT_OK, data);
+                finish();
+                break;
+        }
+    }
 
 }

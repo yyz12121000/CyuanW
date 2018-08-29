@@ -80,6 +80,7 @@ public class ChooseCityActivity extends BaseActivity {
                                 sheng_id = Integer.parseInt(data.getCode());
 
                                 Intent intent = new Intent(ChooseCityActivity.this, ListCityChooseActivity.class);
+                                intent.putExtra("type", getIntent().getIntExtra("type",-1));
                                 intent.putExtra("sheng_id", sheng_id);
                                 intent.putExtra("sheng_name", data.getName());
                                 startActivityForResult(intent, 2);
