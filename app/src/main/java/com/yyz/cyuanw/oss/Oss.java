@@ -74,7 +74,7 @@ public class Oss {
 
         // 构造上传请求
 //        PutObjectRequest put = new PutObjectRequest("<bucketName>", "<objectKey>", "<uploadFilePath>");
-        PutObjectRequest put = new PutObjectRequest("bucketName_CyuanW", "objectKey_CyuanW", uploadFilePath);
+        PutObjectRequest put = new PutObjectRequest("cheyuan-images", "objectKey_CyuanW", uploadFilePath);
 // 异步上传时可以设置进度回调
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
             @Override
