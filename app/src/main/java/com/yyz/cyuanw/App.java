@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import com.yyz.cyuanw.oss.Oss;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.tools.StringUtil;
 
@@ -31,7 +32,7 @@ public class App extends Application {
         LogManager.e("===============App start=====================");
         context = getApplicationContext();
 
-
+        Oss.loadInfo();
     }
 
     public static void showToast(String text) {

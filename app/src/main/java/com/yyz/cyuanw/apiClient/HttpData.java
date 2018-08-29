@@ -242,6 +242,10 @@ public class HttpData extends RetrofitUtils {
         Observable observable = service.apply_join("alliances/"+alliance_id+"/apply_join",App.get(Constant.KEY_USER_TOKEN));
         setSubscribe(observable, observer);
     }
+    public void ossToken(Observer<ResponseBody> observer) {
+        Observable observable = service.ossToken(App.get(Constant.KEY_USER_TOKEN));
+        setSubscribe(observable, observer);
+    }
     /**
      * 插入观察者
      * @param observable

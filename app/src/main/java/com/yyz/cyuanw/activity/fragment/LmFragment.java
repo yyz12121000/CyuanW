@@ -24,6 +24,7 @@ import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.LmData;
 import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
+import com.yyz.cyuanw.oss.sample.customprovider.AuthTestActivity;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.tools.ToastUtil;
