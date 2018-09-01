@@ -154,7 +154,7 @@ public class HttpData extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
     public void getMyLmList(int page, Observer<HttpResult<Data15>> observer) {
-        Observable observable = service.getLmMyList(page);
+        Observable observable = service.getMyLmList(page);
         setSubscribe(observable, observer);
     }
 

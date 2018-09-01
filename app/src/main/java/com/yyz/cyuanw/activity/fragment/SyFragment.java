@@ -1,6 +1,7 @@
 package com.yyz.cyuanw.activity.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.loader.ImageLoader;
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.activity.WdLmActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.AdData;
 import com.yyz.cyuanw.bean.Ads;
@@ -135,7 +137,7 @@ public class SyFragment extends Fragment {
 
         private class VAHolder extends RecyclerView.ViewHolder {
             public Banner banner;
-            private ImageView chunk_a_img_a;
+            private ImageView chunk_a_img_a,chunk_a_img_b;
             private RecyclerView hot_lm_list;
             public HotLmListAdapter hotLmListAdapter;
 
@@ -151,6 +153,7 @@ public class SyFragment extends Fragment {
                 //可以在布局里面写
                 banner = (Banner) itemView.findViewById(R.id.banner);
                 chunk_a_img_a = itemView.findViewById(R.id.chunk_a_img_a);
+                chunk_a_img_b = itemView.findViewById(R.id.chunk_a_img_b);
                 hot_lm_list = itemView.findViewById(R.id.hot_lm_list);
 
                 banner_root = itemView.findViewById(R.id.banner_root);
@@ -159,6 +162,14 @@ public class SyFragment extends Fragment {
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 hot_lm_list.setLayoutManager(linearLayoutManager);
                 hotLmListAdapter = new HotLmListAdapter();
+
+                chunk_a_img_b.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(SyFragment.this.getActivity(), WdLmActivity.class);
+                        SyFragment.this.getActivity().startActivity(intent);
+                    }
+                });
 
                 hot_lm_list.setAdapter(hotLmListAdapter);
             }

@@ -15,6 +15,8 @@ import com.google.gson.Gson;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
+import com.yyz.cyuanw.activity.WdLmActivity;
+import com.yyz.cyuanw.activity.fragment.SyFragment;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.LoginData;
@@ -28,21 +30,34 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Observer;
 
-public class UserActivity extends BaseActivity{
+public class UserActivity extends BaseActivity {
 
-    @BindView(R.id.id_iv_back) ImageView backView;
-    @BindView(R.id.id_iv_photo) ImageView photoView;
-    @BindView(R.id.id_iv_bg) ImageView bgView;
-    @BindView(R.id.id_iv_modify) ImageView modifyView;
-    @BindView(R.id.id_iv_confirm) ImageView confirmView;
-    @BindView(R.id.id_iv_persion) ImageView persionView;
-    @BindView(R.id.id_tv_name) TextView nameView;
-    @BindView(R.id.id_tv_no) TextView noView;
-    @BindView(R.id.id_tv_shop) TextView shopView;
-    @BindView(R.id.id_tv_sign) TextView signView;
-    @BindView(R.id.id_tv_mycar) TextView carNumView;
-    @BindView(R.id.id_tv_myshop) TextView shopNumView;
-    @BindView(R.id.id_tv_myunion) TextView unionNumView;
+    @BindView(R.id.id_iv_back)
+    ImageView backView;
+    @BindView(R.id.id_iv_photo)
+    ImageView photoView;
+    @BindView(R.id.id_iv_bg)
+    ImageView bgView;
+    @BindView(R.id.id_iv_modify)
+    ImageView modifyView;
+    @BindView(R.id.id_iv_confirm)
+    ImageView confirmView;
+    @BindView(R.id.id_iv_persion)
+    ImageView persionView;
+    @BindView(R.id.id_tv_name)
+    TextView nameView;
+    @BindView(R.id.id_tv_no)
+    TextView noView;
+    @BindView(R.id.id_tv_shop)
+    TextView shopView;
+    @BindView(R.id.id_tv_sign)
+    TextView signView;
+    @BindView(R.id.id_tv_mycar)
+    TextView carNumView;
+    @BindView(R.id.id_tv_myshop)
+    TextView shopNumView;
+    @BindView(R.id.id_tv_myunion)
+    TextView unionNumView;
 
     private LoginData userData;
 
@@ -55,7 +70,7 @@ public class UserActivity extends BaseActivity{
     protected void onResume() {
         super.onResume();
 
-        if (App.updataUserData){
+        if (App.updataUserData) {
             App.updataUserData = false;
             getUserInfo();
         }
@@ -71,45 +86,51 @@ public class UserActivity extends BaseActivity{
         getUserInfo();
     }
 
-    public void setViewData(){
+    public void setViewData() {
         String jsonStr = App.get(Constant.KEY_USER_DATA);
-        if (StringUtil.isNotNull(jsonStr)){
-            userData = new Gson().fromJson(jsonStr,LoginData.class);
+        if (StringUtil.isNotNull(jsonStr)) {
+            userData = new Gson().fromJson(jsonStr, LoginData.class);
 
             if (StringUtil.isNotNull(userData.pic))
-                Img.loadC(photoView,userData.pic);
+                Img.loadC(photoView, userData.pic);
 
             if (StringUtil.isNotNull(userData.bg_image))
-                Img.loadP(bgView,userData.bg_image,R.mipmap.bg_user);
+                Img.loadP(bgView, userData.bg_image, R.mipmap.bg_user);
 
-            if (StringUtil.isNotNull(userData.name)){
+            if (StringUtil.isNotNull(userData.name)) {
                 nameView.setText(userData.name);
-            }else {
+            } else {
                 nameView.setText(userData.phone);
             }
 
-            if (StringUtil.isNotNull(userData.bind_dealer)){
+            if (StringUtil.isNotNull(userData.bind_dealer)) {
                 shopView.setText(userData.bind_dealer);
-            }else {
+            } else {
                 shopView.setText("暂时还未绑定车商");
             }
 
-            if (StringUtil.isNotNull(userData.signature)){
+            if (StringUtil.isNotNull(userData.signature)) {
                 signView.setText(userData.signature);
-            }else {
+            } else {
                 signView.setText("暂时还没有个性签名");
             }
 
-            carNumView.setText(getString(R.string.str_user_mycar,userData.my_cars));
-            shopNumView.setText(getString(R.string.str_user_myshop,userData.my_shops));
-            unionNumView.setText(getString(R.string.str_user_myunion,userData.my_union));
-
+            carNumView.setText(getString(R.string.str_user_mycar, userData.my_cars));
+            shopNumView.setText(getString(R.string.str_user_myshop, userData.my_shops));
+            unionNumView.setText(getString(R.string.str_user_myunion, userData.my_union));
+            unionNumView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(UserActivity.this, WdLmActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
     }
 
-    @OnClick({R.id.id_iv_back,R.id.id_tv_setting,R.id.id_tv_help})
-    public void onClickEvent(View view){
-        switch (view.getId()){
+    @OnClick({R.id.id_iv_back, R.id.id_tv_setting, R.id.id_tv_help})
+    public void onClickEvent(View view) {
+        switch (view.getId()) {
             case R.id.id_iv_back:
 
                 finish();
@@ -125,14 +146,14 @@ public class UserActivity extends BaseActivity{
         }
     }
 
-    public void startActivity(Class<?> cls){
-        startActivity(new Intent(this,cls));
+    public void startActivity(Class<?> cls) {
+        startActivity(new Intent(this, cls));
     }
 
-    public void getUserInfo(){
+    public void getUserInfo() {
         //CustomProgress.show(this, "加载中...", false, null);
 
-        HttpData.getInstance().getUserInfo(App.get(Constant.KEY_USER_TOKEN),new Observer<HttpResult<LoginData>>() {
+        HttpData.getInstance().getUserInfo(App.get(Constant.KEY_USER_TOKEN), new Observer<HttpResult<LoginData>>() {
             @Override
             public void onCompleted() {
                 //CustomProgress.dismis();
@@ -146,10 +167,10 @@ public class UserActivity extends BaseActivity{
 
             @Override
             public void onNext(HttpResult<LoginData> result) {
-                if (result.status == 200 && result.data != null){
-                    App.set(Constant.KEY_USER_DATA,new Gson().toJson(result.data));
+                if (result.status == 200 && result.data != null) {
+                    App.set(Constant.KEY_USER_DATA, new Gson().toJson(result.data));
                     setViewData();
-                }else{
+                } else {
                     App.showToast(result.message);
                 }
             }

@@ -86,7 +86,6 @@ public class WdLmActivity extends BaseActivity {
 
 
         public ListAdapter() {
-            this.dataList.add(null);
         }
 
 
@@ -99,11 +98,10 @@ public class WdLmActivity extends BaseActivity {
         public void setData(List<LmMyListData> dataList) {
             if (null == dataList) return;
             this.dataList.clear();
-            this.dataList.add(null);
             this.dataList.addAll(dataList);
 
 
-            if (this.dataList.size() == 1) {
+            if (this.dataList.size() == 0) {
                 vaHolder.black.setVisibility(View.VISIBLE);
             } else {
                 vaHolder.black.setVisibility(View.GONE);
@@ -121,16 +119,9 @@ public class WdLmActivity extends BaseActivity {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            switch (i) {
-                case 0:
-                    View viewA = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.chunk_lm_top, viewGroup, false);
-                    vaHolder = new ListAdapter.VAHolder(viewA);
-                    return vaHolder;
-                default:
-                    View viewB = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_lm, viewGroup, false);
-                    ListAdapter.VBHolder vBHolder = new ListAdapter.VBHolder(viewB);
-                    return vBHolder;
-            }
+            View viewB = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_lm, viewGroup, false);
+            ListAdapter.VBHolder vBHolder = new ListAdapter.VBHolder(viewB);
+            return vBHolder;
         }
 
         @Override
@@ -148,109 +139,14 @@ public class WdLmActivity extends BaseActivity {
         }
 
         private class VAHolder extends RecyclerView.ViewHolder {
-            public RecyclerView my_lm_list;
             private View black;
-            public ListAdapter.VAHolder.MyLmListAdapter myLmListAdapter;
 
-            public void setMyLmData(List<LmMyListData> data) {
-                myLmListAdapter.setData(data);
-            }
 
             public VAHolder(@NonNull View itemView) {
                 super(itemView);
                 black = itemView.findViewById(R.id.black);
-                my_lm_list = itemView.findViewById(R.id.my_lm_list);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(WdLmActivity.this);
-                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                my_lm_list.setLayoutManager(linearLayoutManager);
-                myLmListAdapter = new ListAdapter.VAHolder.MyLmListAdapter();
 
 
-                my_lm_list.setAdapter(myLmListAdapter);
-
-            }
-
-
-            private class MyLmListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-                private List<LmMyListData> myLmdataList = new ArrayList();
-
-                public void setData(List<LmMyListData> data) {
-                    if (null == data) {
-                        return;
-                    }
-                    myLmdataList.clear();
-                    myLmdataList.add(null);
-                    myLmdataList.addAll(data);
-//                    myLmdataList.add(null);
-                    ListAdapter.VAHolder.MyLmListAdapter.this.notifyDataSetChanged();
-                }
-
-                @Override
-                public int getItemViewType(int position) {
-                    return position;
-                }
-
-                @NonNull
-                @Override
-                public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View viewA = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_my_lm, viewGroup, false);
-                    ListAdapter.VAHolder.MyLmListAdapter.VMyLmHolder vAHolder = new ListAdapter.VAHolder.MyLmListAdapter.VMyLmHolder(viewA);
-                    return vAHolder;
-                }
-
-                @Override
-                public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                    ListAdapter.VAHolder.MyLmListAdapter.VMyLmHolder vMyLmHolder = (ListAdapter.VAHolder.MyLmListAdapter.VMyLmHolder) viewHolder;
-                    vMyLmHolder.setData();
-                }
-
-                @Override
-                public int getItemCount() {
-                    return myLmdataList.size();
-                }
-
-                private class VMyLmHolder extends RecyclerView.ViewHolder {
-                    private ImageView img;
-                    private TextView name;
-
-                    public VMyLmHolder(@NonNull View itemView) {
-                        super(itemView);
-                        img = itemView.findViewById(R.id.img);
-                        name = itemView.findViewById(R.id.name);
-
-                        itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                int position = getAdapterPosition();
-                                if (position == 0) {
-
-//                                    startActivity(new Intent(getActivity(), AuthTestActivity.class));
-
-                                    Intent intent = new Intent(WdLmActivity.this, LmDetailDetailEditActivity.class);
-                                    intent.putExtra(LmDetailDetailEditActivity.TYPE, LmDetailDetailEditActivity.TYPE_CREATE);
-                                    startActivity(intent);
-                                } else if (position == (getItemCount() - 1)) {
-//                                    ToastUtil.show(LmFragment.this.getActivity(), "查看全部");
-                                }
-                            }
-                        });
-                    }
-
-                    public void setData() {
-                        int position = getAdapterPosition();
-                        if (position == 0) {
-                            name.setText("创建联盟");
-                            img.setImageResource(R.mipmap.img_33);
-                        } else if (position == (getItemCount() - 1)) {
-//                            name.setText("查看全部");
-//                            img.setImageResource(R.mipmap.img_36);
-                        } else {
-                            LmMyListData lmMyListData = myLmdataList.get(position);
-                            Img.loadC(img, lmMyListData.alliance.logo);
-                            name.setText(lmMyListData.alliance.name);
-                        }
-                    }
-                }
             }
         }
 
@@ -338,12 +234,14 @@ public class WdLmActivity extends BaseActivity {
             public void onNext(HttpResult<Data15> result) {
                 if (result.status == 200) {
                     if (isRefesh) {
-                        adapter.setData(result.data.data);
                         pullRV.stopRefresh();
+                        adapter.setData(result.data.data);
+
 
                     } else {
-                        adapter.appendData(result.data.data);
                         pullRV.checkhasMore(result.data.data.size());
+                        adapter.appendData(result.data.data);
+
                     }
                 } else {
 //                    App.showToast(result.message);
