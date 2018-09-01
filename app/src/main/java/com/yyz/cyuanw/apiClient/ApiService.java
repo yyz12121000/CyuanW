@@ -6,6 +6,7 @@ import com.yyz.cyuanw.bean.CheyListData;
 import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data10;
+import com.yyz.cyuanw.bean.Data15;
 import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.Data5;
 import com.yyz.cyuanw.bean.Data6;
@@ -131,6 +132,9 @@ public interface ApiService {
     //我的联盟列表[全部or分页]
     @GET("alliances/me_all")
     Observable<HttpListResult<LmMyListData>> getLmMyList(@Query("is_paginate") int is_paginate);
+   //我的联盟列表[全部or分页]
+    @GET("alliances/me_all")
+    Observable<HttpResult<Data15>> getMyLmList(@Query("is_paginate") int is_paginate);
 
     //创建联盟
     @FormUrlEncoded

@@ -6,6 +6,7 @@ import com.yyz.cyuanw.bean.CheyListData;
 import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data10;
+import com.yyz.cyuanw.bean.Data15;
 import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.Data5;
 import com.yyz.cyuanw.bean.Data6;
@@ -148,8 +149,12 @@ public class HttpData extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
-    public void getLmMyList(int keyword, Observer<HttpListResult<LmMyListData>> observer) {
-        Observable observable = service.getLmMyList(keyword);
+    public void getLmMyList(int page, Observer<HttpListResult<LmMyListData>> observer) {
+        Observable observable = service.getLmMyList(page);
+        setSubscribe(observable, observer);
+    }
+    public void getMyLmList(int page, Observer<HttpResult<Data15>> observer) {
+        Observable observable = service.getLmMyList(page);
         setSubscribe(observable, observer);
     }
 

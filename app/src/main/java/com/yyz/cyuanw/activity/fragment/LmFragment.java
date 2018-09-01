@@ -74,7 +74,6 @@ public class LmFragment extends Fragment {
             @Override
             public void onRefresh(boolean isPullDown) {
                 loadLmList(true, pullRV.page = 1);
-                loadLmMyList();
             }
 
             @Override
@@ -86,7 +85,6 @@ public class LmFragment extends Fragment {
         adapter.setMyLmData(new ArrayList<LmMyListData>());
 
         loadLmAllList();
-        loadLmMyList();
     }
 
 
@@ -421,28 +419,5 @@ public class LmFragment extends Fragment {
         });
     }
 
-    //我的联盟分页
-    public void loadLmMyList() {
-        HttpData.getInstance().getLmMyList(0, new Observer<HttpListResult<LmMyListData>>() {
-            @Override
-            public void onCompleted() {
-//                App.showToast("999");
-            }
 
-            @Override
-            public void onError(Throwable e) {
-//                App.showToast("服务器请求超时");
-                LogManager.e(e.getMessage());
-            }
-
-            @Override
-            public void onNext(HttpListResult<LmMyListData> result) {
-                if (result.status == 200) {
-//                    adapter.setData(result.data.data);
-                } else {
-//                    App.showToast(result.message);
-                }
-            }
-        });
-    }
 }
