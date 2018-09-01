@@ -172,6 +172,10 @@ public class HttpData extends RetrofitUtils {
         Observable observable = service.lmDetail("alliances/" + lm_id);
         setSubscribe(observable, observer);
     }
+    public void lmEdital(int lm_id,String ewm, Observer<HttpResult> observer) {
+        Observable observable = service.lmEdital(App.get(Constant.KEY_USER_TOKEN),ewm,"alliances/" + lm_id);
+        setSubscribe(observable, observer);
+    }
     public void cancel_administrator(int lm_id,int set_user_id, Observer<HttpListResult> observer) {
         Observable observable = service.cancel_administrator("alliances/cancel_administrator/" + lm_id+"/"+set_user_id,App.get(Constant.KEY_USER_TOKEN));
         setSubscribe(observable, observer);

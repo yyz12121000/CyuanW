@@ -112,6 +112,7 @@ public class LmDetailDetailActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.edit:
                 Intent intent = new Intent(LmDetailDetailActivity.this, LmDetailDetailEditActivity.class);
+                intent.putExtra("id", lmDetail.id);
                 intent.putExtra("img", lmDetail.logo);
                 intent.putExtra("name", lmDetail.name);
                 intent.putExtra("desc", lmDetail.intro);

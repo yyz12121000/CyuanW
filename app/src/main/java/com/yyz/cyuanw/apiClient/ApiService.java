@@ -255,6 +255,11 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<HttpListResult> delete_alliances(@Field("token") String token, @Url String url);
 
+   @Headers("Content-Type:application/x-www-form-urlencoded")
+    @HTTP(method = "PUT",  hasBody = true)
+    @FormUrlEncoded
+    Observable<HttpResult> lmEdital(@Field("token") String token,@Field("qr_code") String qr_code, @Url String url);
+
 
     //审核会员加入申请
     @FormUrlEncoded

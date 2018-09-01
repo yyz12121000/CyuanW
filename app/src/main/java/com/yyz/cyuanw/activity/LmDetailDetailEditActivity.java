@@ -100,7 +100,7 @@ public class LmDetailDetailEditActivity extends BaseActivity {
                 Img.loadC(img, outputUri.toString());
                 iconPath = outputFile.getAbsolutePath();
             } else if (choose_type == 2) {
-                Img.loadC(er_code, outputUri.toString());
+                Img.load(er_code, outputUri.toString());
                 ewmPath = outputFile.getAbsolutePath();
             }
         }, true);
@@ -115,6 +115,12 @@ public class LmDetailDetailEditActivity extends BaseActivity {
             Img.loadC(img, imgS);
             edit_name.setText(nameS);
             desc.setText(descS);
+
+
+            img.setEnabled(false);
+            edit_name.setEnabled(false);
+            desc.setEnabled(false);
+            address.setEnabled(false);
         }
 
     }
@@ -125,7 +131,17 @@ public class LmDetailDetailEditActivity extends BaseActivity {
     public void onClickEvent(View view) {
         switch (view.getId()) {
             case R.id.save:
-                submit();
+
+
+                if (type == TYPE_EDIT) {
+                    int id = getIntent().getIntExtra("id", -1);
+                    if (id != -1) {
+                        edit(id);
+                    }
+                } else {
+                    submit();
+                }
+
                 break;
             case R.id.address:
                 Intent intent = new Intent(this, ChooseCityActivity.class);
@@ -311,6 +327,56 @@ public class LmDetailDetailEditActivity extends BaseActivity {
         });
     }
 
+    private void edit(int id) {
+        if (TextUtils.isEmpty(ewmPath)) {
+            ToastUtil.show(this, "请选择二维码");
+            return;
+        }
+        CustomProgress.show(this, "正在提交...", false, null);
+        oss.uploadImage(ewmPath, new Oss.IOnFinishListenner() {
+            @Override
+            public void onSuccess(String name) {
+                String ewm = "alliances/qr_code/" + Tools.getNYR() + "/" + name + ".jpg";
+                doEdit(id, ewm);
+            }
+
+            @Override
+            public void onFailure() {
+                ToastUtil.show(LmDetailDetailEditActivity.this, "上传二维码失败");
+                CustomProgress.dismis();
+            }
+        });
+    }
+
+
+    private void doEdit(int id, String qr_code) {
+        HttpData.getInstance().lmEdital(id, qr_code, new Observer<HttpResult>() {
+            @Override
+            public void onCompleted() {
+                CustomProgress.dismis();
+//                App.showToast("999");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ToastUtil.show(LmDetailDetailEditActivity.this, "创建联盟失败");
+                LogManager.e(e.getMessage());
+            }
+
+            @Override
+            public void onNext(HttpResult result) {
+                if (result.status == 200) {
+//                    adapter.vaHolder.myLmListAdapter.setData(result.data);
+                    finish();
+                } else {
+//                    App.showToast(result.message);
+                }
+                CustomProgress.dismis();
+                ToastUtil.show(LmDetailDetailEditActivity.this, result.message);
+            }
+        });
+
+    }
 
     private void doSubmit(String name, String logo, String intro, int province_id, int city_id, int region_id, String qr_code) {
         HttpData.getInstance().createLm(name, logo, intro, province_id, city_id, region_id, qr_code, new Observer<HttpResult>() {
