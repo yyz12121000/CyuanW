@@ -90,10 +90,10 @@ public class LmFragment extends Fragment {
     }
 
 
-
     private class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private List<LmData> dataList = new ArrayList();
         public VAHolder vaHolder;
+
 
         public ListAdapter() {
             this.dataList.add(null);
@@ -113,6 +113,14 @@ public class LmFragment extends Fragment {
             this.dataList.clear();
             this.dataList.add(null);
             this.dataList.addAll(dataList);
+
+
+            if (this.dataList.size() == 1) {
+                vaHolder.black.setVisibility(View.VISIBLE);
+            } else {
+                vaHolder.black.setVisibility(View.GONE);
+            }
+
             notifyDataSetChanged();
         }
 
@@ -153,6 +161,7 @@ public class LmFragment extends Fragment {
 
         private class VAHolder extends RecyclerView.ViewHolder {
             public RecyclerView my_lm_list;
+            private View black;
             public MyLmListAdapter myLmListAdapter;
 
             public void setMyLmData(List<LmMyListData> data) {
@@ -161,6 +170,7 @@ public class LmFragment extends Fragment {
 
             public VAHolder(@NonNull View itemView) {
                 super(itemView);
+                black = itemView.findViewById(R.id.black);
                 my_lm_list = itemView.findViewById(R.id.my_lm_list);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(LmFragment.this.getActivity());
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -171,6 +181,7 @@ public class LmFragment extends Fragment {
                 my_lm_list.setAdapter(myLmListAdapter);
 
             }
+
 
             private class MyLmListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 private List<LmMyListData> myLmdataList = new ArrayList();
@@ -348,6 +359,7 @@ public class LmFragment extends Fragment {
                     if (isRefesh) {
                         adapter.setData(result.data.data);
                         pullRV.stopRefresh();
+
                     } else {
                         adapter.appendData(result.data.data);
                         pullRV.checkhasMore(result.data.data.size());

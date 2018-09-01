@@ -103,17 +103,6 @@ public class LmDetailDetailEditActivity extends BaseActivity {
                 Img.loadC(er_code, outputUri.toString());
                 ewmPath = outputFile.getAbsolutePath();
             }
-//            oss.uploadImage(outputFile.getAbsolutePath(), new Oss.IOnFinishListenner() {
-//                @Override
-//                public void onSuccess(String name) {
-//
-//                }
-//
-//                @Override
-//                public void onFailure() {
-//
-//                }
-//            });
         }, true);
 
         if (type == TYPE_EDIT) {

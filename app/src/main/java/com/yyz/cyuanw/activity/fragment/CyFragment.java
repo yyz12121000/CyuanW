@@ -43,6 +43,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     private JgqjPopuwindow jgqjPopuwindow;
     private TextView tv_1, tv_2, tv_3, tv_4;
     private ListAdapter adapter;
+    private View black;
 
     private int is_self = 0;//是否搜索自己的共享车源 0 否 1是
     private String key_word = "";//搜索关键词
@@ -89,6 +90,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         tv_3.setOnClickListener(this);
         tv_4 = view.findViewById(R.id.tv_4);
         tv_4.setOnClickListener(this);
+        black = view.findViewById(R.id.black);
         view.findViewById(R.id.gdsx).setOnClickListener(this);
 
         List<String> cydatas = new ArrayList<>();
@@ -263,6 +265,13 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         public void setData(List<Data2> data) {
             if (null != data) {
                 this.data = data;
+
+                if (this.data.size() == 0) {
+                    black.setVisibility(View.VISIBLE);
+                } else {
+                    black.setVisibility(View.GONE);
+                }
+
                 notifyDataSetChanged();
             }
         }

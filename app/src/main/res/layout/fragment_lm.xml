@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:background="#ffffff">
 
+
+
     <com.yyz.cyuanw.view.PullRV
         android:id="@+id/xrefreshview"
         android:layout_width="match_parent"
