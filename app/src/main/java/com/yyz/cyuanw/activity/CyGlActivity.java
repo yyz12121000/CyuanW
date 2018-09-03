@@ -1,5 +1,7 @@
 package com.yyz.cyuanw.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -57,8 +59,6 @@ public class CyGlActivity extends BaseActivity {
     EditText search_text;
 
 
-
-
     private ListAdapter adapter;
     private String key_word = "";//搜索关键词
 
@@ -101,7 +101,7 @@ public class CyGlActivity extends BaseActivity {
                     Tools.hideSoftInput(CyGlActivity.this, search_text);
 
                     key_word = text;
-                    searchCy(true,pullRV.page = 1);
+                    searchCy(true, pullRV.page = 1);
                 }
                 return false;
             }
@@ -123,7 +123,7 @@ public class CyGlActivity extends BaseActivity {
                 tv1.setBackgroundResource(R.drawable.bg_4);
                 tv2.setBackground(null);
                 type = 0;
-                searchCy(true,pullRV.page = 1);
+                searchCy(true, pullRV.page = 1);
                 break;
             case R.id.tv2:
                 tv1.setTextColor(Color.parseColor("#EA6F5A"));
@@ -131,7 +131,7 @@ public class CyGlActivity extends BaseActivity {
                 tv1.setBackground(null);
                 tv2.setBackgroundResource(R.drawable.bg_5);
                 type = 1;
-                searchCy(true,pullRV.page = 1);
+                searchCy(true, pullRV.page = 1);
                 break;
         }
     }
@@ -181,7 +181,7 @@ public class CyGlActivity extends BaseActivity {
         private class VHolder extends RecyclerView.ViewHolder {
             private ImageView gx_iv, the_new, iv_j, iv_p;
             private TextView tv_title, tv_sp, tv_gl, tv_dd, tv_jg, gx_time;
-            private Button sx,gj,gd;
+            private Button sx, gj, gd, szws, sc;
 
             public VHolder(@NonNull View itemView) {
                 super(itemView);
@@ -200,6 +200,8 @@ public class CyGlActivity extends BaseActivity {
                 sx = itemView.findViewById(R.id.sx);
                 gj = itemView.findViewById(R.id.gj);
                 gd = itemView.findViewById(R.id.gd);
+                szws = itemView.findViewById(R.id.szws);
+                sc = itemView.findViewById(R.id.sc);
 
                 sx.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -214,6 +216,18 @@ public class CyGlActivity extends BaseActivity {
                     }
                 });
                 gd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showPopupDialog();
+                    }
+                });
+                szws.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+                sc.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
@@ -261,26 +275,41 @@ public class CyGlActivity extends BaseActivity {
                 } else {
                     iv_p.setVisibility(View.GONE);
                 }
+
+                if (type == 0) {
+                    sx.setVisibility(View.VISIBLE);
+                    gj.setVisibility(View.VISIBLE);
+                    gd.setVisibility(View.VISIBLE);
+
+                    szws.setVisibility(View.GONE);
+                    sc.setVisibility(View.GONE);
+                } else {
+                    sx.setVisibility(View.GONE);
+                    gj.setVisibility(View.GONE);
+                    gd.setVisibility(View.GONE);
+
+                    szws.setVisibility(View.VISIBLE);
+                    sc.setVisibility(View.VISIBLE);
+                }
+
             }
         }
     }
+
     private View popupDialogView;
     private CommonPopupDialog mPopupDialog;
     private int type = 0;//是否已售 0否 1是
+    private Dialog mDialog1,mDialog2;
     public void showPopupDialog() {
         if (popupDialogView == null) {
-            popupDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_share_wx, null);
-
+            popupDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_1, null);
             popupDialogView.findViewById(R.id.id_root_view).setOnClickListener(view -> mPopupDialog.dismiss());
-
-
-            popupDialogView.findViewById(R.id.wx_1).setOnClickListener(view -> {
-
+            popupDialogView.findViewById(R.id.pf).setOnClickListener(view -> {
+                showDialog1();
                 mPopupDialog.dismiss();
             });
-
-            popupDialogView.findViewById(R.id.wx_2).setOnClickListener(view -> {
-
+            popupDialogView.findViewById(R.id.zb).setOnClickListener(view -> {
+                showDialog2();
                 mPopupDialog.dismiss();
             });
         }
@@ -290,11 +319,45 @@ public class CyGlActivity extends BaseActivity {
             mPopupDialog.setCanceledOnTouchOutside(true);
             mPopupDialog.setContentView(popupDialogView);
         }
-
-
         mPopupDialog.showAtLocation(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0,
                 WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
 
+    }
+    public void showDialog1() {
+        if (mDialog1 == null) {
+            mDialog1 = new AlertDialog.Builder(this, R.style.MyDialog).create();
+        }
+        mDialog1.show();
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_a1, null);
+        ViewGroup parent = (ViewGroup) dialogView.getParent();
+        if (parent != null) {
+            parent.removeAllViews();
+        }
+
+        mDialog1.setCanceledOnTouchOutside(true);
+        mDialog1.getWindow().setContentView(dialogView);
+        mDialog1.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        mDialog1.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        }
+    public void showDialog2() {
+        if (mDialog2 == null) {
+            mDialog2 = new AlertDialog.Builder(this, R.style.MyDialog).create();
+        }
+        mDialog2.show();
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_a2, null);
+        ViewGroup parent = (ViewGroup) dialogView.getParent();
+        if (parent != null) {
+            parent.removeAllViews();
+        }
+
+        mDialog2.setCanceledOnTouchOutside(true);
+        mDialog2.getWindow().setContentView(dialogView);
+        mDialog2.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        mDialog2.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
     public void searchCy(boolean isRefresh, int page) {
         HttpData.getInstance().searchCyGl(type, key_word, page, new Observer<HttpResult<Data1>>() {

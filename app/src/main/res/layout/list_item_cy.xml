@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/swipemenulayout"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:paddingBottom="1dp">
@@ -135,16 +135,17 @@
     <!--android:background="#76D0A3"-->
     <Button
         android:id="@+id/sx"
-        android:layout_width="102dp"
+        android:layout_width="60dp"
         android:layout_height="match_parent"
         android:background="#6BB0FF"
         android:clickable="true"
         android:text="刷新"
         android:textColor="@android:color/white"
         android:textSize="14sp" />
+
     <Button
         android:id="@+id/gj"
-        android:layout_width="102dp"
+        android:layout_width="60dp"
         android:layout_height="match_parent"
         android:background="#76D0A3"
         android:clickable="true"
@@ -161,4 +162,23 @@
         android:textColor="@android:color/white"
         android:textSize="14sp" />
 
+    <Button
+        android:id="@+id/szws"
+        android:layout_width="72dp"
+        android:layout_height="match_parent"
+        android:background="#76D0A3"
+        android:text="设置未售"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/sc"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="#EA6F5A"
+        android:text="删除"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:visibility="gone" />
 </com.mcxtzhang.swipemenulib.SwipeMenuLayout>

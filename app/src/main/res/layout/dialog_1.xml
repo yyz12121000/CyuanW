@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/id_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#66000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#ffffff"
+        android:orientation="horizontal"
+        android:padding="34dp">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:drawableTop="@mipmap/img_001"
+            android:gravity="center"
+            android:text="急售" />
+
+        <TextView
+            android:id="@+id/pf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/img_002"
+            android:gravity="center"
+            android:text="批发" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:drawableTop="@mipmap/img_003"
+            android:gravity="center"
+            android:text="设置已售" />
+
+        <TextView
+            android:id="@+id/zb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/img_004"
+            android:gravity="center"
+            android:text="整备" />
+    </LinearLayout>
+
+
+</FrameLayout>
