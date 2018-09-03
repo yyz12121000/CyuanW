@@ -5,17 +5,21 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
+import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.fragment.CyFragment;
 import com.yyz.cyuanw.activity.fragment.LmFragment;
@@ -25,7 +29,9 @@ import com.yyz.cyuanw.bean.Data2;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
+import com.yyz.cyuanw.tools.ToastUtil;
 import com.yyz.cyuanw.tools.Tools;
+import com.yyz.cyuanw.view.CommonPopupDialog;
 import com.yyz.cyuanw.view.PullRV;
 
 import java.util.ArrayList;
@@ -49,6 +55,10 @@ public class CyGlActivity extends BaseActivity {
     PullRV pullRV;
     @BindView(R.id.search_text)
     EditText search_text;
+
+
+
+
     private ListAdapter adapter;
     private String key_word = "";//搜索关键词
 
@@ -59,6 +69,7 @@ public class CyGlActivity extends BaseActivity {
 
     @Override
     public void initView() {
+
         list.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ListAdapter();
         list.setAdapter(adapter);
@@ -170,6 +181,7 @@ public class CyGlActivity extends BaseActivity {
         private class VHolder extends RecyclerView.ViewHolder {
             private ImageView gx_iv, the_new, iv_j, iv_p;
             private TextView tv_title, tv_sp, tv_gl, tv_dd, tv_jg, gx_time;
+            private Button sx,gj,gd;
 
             public VHolder(@NonNull View itemView) {
                 super(itemView);
@@ -184,6 +196,29 @@ public class CyGlActivity extends BaseActivity {
                 tv_dd = itemView.findViewById(R.id.tv_dd);
                 tv_jg = itemView.findViewById(R.id.tv_jg);
                 gx_time = itemView.findViewById(R.id.gx_time);
+
+                sx = itemView.findViewById(R.id.sx);
+                gj = itemView.findViewById(R.id.gj);
+                gd = itemView.findViewById(R.id.gd);
+
+                sx.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+                gj.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+                gd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -229,9 +264,38 @@ public class CyGlActivity extends BaseActivity {
             }
         }
     }
-
+    private View popupDialogView;
+    private CommonPopupDialog mPopupDialog;
     private int type = 0;//是否已售 0否 1是
+    public void showPopupDialog() {
+        if (popupDialogView == null) {
+            popupDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_share_wx, null);
 
+            popupDialogView.findViewById(R.id.id_root_view).setOnClickListener(view -> mPopupDialog.dismiss());
+
+
+            popupDialogView.findViewById(R.id.wx_1).setOnClickListener(view -> {
+
+                mPopupDialog.dismiss();
+            });
+
+            popupDialogView.findViewById(R.id.wx_2).setOnClickListener(view -> {
+
+                mPopupDialog.dismiss();
+            });
+        }
+
+        if (mPopupDialog == null) {
+            mPopupDialog = new CommonPopupDialog(this, android.R.style.Theme_Panel);
+            mPopupDialog.setCanceledOnTouchOutside(true);
+            mPopupDialog.setContentView(popupDialogView);
+        }
+
+
+        mPopupDialog.showAtLocation(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0,
+                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+
+    }
     public void searchCy(boolean isRefresh, int page) {
         HttpData.getInstance().searchCyGl(type, key_word, page, new Observer<HttpResult<Data1>>() {
             @Override

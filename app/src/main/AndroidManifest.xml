@@ -97,7 +97,7 @@
         <activity android:name=".activity.ListChooseActivity"/>
 
         <activity android:name=".activity.ListCityChooseActivity"/>
-        <activity android:name=".activity.CyGlActivity"/>
+        <activity android:name=".activity.CyGlActivity"   android:windowSoftInputMode="stateHidden|stateUnchanged"/>
 
         <activity android:name=".oss.sample.customprovider.AuthTestActivity"/>
         <activity android:name=".activity.WdLmActivity"/>

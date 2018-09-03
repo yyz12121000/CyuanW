@@ -16,6 +16,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
+import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.CyDetailActivity;
 import com.yyz.cyuanw.activity.GdsxActivity;
@@ -303,6 +304,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         private class VHolder extends RecyclerView.ViewHolder {
             private ImageView gx_iv, the_new, iv_j, iv_p;
             private TextView tv_title, tv_sp, tv_gl, tv_dd, tv_jg, gx_time;
+            private SwipeMenuLayout swipemenulayout;
 
             public VHolder(@NonNull View itemView) {
                 super(itemView);
@@ -317,6 +319,8 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 tv_dd = itemView.findViewById(R.id.tv_dd);
                 tv_jg = itemView.findViewById(R.id.tv_jg);
                 gx_time = itemView.findViewById(R.id.gx_time);
+                swipemenulayout = itemView.findViewById(R.id.swipemenulayout);
+                swipemenulayout.setSwipeEnable(false);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

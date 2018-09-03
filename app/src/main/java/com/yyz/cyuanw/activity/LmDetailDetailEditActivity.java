@@ -296,18 +296,19 @@ public class LmDetailDetailEditActivity extends BaseActivity {
             return;
         }
         CustomProgress.show(this, "正在创建...", false, null);
-        oss.uploadImage(iconPath, new Oss.IOnFinishListenner() {
+        String logo_qz = "alliances/logo/" + Tools.getNYR() + "/" ;
+        oss.uploadImage(logo_qz,iconPath, new Oss.IOnFinishListenner() {
             @Override
-            public void onSuccess(String name) {
-                String logo = "alliances/logo/" + Tools.getNYR() + "/" + name + ".jpg";
+            public void onSuccess(String logo_name) {
+
                 if (TextUtils.isEmpty(ewmPath)) {
-                    doSubmit(lnName, logo, descStr, sheng_id, choose_type, qu_id, "");
+                    doSubmit(lnName, logo_name, descStr, sheng_id, choose_type, qu_id, "");
                 } else {
-                    oss.uploadImage(ewmPath, new Oss.IOnFinishListenner() {
+                    String ewm = "alliances/qr_code/" + Tools.getNYR() + "/" ;
+                    oss.uploadImage(ewm,ewmPath, new Oss.IOnFinishListenner() {
                         @Override
-                        public void onSuccess(String name) {
-                            String ewm = "alliances/qr_code/" + Tools.getNYR() + "/" + name + ".jpg";
-                            doSubmit(lnName, logo, descStr, sheng_id, choose_type, qu_id, ewm);
+                        public void onSuccess(String ewm_name) {
+                            doSubmit(lnName, logo_name, descStr, sheng_id, choose_type, qu_id, ewm_name);
                         }
 
                         @Override
@@ -333,11 +334,11 @@ public class LmDetailDetailEditActivity extends BaseActivity {
             return;
         }
         CustomProgress.show(this, "正在提交...", false, null);
-        oss.uploadImage(ewmPath, new Oss.IOnFinishListenner() {
+        String ewm = "alliances/qr_code/" + Tools.getNYR() + "/";
+        oss.uploadImage(ewm,ewmPath, new Oss.IOnFinishListenner() {
             @Override
             public void onSuccess(String name) {
-                String ewm = "alliances/qr_code/" + Tools.getNYR() + "/" + name + ".jpg";
-                doEdit(id, ewm);
+                doEdit(id, name);
             }
 
             @Override
