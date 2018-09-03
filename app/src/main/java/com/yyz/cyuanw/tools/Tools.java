@@ -29,7 +29,9 @@ import com.yyz.cyuanw.App;
 
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -576,14 +578,11 @@ public class Tools {
     }
 
     public static String getNYR() {
-        Calendar calendar = Calendar.getInstance();  //获取当前时间，作为图标的名字
-        String year = calendar.get(Calendar.YEAR) + "";
-        String month = calendar.get(Calendar.MONTH) + 1 + "";
-        String day = calendar.get(Calendar.DAY_OF_MONTH) + "";
-//        String hour=calendar.get(Calendar.HOUR_OF_DAY)+"";
-//        String minute=calendar.get(Calendar.MINUTE)+"";
-//        String second=calendar.get(Calendar.SECOND)+"";
-        return year + month + day;
+        long time=System.currentTimeMillis();//long now = android.os.SystemClock.uptimeMillis();
+        SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd");
+        Date d1=new Date(time);
+        String t1=format.format(d1);
+        return t1;
     }
 
 }

@@ -195,6 +195,10 @@ public class HttpData extends RetrofitUtils {
                 min_year , max_year , min_mileage, max_mileage,key_word,0,App.get(Constant.KEY_USER_TOKEN));
         setSubscribe(observable, observer);
     }
+    public void searchCyGl(int type,String key_word,int page,Observer<HttpResult<Data1>> observer) {
+        Observable observable = service.searchCyGl(type,key_word,page,App.get(Constant.KEY_USER_TOKEN));
+        setSubscribe(observable, observer);
+    }
     public void dictionary(Observer<HttpResult<Data3>> observer) {
         Observable observable = service.dictionary(App.get(Constant.KEY_USER_TOKEN),"");
         setSubscribe(observable, observer);

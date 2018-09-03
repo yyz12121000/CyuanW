@@ -190,6 +190,15 @@ public interface ApiService {
                                            @Field("is_self ") int is_self,
                                            @Field("token") String token
     );
+    //车源管理列表
+    @FormUrlEncoded
+    @POST("myCar")
+    Observable<HttpResult<Data1>> searchCyGl(
+                                           @Field("type") int type,
+                                           @Field("key_word") String key_word,
+                                           @Field("page") int page,
+                                           @Field("token") String token
+    );
     //共享车源筛选结果数量
     @FormUrlEncoded
     @POST("carScreeningCount")

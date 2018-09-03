@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
+import com.yyz.cyuanw.activity.CyGlActivity;
 import com.yyz.cyuanw.activity.WdLmActivity;
 import com.yyz.cyuanw.activity.fragment.SyFragment;
 import com.yyz.cyuanw.apiClient.HttpData;
@@ -128,7 +129,7 @@ public class UserActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.id_iv_back, R.id.id_tv_setting, R.id.id_tv_help})
+    @OnClick({R.id.id_iv_back, R.id.id_tv_setting, R.id.id_tv_help,R.id.cygl})
     public void onClickEvent(View view) {
         switch (view.getId()) {
             case R.id.id_iv_back:
@@ -142,6 +143,10 @@ public class UserActivity extends BaseActivity {
             case R.id.id_tv_help:
 
                 startActivity(HelpActivity.class);
+                break;
+            case R.id.cygl:
+                Intent intent = new Intent(UserActivity.this, CyGlActivity.class);
+                startActivity(intent);
                 break;
         }
     }
