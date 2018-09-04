@@ -320,9 +320,8 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 tv_jg = itemView.findViewById(R.id.tv_jg);
                 gx_time = itemView.findViewById(R.id.gx_time);
                 swipemenulayout = itemView.findViewById(R.id.swipemenulayout);
-                swipemenulayout.setSwipeEnable(false);
-
-                itemView.setOnClickListener(new View.OnClickListener() {
+                swipemenulayout.setSwipeEnable(false);swipemenulayout.setClickable(true);
+                itemView.findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         int position = getAdapterPosition();
@@ -331,6 +330,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                         CyFragment.this.getActivity().startActivity(intent);
                     }
                 });
+
             }
 
             public void setData() {
