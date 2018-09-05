@@ -48,15 +48,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.MainActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"
-            android:launchMode="singleTask" >
+        <activity android:name=".activity.StartActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activity.GuideActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.MainActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
+
         <activity android:name=".activity.ATestActivity" />
 
         <activity android:name=".activity.user_model.UserActivity"
@@ -85,22 +92,31 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.user_model.HelpActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.PpxzActivity"/>
-        <activity android:name=".activity.GdsxActivity"/>
-        <activity android:name=".activity.CyDetailActivity" />
-        <activity android:name=".activity.LmDetailActivity"/>
-        <activity android:name=".activity.LmDetailDetailActivity"/>
-        <activity android:name=".activity.LmDetailDetailEditActivity"/>
-        <activity android:name=".activity.LmMemberActivity"/>
-        <activity android:name=".activity.LmMemberJoinActivity"/>
-        <activity android:name=".activity.ChooseCityActivity" android:theme="@style/DefaultCityPickerTheme" android:launchMode="singleTask"/>
+        <activity android:name=".activity.user_model.CarsourceChangeActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.PpxzActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.GdsxActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CyDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.LmDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.LmDetailDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.LmDetailDetailEditActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.LmMemberActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.LmMemberJoinActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ChooseCityActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DefaultCityPickerTheme"
+            android:launchMode="singleTask"/>
         <activity android:name=".activity.ListChooseActivity"/>
 
-        <activity android:name=".activity.ListCityChooseActivity"/>
-        <activity android:name=".activity.CyGlActivity"   android:windowSoftInputMode="stateHidden|stateUnchanged"/>
+        <activity android:name=".activity.ListCityChooseActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CyGlActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"/>
 
         <activity android:name=".oss.sample.customprovider.AuthTestActivity"/>
-        <activity android:name=".activity.WdLmActivity"/>
+        <activity android:name=".activity.WdLmActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data android:name="com.amap.api.v2.apikey" android:value="e842a2da67058a7677c44b4ec4de18a4"></meta-data>
         <service android:name="com.amap.api.location.APSService"></service>

@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
+import com.yyz.cyuanw.activity.SelectPicActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpResult;
@@ -70,7 +71,6 @@ public class UserInfoActivity extends BaseActivity{
     private Dialog mDialog;
 
     private LQRPhotoSelectUtils mLqrPhotoSelectUtils;
-
     private int uploadPicType = 0;
 
     private LoginData userData;
@@ -110,6 +110,16 @@ public class UserInfoActivity extends BaseActivity{
         ((TextView)signView.getChildAt(0)).setText("个性签名");
         tvSignView = (TextView) signView.getChildAt(1);
     }
+
+//    @Override
+//    protected void callBack(File outputFile,Uri outputUri) {
+//        LogManager.e(outputFile.getAbsolutePath());
+//
+//        if (uploadPicType == 0)
+//            Img.loadC(ivPhotoView,outputUri.toString());
+//
+//        uploadFile(getMultipartBody(outputFile));
+//    }
 
     @Override
     public void initData() {
@@ -255,6 +265,7 @@ public class UserInfoActivity extends BaseActivity{
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                     Manifest.permission.CAMERA
                             ).request();
+                    //takePhotoRequest();
                 }else{
                     setInfo("gender","1",tvSexView);
                 }
@@ -269,6 +280,7 @@ public class UserInfoActivity extends BaseActivity{
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE}
                     );
+                    //selectPhotoRequest();
                 }else{
                     setInfo("gender","2",tvSexView);
                 }
@@ -414,8 +426,6 @@ public class UserInfoActivity extends BaseActivity{
         android.support.v7.app.AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-
 
 }
 

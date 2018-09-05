@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#ffffff"
-    android:layout_height="46dp">
+    android:layout_height="46dp"
+    android:background="#ffffff">
 
     <TextView
         android:id="@+id/id_tv_name"
@@ -12,8 +12,7 @@
         android:paddingLeft="16dp"
         android:text="标题"
         android:textColor="#333333"
-        android:textSize="16dp"
-        android:background="#ffffff"/>
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/id_tv_content"
@@ -28,8 +27,7 @@
         android:textSize="14dp"
         android:singleLine="true"
         android:ellipsize="end"
-        android:gravity="right"
-        android:background="#ffffff"/>
+        android:gravity="right" />
 
     <ImageView
         android:id="@+id/id_iv_arrow"

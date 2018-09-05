@@ -2,12 +2,16 @@ package com.yyz.cyuanw.activity.user_model;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.App;
@@ -17,7 +21,16 @@ import com.yyz.cyuanw.activity.MainActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.common.Constant;
+import com.yyz.cyuanw.tools.FileUtils;
 import com.yyz.cyuanw.view.CustomProgress;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,9 +42,13 @@ public class SettingActivity extends BaseActivity{
     @BindView(R.id.id_oper_userinfo) LinearLayout infoView;
     @BindView(R.id.id_oper_safe) LinearLayout safeView;
     @BindView(R.id.id_oper_carsource) LinearLayout carsourceView;
-    @BindView(R.id.id_oper_clear) LinearLayout clearView;
+    @BindView(R.id.id_oper_clear) RelativeLayout clearView;
     @BindView(R.id.id_oper_about) LinearLayout aboutView;
     @BindView(R.id.id_oper_exit) LinearLayout exitView;
+
+    private TextView tvCacheView;
+
+    private int carSource;
 
     @Override
     protected int getLayoutId() {
@@ -47,11 +64,15 @@ public class SettingActivity extends BaseActivity{
         ((TextView)clearView.getChildAt(0)).setText("清理缓存");
         ((TextView)aboutView.getChildAt(0)).setText("关于车缘");
         ((TextView)exitView.getChildAt(0)).setText("退出登录");
+
+        tvCacheView = ((TextView)clearView.getChildAt(1));
+        tvCacheView.setText(FileUtils.getCacheSize(this));
     }
 
     @Override
     public void initData() {
 
+        carSource = getIntent().getIntExtra("carSource",0);
     }
 
     @OnClick({R.id.id_oper_userinfo,R.id.id_oper_safe,R.id.id_oper_carsource,R.id.id_oper_clear,R.id.id_oper_about,R.id.id_oper_exit})
@@ -64,28 +85,35 @@ public class SettingActivity extends BaseActivity{
                 startActivity(SafeConfirmActivity.class);
                 break;
             case R.id.id_oper_carsource:
-                finish();
-                break;
-            case R.id.id_oper_clear:
-                finish();
+                Intent intent = new Intent(this,CarsourceChangeActivity.class);
+                intent.putExtra("carSource",carSource);
+                startActivityForResult(intent,1);
+
                 break;
             case R.id.id_oper_about:
                 startActivity(AboutActivity.class);
                 break;
             case R.id.id_oper_exit:
-                showExitDialog();
+                showAlertDialog(1);
+                break;
+            case R.id.id_oper_clear:
+                showAlertDialog(2);
                 break;
         }
     }
 
-    public void showExitDialog(){
+    public void showAlertDialog(int type){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("是否注销登录?");
-        builder.setTitle("退出登录");
+        builder.setTitle(type == 1 ? "退出登录" : "清理缓存");
+        builder.setMessage(type == 1 ? "是否注销登录?" : "是否清空缓存?");
         builder.setPositiveButton("确定",(dialogView,which) -> {
             dialogView.dismiss();
-            logout();
-
+            if (type == 1){
+                logout();
+            }else{
+                tvCacheView.setText("0KB");
+                FileUtils.clearAppCache(SettingActivity.this);
+            }
         });
         builder.setNegativeButton("取消",(dialogView,which) -> dialogView.dismiss());
         builder.show();
@@ -128,6 +156,14 @@ public class SettingActivity extends BaseActivity{
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK){
+            carSource = data.getIntExtra("carSource",0);
+        }
+    }
 }
 
 

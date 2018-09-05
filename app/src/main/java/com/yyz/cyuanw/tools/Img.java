@@ -14,7 +14,7 @@ public class Img {
         Glide.with(App.context).load(url)
                 .apply(new RequestOptions()
                         .error(App.context.getResources().getDrawable(R.mipmap.ic_launcher))
-                        .placeholder(R.mipmap.ic_defaultphoto)
+                        //.placeholder(R.mipmap.ic_defaultphoto)
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .transform(new GlideCircleTransformWithBorder(App.context, 1, Color.parseColor("#ccffffff")))
@@ -25,7 +25,7 @@ public class Img {
         Glide.with(App.context).load(url)
                 .apply(new RequestOptions()
                         .error(App.context.getResources().getDrawable(R.mipmap.ic_launcher))
-                        .placeholder(R.mipmap.ic_launcher)
+                        //.placeholder(R.mipmap.ic_launcher)
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                 ).into(iv);

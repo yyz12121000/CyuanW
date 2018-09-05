@@ -2,6 +2,7 @@ package com.yyz.cyuanw.apiClient;
 
 
 import com.yyz.cyuanw.bean.AdData;
+import com.yyz.cyuanw.bean.CardIDData;
 import com.yyz.cyuanw.bean.CheyListData;
 import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.Data1;
@@ -69,6 +70,11 @@ public interface ApiService {
     @POST("realNameAuthentication")
     Observable<HttpCodeResult> nameConfrim(@Field("real_name") String real_name,@Field("id_num") String id_num,@Field("token") String token);
 
+    //获取实名信息
+    @FormUrlEncoded
+    @POST("realNameStatus")
+    Observable<HttpResult<CardIDData>> getCardInfo(@Field("token") String token);
+
     //修改性别
     @FormUrlEncoded
     @POST("setGender")
@@ -104,7 +110,8 @@ public interface ApiService {
 
     //经纪人认证
     @POST("certificationBroker")
-    Observable<HttpResult<ImgData>> certificationBroker(@Body RequestBody Body);
+    Observable<HttpCodeResult> certificationBroker(@Body RequestBody Body);
+
     Observable<HttpCodeResult> logout(@Header("token") String token, @Field("token") String empty);
 
     //获取短信验证码
@@ -241,6 +248,11 @@ public interface ApiService {
     //搜索筛选参数
     @GET("search_criteria")
     Observable<HttpResult<Data3>> search_criteria(@Query("token") String token);
+
+    @FormUrlEncoded
+    @POST("changeCarSource")
+    Observable<HttpCodeResult> changeCarSource(@Field("token") String token, @Field("source") int source);
+
     //加入申请会员列表
     @GET()
     Observable<HttpResult<Data10>> apply_join_users(@Url String url, @Query("token") String token);

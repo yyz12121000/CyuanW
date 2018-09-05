@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -129,7 +130,7 @@ public class UserActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.id_iv_back, R.id.id_tv_setting, R.id.id_tv_help,R.id.cygl})
+    @OnClick({R.id.id_iv_back, R.id.id_tv_setting, R.id.id_tv_help,R.id.id_iv_modify,R.id.cygl})
     public void onClickEvent(View view) {
         switch (view.getId()) {
             case R.id.id_iv_back:
@@ -138,15 +139,21 @@ public class UserActivity extends BaseActivity {
                 break;
             case R.id.id_tv_setting:
 
-                startActivity(SettingActivity.class);
+                Intent intent = new Intent(this,SettingActivity.class);
+                intent.putExtra("carSource",userData.car_source);
+                startActivity(intent);
                 break;
             case R.id.id_tv_help:
 
                 startActivity(HelpActivity.class);
                 break;
+            case R.id.id_iv_modify:
+
+                startActivity(UserInfoActivity.class);
+                break;
             case R.id.cygl:
-                Intent intent = new Intent(UserActivity.this, CyGlActivity.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(UserActivity.this, CyGlActivity.class);
+                startActivity(intent1);
                 break;
         }
     }

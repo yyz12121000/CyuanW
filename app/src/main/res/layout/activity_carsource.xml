@@ -9,10 +9,11 @@
         layout="@layout/layout_common_title" />
 
     <CheckBox
+        android:id="@+id/id_cb_view1"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:paddingLeft="16dp"
-        android:drawableLeft="@mipmap/ic_select"
+        android:drawableLeft="@mipmap/ic_unselect"
         android:drawablePadding="12dp"
         android:button="@null"
         android:text="自己发布"
@@ -20,6 +21,7 @@
         android:textColor="#333333"
         android:background="#ffffff"/>
     <CheckBox
+        android:id="@+id/id_cb_view2"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_marginTop="2dp"

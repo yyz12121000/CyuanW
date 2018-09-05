@@ -8,8 +8,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+
+import com.yyz.cyuanw.App;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -219,4 +223,113 @@ public class FileUtils {
         }
         return picPath;
     }
+
+    /**
+     * 转换文件大小
+     * @param fileS
+     * @return B/KB/MB/GB
+     */
+    public static String formatFileSize(long fileS) {
+        java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
+        String fileSizeString = "";
+        if (fileS < 1024) {
+            fileSizeString = df.format((double) fileS) + "B";
+        } else if (fileS < 1048576) {
+            fileSizeString = df.format((double) fileS / 1024) + "KB";
+        } else if (fileS < 1073741824) {
+            fileSizeString = df.format((double) fileS / 1048576) + "MB";
+        } else {
+            fileSizeString = df.format((double) fileS / 1073741824) + "G";
+        }
+        return fileSizeString;
+    }
+
+    /**
+     * 获取目录文件大小
+     * @param dir
+     * @return
+     */
+    public static long getDirSize(File dir) {
+        if (dir == null) {
+            return 0;
+        }
+        if (!dir.isDirectory()) {
+            return 0;
+        }
+        long dirSize = 0;
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            if (file.isFile()) {
+                dirSize += file.length();
+            } else if (file.isDirectory()) {
+                dirSize += file.length();
+                dirSize += getDirSize(file); //递归调用继续统计
+            }
+        }
+        return dirSize;
+    }
+
+    public static String getCacheSize(Context context){
+        long fileSize = 0;
+        String cacheSize = "0KB";
+        File filesDir = context.getFilesDir();
+        File cacheDir = context.getCacheDir();
+
+        fileSize += FileUtils.getDirSize(filesDir);
+        fileSize += FileUtils.getDirSize(cacheDir);
+
+        File externalCacheDir = context.getExternalCacheDir();
+        fileSize += FileUtils.getDirSize(externalCacheDir);
+
+        if(fileSize > 0)
+            cacheSize = FileUtils.formatFileSize(fileSize);
+
+        return cacheSize;
+    }
+
+    public static void cleanInternalCache(Context context) {
+        deleteFilesByDirectory(context.getCacheDir());
+        deleteFilesByDirectory(context.getFilesDir());
+
+        deleteFilesByDirectory(new File("/data/data/" + context.getPackageName() + "/databases"));
+        deleteFilesByDirectory(new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Android/data/" + context.getPackageName()));
+    }
+
+    private static void deleteFilesByDirectory(File directory) {
+        if (directory != null && directory.exists() && directory.isDirectory()) {
+            for (File child : directory.listFiles()) {
+                if (child.isDirectory()) {
+                    deleteFilesByDirectory(child);
+                }
+                child.delete();
+            }
+        }
+    }
+
+    public static void clearAppCache(Context context) {
+        final Handler handler = new Handler(){
+            public void handleMessage(Message msg) {
+                if(msg.what==1){
+                    App.showToast("缓存清除成功");
+                }else{
+                    App.showToast("缓存清除失败");
+                }
+            }
+        };
+        new Thread(){
+            public void run() {
+                Message msg = new Message();
+                try {
+                    cleanInternalCache(context);
+                    msg.what = 1;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg.what = -1;
+                }
+                handler.sendMessage(msg);
+            }
+        }.start();
+    }
+
+
 }

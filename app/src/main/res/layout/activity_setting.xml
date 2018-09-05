@@ -19,7 +19,7 @@
         layout="@layout/layout_common_oper1" />
     <include
         android:id="@+id/id_oper_clear"
-        layout="@layout/layout_common_oper1" />
+        layout="@layout/layout_common_oper2" />
     <include
         android:id="@+id/id_oper_about"
         layout="@layout/layout_common_oper1" />

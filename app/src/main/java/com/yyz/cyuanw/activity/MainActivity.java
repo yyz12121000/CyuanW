@@ -54,6 +54,8 @@ public class MainActivity extends BaseActivity {
     private Dialog mDialog;
     private Location location;
 
+    private long lastBackTime;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -61,6 +63,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        lastBackTime = System.currentTimeMillis();
         location = new Location(this, new Location.ILocationListener() {
             @Override
             public void location(LocationO locationO) {
@@ -269,6 +272,23 @@ public class MainActivity extends BaseActivity {
         if (requestCode == REQUEST_PERMISSION_CODE) {
             location.start();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            long time = System.currentTimeMillis();
+            if ((time - lastBackTime) > 2000) {
+                App.showToast("再按一次退出应用程序");
+
+                lastBackTime = time;
+            } else {
+                finish();
+            }
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
 }

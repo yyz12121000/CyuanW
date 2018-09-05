@@ -1,6 +1,7 @@
 package com.yyz.cyuanw.activity.user_model;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -101,12 +102,14 @@ public class SafeConfirmActivity extends BaseActivity{
                 startActivity(intent);
                 break;
             case R.id.id_oper_nameconfirm:
-                if (!StringUtil.isNotNull(userData.name))
-                    startActivity(NameConfirmActivity.class);
+
+                Intent intent2 = new Intent(this,NameConfirmActivity.class);
+                intent2.putExtra("name",userData.name);
+                startActivityForResult(intent2,10);
                 break;
             case R.id.id_oper_persionconfirm:
-                if (userData.is_broker == 0)
-                    startActivity(PersionConfirmActivity.class);
+                if (tvPersionView.getText().toString().equals("未认证"))
+                    startActivityForResult(new Intent(this,PersionConfirmActivity.class),20);
                 break;
         }
     }
@@ -115,6 +118,18 @@ public class SafeConfirmActivity extends BaseActivity{
         startActivity(new Intent(this,cls));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == 10){
+            tvNameView.setText("已认证");
+        }
+
+        if (resultCode == 20){
+            tvPersionView.setText("申请中");
+        }
+    }
 }
 
 
