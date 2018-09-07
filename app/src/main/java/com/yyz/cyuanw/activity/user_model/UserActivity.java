@@ -130,7 +130,8 @@ public class UserActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.id_iv_back, R.id.id_tv_setting, R.id.id_tv_help,R.id.id_iv_modify,R.id.cygl})
+    @OnClick({R.id.id_iv_back, R.id.id_tv_setting, R.id.id_tv_help,R.id.id_iv_modify,R.id.cygl,
+            R.id.id_tv_mycar,R.id.id_iv_shop,R.id.id_tv_myshop,R.id.id_tv_message})
     public void onClickEvent(View view) {
         switch (view.getId()) {
             case R.id.id_iv_back:
@@ -138,22 +139,36 @@ public class UserActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.id_tv_setting:
-
-                Intent intent = new Intent(this,SettingActivity.class);
-                intent.putExtra("carSource",userData.car_source);
-                startActivity(intent);
+                if (userData != null){
+                    Intent intent = new Intent(this,SettingActivity.class);
+                    intent.putExtra("carSource",userData.car_source);
+                    startActivity(intent);
+                }
                 break;
             case R.id.id_tv_help:
 
                 startActivity(HelpActivity.class);
+                break;
+            case R.id.id_tv_message:
+
+                startActivity(MessageActivity.class);
                 break;
             case R.id.id_iv_modify:
 
                 startActivity(UserInfoActivity.class);
                 break;
             case R.id.cygl:
+            case R.id.id_tv_mycar:
                 Intent intent1 = new Intent(UserActivity.this, CyGlActivity.class);
                 startActivity(intent1);
+                break;
+            case  R.id.id_tv_myshop:
+            case R.id.id_iv_shop:
+                if (userData != null){
+                    Intent intent2 = new Intent(UserActivity.this, MyShopActivity.class);
+                    intent2.putExtra("id",userData.id);
+                    startActivity(intent2);
+                }
                 break;
         }
     }

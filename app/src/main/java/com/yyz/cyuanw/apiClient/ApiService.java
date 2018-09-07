@@ -8,6 +8,7 @@ import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data10;
 import com.yyz.cyuanw.bean.Data15;
+import com.yyz.cyuanw.bean.Data2;
 import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.Data5;
 import com.yyz.cyuanw.bean.Data6;
@@ -22,6 +23,9 @@ import com.yyz.cyuanw.bean.LmDetail;
 import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.bean.LoginData;
+import com.yyz.cyuanw.bean.MessageData;
+import com.yyz.cyuanw.bean.ShopInfo;
+import com.yyz.cyuanw.bean.ShopListData;
 import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
 
 import okhttp3.RequestBody;
@@ -64,6 +68,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("user")
     Observable<HttpResult<LoginData>> getUserInfo(@Field("token") String token);
+
+    @GET
+    Observable<HttpResult<ShopInfo>> getShopInfo(@Url String url);
 
     //实名验证
     @FormUrlEncoded
@@ -300,114 +307,18 @@ public interface ApiService {
     @POST("ossToken")
     Observable<ResponseBody> ossToken(@Field("token") String token);
 
+    //在售车源列表
+    @FormUrlEncoded
+    @POST("selfCar")
+    Observable<HttpResult<ShopListData>> getSelfCarList(@Field("id") int id, @Field("page") int page);
 
-//    //修改密码
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/getUpdatePad")
-//    Observable<HttpResult<LoginData>> modifyPsw(@Field("password") String mobile, @Field("newpad") String password, @Field("token") String token, @Field("os") String os);
-//
-//    //用户退出
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/loginOut")
-//    Observable<HttpResult<LoginData>> exit(@Field("token") String token, @Field("os") String os);
-//
+    //共享车源列表
+    @FormUrlEncoded
+    @POST("shareCar")
+    Observable<HttpResult<ShopListData>> getShareCarList(@Field("id") int id, @Field("page") int page);
 
-//
-//    //获取验证码
-//    @FormUrlEncoded
-//    @POST("yycs/api/mobile/verificationCode")
-//    Observable<HttpResult<LoginData>> getValidateCode(@Field("phone") String phone);
-//
-//    //找回密码
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/forgetPwd")
-//    Observable<HttpResult<LoginData>> getPassword(@Field("loginName") String loginName, @Field("phone") String phone, @Field("code") String code, @Field("password") String password);
-//
-//    //首页数据
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/home")
-//    Observable<HttpResult<HomeData>> getHomeData(@Field("token") String token, @Field("os") String os);
-//
-//    //交易订单-统计
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/ordersStatistics")
-//    Observable<HttpListResult<OrderItem>> getOrderData(@Field("date") String date, @Field("token") String token, @Field("os") String os);
-//
-//    //交易订单-列表
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/ordersList")
-//    Observable<HttpListResult<OrderItem>> getOrderDataList(@Field("date") String date, @Field("pageNo") String page, @Field("pageSize") String size, @Field("token") String token, @Field("os") String os);
-//
-//    //发票-列表
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/invoice")
-//    Observable<HttpListResult<InvoiceItem>> getInvoiceDataList(@Field("hasInvoice") String hasInvoice, @Field("pageNo") String page, @Field("pageSize") String size, @Field("token") String token, @Field("os") String os);
-//
-//    //发票-订单列表
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/ordersForInvoice")
-//    Observable<HttpListResult<OrderItem>> getInvoiceOrderDataList(@Field("invoiceRecordId") String id, @Field("pageNo") String page, @Field("pageSize") String size, @Field("token") String token, @Field("os") String os);
-//
-//    //发票-设为已开
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/settingHasInvoice")
-//    Observable<HttpResult<OrderItem>> setHasInvoice(@Field("invoiceRecordId") String id, @Field("token") String token, @Field("os") String os);
-//
-//    //商品管理
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/getCommodityPrices")
-//    Observable<HttpListResult<BusinessData>> getCommodityPrices(@Field("token") String token, @Field("os") String os);
-//
-//    //商品管理-修改
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/updateCommodityPrices")
-//    Observable<HttpResult<OrderItem>> updateCommodityPrices(@Field("ids") String ids, @Field("prices") String prices, @Field("items") String items, @Field("token") String token, @Field("os") String os);
-//
-//    //财务对账
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/financialVerification")
-//    Observable<HttpResult<FinanceData>> financialVerification(@Field("startTime") String startTime, @Field("endTime") String endTime, @Field("state") String state,
-//                                                              @Field("page") String page, @Field("pageSize") String size, @Field("token") String token, @Field("os") String os);
-//
-//    //财务对账-明细列表
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/dayOrderList")
-//    Observable<HttpListResult<OrderItem>> getFinanceDataList(@Field("date") String date, @Field("page") String page, @Field("pageSize") String size, @Field("token") String token, @Field("os") String os);
-//
-//    //关于
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/getAboutmeInfo")
-//    Observable<HttpResult<AboutData>> getAboutInfo(@Field("type") String type, @Field("token") String token, @Field("os") String os);
-//
-//    //检测更新
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/getValidata")
-//    Observable<HttpResult<UpdateData>> getUpdateInfo(@Field("type") String type, @Field("token") String token, @Field("os") String os);
-//
-//    //更新短信提醒
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/updateRemindPhone")
-//    Observable<HttpResult<UpdateData>> getUpdatePhone(@Field("isMsg") String isMsg, @Field("phoneRemind") String phoneRemind, @Field("token") String token, @Field("os") String os);
-//
-//    //原手机号验证
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/appbeforePhone")
-//    Observable<HttpResult<LoginData>> appBeforePhone(@Field("code") String code, @Field("token") String token, @Field("os") String os);
-//
-//    //新手机号验证
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/appnewPhone")
-//    Observable<HttpResult<LoginData>> appNewPhone(@Field("phone") String phone, @Field("code") String code, @Field("token") String token, @Field("os") String os);
-//
-//    @FormUrlEncoded
-//    @POST("yycs/merchant/inspection/getMyShopData")
-//    Observable<HttpResult<MyShopData>> getMyShopData(@Field("token") String token, @Field("os") String os);
-//
-//    @POST("yycs/merchant/inspection/updateMyShopData")
-//    Observable<HttpResult<LoginData>> updateMyShopData(@Body RequestBody Body);
-//
-//    @POST("yycs/merchant/inspection/uploadFile")
-//    Observable<HttpListResult<ImagBean>> uploadFile(@Body RequestBody Body);
+    @GET("user_messages")
+    Observable<HttpResult<MessageData>> getMessageList(@Query("token") String token);
 
 }
 

@@ -51,7 +51,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="16dp"
                 android:onClick="userBtnOnclik"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_defaultphoto" />
         </RelativeLayout>
 
         <LinearLayout

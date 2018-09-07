@@ -8,6 +8,7 @@ import com.yyz.cyuanw.bean.CyListData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data10;
 import com.yyz.cyuanw.bean.Data15;
+import com.yyz.cyuanw.bean.Data2;
 import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.Data5;
 import com.yyz.cyuanw.bean.Data6;
@@ -22,6 +23,9 @@ import com.yyz.cyuanw.bean.LmDetail;
 import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.bean.LoginData;
+import com.yyz.cyuanw.bean.MessageData;
+import com.yyz.cyuanw.bean.ShopInfo;
+import com.yyz.cyuanw.bean.ShopListData;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
 
@@ -72,6 +76,11 @@ public class HttpData extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
+    public void getShopInfo(int id,Observer<HttpResult<ShopInfo>> observer){
+        Observable observable = service.getShopInfo(Constant.API_SERVER+"/shopUserInfo/"+id);
+        setSubscribe(observable, observer);
+    }
+
     public void getImgCode(String phone, Observer<HttpResult<ImgData>> observer){
         Observable observable = service.getImgCode(phone);
         setSubscribe(observable, observer);
@@ -92,6 +101,11 @@ public class HttpData extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
+    public void getMessageList(int page,String token,Observer<HttpResult<MessageData>> observer){
+        Observable observable = service.getMessageList(token);
+        setSubscribe(observable, observer);
+    }
+
     public void changePhone(String phone,String oldcode,String newcode,String token,Observer<HttpCodeResult> observer){
         Observable observable = service.changePhone(phone,oldcode,newcode,token);
         setSubscribe(observable, observer);
@@ -108,6 +122,19 @@ public class HttpData extends RetrofitUtils {
                 break;
             case "virtual_number":
                 observable = service.setVirtualNumber(value,token);
+                break;
+        }
+        setSubscribe(observable, observer);
+    }
+
+    public void getShopList(int type,int id,int page,Observer<HttpResult<ShopListData>> observer){
+        Observable observable = null;
+        switch (type){
+            case 0:
+                observable = service.getSelfCarList(id,page);
+                break;
+            case 1:
+                observable = service.getShareCarList(id,page);
                 break;
         }
         setSubscribe(observable, observer);

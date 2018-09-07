@@ -22,8 +22,11 @@ public class StartActivity extends BaseActivity {
 
 	@Override
 	public void initView() {
+		mImmersionBar.reset().transparentBar().init();
+		setSwipeBackEnable(false);
+
 		AlphaAnimation aa = new AlphaAnimation(0.3f,1.0f);
-		aa.setDuration(1000);
+		aa.setDuration(2000);
 		view.startAnimation(aa);
 		aa.setAnimationListener(new Animation.AnimationListener()
 		{

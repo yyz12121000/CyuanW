@@ -19,8 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.fragment.CyFragment;
@@ -31,7 +33,9 @@ import com.yyz.cyuanw.activity.user_model.NameConfirmActivity;
 import com.yyz.cyuanw.activity.user_model.UserActivity;
 import com.yyz.cyuanw.adapter.MyFragPagerAdapter;
 import com.yyz.cyuanw.bean.LocationO;
+import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.common.Constant;
+import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.Location;
 import com.yyz.cyuanw.tools.StringUtil;
 import com.yyz.cyuanw.tools.Tools;
@@ -49,10 +53,13 @@ public class MainActivity extends BaseActivity {
     private View search_ll;
     private TextView left_text;
     private EditText search_text;
+    private ImageView right_icon;
     private int index = 0;
 
     private Dialog mDialog;
     private Location location;
+
+    private LoginData userData;
 
     private long lastBackTime;
 
@@ -74,6 +81,13 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+
+        String jsonStr = App.get(Constant.KEY_USER_DATA);
+        if (StringUtil.isNotNull(jsonStr)) {
+            userData = new Gson().fromJson(jsonStr, LoginData.class);
+            if (StringUtil.isNotNull(userData.pic))
+                Img.loadC(right_icon, userData.pic);
+        }
     }
 
     @Override
@@ -103,6 +117,7 @@ public class MainActivity extends BaseActivity {
         mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
         left_text = (TextView) findViewById(R.id.left_text);
         search_text = (EditText) findViewById(R.id.search_text);
+        right_icon = (ImageView) findViewById(R.id.right_icon);
         //设置ViewPager里面也要显示的图片
         mFragments = new ArrayList<>();
 

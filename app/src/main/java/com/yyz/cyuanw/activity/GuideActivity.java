@@ -3,9 +3,7 @@ package com.yyz.cyuanw.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -17,8 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.yyz.cyuanw.R;
-import com.yyz.cyuanw.activity.BaseActivity;
-import com.yyz.cyuanw.activity.MainActivity;
 
 import butterknife.BindView;
 
@@ -42,6 +38,9 @@ public class GuideActivity extends BaseActivity implements OnClickListener, OnPa
 
 	@Override
 	public void initView() {
+		mImmersionBar.reset().transparentBar().init();
+		setSwipeBackEnable(false);
+
 		views = new ArrayList<View>();
 
 		LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
@@ -50,7 +49,7 @@ public class GuideActivity extends BaseActivity implements OnClickListener, OnPa
 		for(int i=0; i<pics.length; i++) {
 			ImageView iv = new ImageView(this);
 			iv.setLayoutParams(mParams);
-			iv.setScaleType(ImageView.ScaleType.CENTER);
+			iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			iv.setImageResource(pics[i]);
 			views.add(iv);
 		}

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.yyz.cyuanw"
-        minSdkVersion 17
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -87,8 +87,6 @@ dependencies {
     implementation 'com.aliyun.dpa:oss-android-sdk:+'
 //    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
 //    implementation 'com.squareup.okio:okio:1.9.0'
-
-
     implementation 'com.huxq17.xrefreshview:xrefreshview:3.6.9'
 
 }

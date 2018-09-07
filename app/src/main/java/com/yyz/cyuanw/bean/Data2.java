@@ -6,4 +6,6 @@ public class Data2 {
             location,region,retail_offer,
             license_plate_time,real_name,
             profile_picture,publish_time;
+    public String wholesale_offer;
+
 }
