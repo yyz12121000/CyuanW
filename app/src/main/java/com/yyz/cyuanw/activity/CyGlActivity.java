@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.activity.user_model.SendCarActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data2;
@@ -109,7 +110,7 @@ public class CyGlActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv1, R.id.tv2})
+    @OnClick({R.id.tv1, R.id.tv2,R.id.title_right})
     public void onClickEvent(View view) {
         switch (view.getId()) {
             case R.id.tv1:
@@ -127,6 +128,9 @@ public class CyGlActivity extends BaseActivity {
                 tv2.setBackgroundResource(R.drawable.bg_5);
                 type = 1;
                 searchCy(true, pullRV.page = 1);
+                break;
+            case R.id.title_right:
+                startActivity(new Intent(this, SendCarActivity.class));
                 break;
         }
     }

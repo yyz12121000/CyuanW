@@ -33,6 +33,18 @@
         android:src="@mipmap/ic_launcher"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/title_right_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="15dp"
+        android:text="确认"
+        android:textSize="17dp"
+        android:textColor="#EA6F5A"
+        android:visibility="gone" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.3dp"

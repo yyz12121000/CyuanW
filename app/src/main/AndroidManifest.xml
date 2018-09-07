@@ -98,6 +98,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.user_model.MessageActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.user_model.SendCarActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.PpxzActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.GdsxActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.CyDetailActivity" android:screenOrientation="portrait"/>
