@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">车缘网</string>
 
-    <string name="str_user_mycar">车源管理\n%d</string>
-    <string name="str_user_myshop">店铺车源\n%d</string>
-    <string name="str_user_myunion">我的联盟\n%d</string>
+    <string name="str_user_mycar"><Data><![CDATA[车源管理<br><big><big><font color="#333333">%d</font></big></big]]></Data></string>
+    <string name="str_user_myshop"><Data><![CDATA[店铺车源<br><big><big><font color="#333333">%d</font></big></big]]></Data></string>
+    <string name="str_user_myunion"><Data><![CDATA[我的联盟<br><big><big><font color="#333333">%d</font></big></big]]></Data></string>
     <string name="str_help_weixin">请您扫描上方二维码\n或者\n微信搜索“CheyuanCN”添加</string>
 </resources>

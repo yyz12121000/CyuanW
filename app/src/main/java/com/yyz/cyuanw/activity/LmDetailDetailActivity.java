@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.App;
@@ -22,6 +23,7 @@ import com.yyz.cyuanw.bean.LmDetail;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
+import com.yyz.cyuanw.tools.StringUtil;
 
 import java.util.List;
 
@@ -48,11 +50,16 @@ public class LmDetailDetailActivity extends BaseActivity {
     ImageView img;
     @BindView(R.id.ewm)
     ImageView ewm;
+    @BindView(R.id.id_rl_qrcode)
+    RelativeLayout qrcodeView;
+    @BindView(R.id.id_view_line)
+    View lineView;
 
     private int lm_id;
 
     LmDetail lmDetail;
     private Dialog mDialog;
+    private Dialog qrcodeDialog;
 
     @Override
     protected int getLayoutId() {
@@ -107,7 +114,7 @@ public class LmDetailDetailActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.edit, R.id.exit})
+    @OnClick({R.id.edit, R.id.exit,R.id.id_rl_qrcode})
     public void click(View view) {
         switch (view.getId()) {
             case R.id.edit:
@@ -128,7 +135,36 @@ public class LmDetailDetailActivity extends BaseActivity {
                     showHintDialog(2);
                 }
                 break;
+            case R.id.id_rl_qrcode:
+
+                showQrcodeDialog();
+                break;
         }
+    }
+
+    public void showQrcodeDialog(){
+        if (qrcodeDialog == null){
+            qrcodeDialog = new AlertDialog.Builder(this,R.style.MyDialog).create();
+        }
+        qrcodeDialog.show();
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_weixin, null);
+        ViewGroup parent = (ViewGroup) dialogView.getParent();
+        if (parent != null) {
+            parent.removeAllViews();
+        }
+
+        ImageView codeView = dialogView.findViewById(R.id.id_iv_code);
+        TextView textView = dialogView.findViewById(R.id.id_tv_text);
+
+        textView.setText("请您扫描上方二维码");
+        if (lmDetail != null)
+            Img.loadC(codeView, lmDetail.qr_code);
+
+        qrcodeDialog.setCanceledOnTouchOutside(false);
+        qrcodeDialog.getWindow().setContentView(dialogView);
+
+        dialogView.findViewById(R.id.id_tv_ok).setOnClickListener(view -> qrcodeDialog.dismiss() );
     }
 
     private void load(int id) {
@@ -153,8 +189,15 @@ public class LmDetailDetailActivity extends BaseActivity {
                     name.setText(lmDetail.name);
                     desc.setText(lmDetail.intro);
                     cjr.setText(lmDetail.leader.real_name);
-                    Img.loadC(ewm, lmDetail.qr_code);
-                    address.setText(lmDetail.province_id + " " + lmDetail.city_id + " " + lmDetail.region_id);
+
+                    address.setText(lmDetail.province_city_region_text);
+
+                    if (StringUtil.isNotNull(lmDetail.qr_code)){
+                        Img.loadC(ewm, lmDetail.qr_code);
+                    }else{
+                        qrcodeView.setVisibility(View.GONE);
+                        lineView.setVisibility(View.GONE);
+                    }
 
                     if (lmDetail.audit_status == 1)//审核状态 1未通过 2已通过
                     {

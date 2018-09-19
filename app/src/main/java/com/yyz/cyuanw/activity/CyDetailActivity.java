@@ -47,8 +47,8 @@ import rx.Observer;
 public class CyDetailActivity extends BaseActivity {
     @BindView(R.id.id_tv_title)
     TextView title;
-    @BindView(R.id.title_right_icon)
-    ImageView right_icon;
+    //@BindView(R.id.title_right_icon)
+    //ImageView right_icon;
     @BindView(R.id.sc_iv)
     ImageView sc_iv;
 
@@ -141,8 +141,8 @@ public class CyDetailActivity extends BaseActivity {
     @Override
     public void initView() {
         title.setText("车源详情");
-        right_icon.setImageResource(R.mipmap.img_25);
-        right_icon.setVisibility(View.VISIBLE);
+        //right_icon.setImageResource(R.mipmap.img_25);
+        //right_icon.setVisibility(View.VISIBLE);
         banner = (Banner) findViewById(R.id.banner);
         banner.setImageLoader(new ImageLoader() {
             @Override
@@ -201,8 +201,10 @@ public class CyDetailActivity extends BaseActivity {
     public void setSc(int flag) {
         if (flag == 1) {//是否收藏 0否 1是
             sc_tv.setText("取消收藏");
+            sc_iv.setImageResource(R.mipmap.img_90);
         } else {
             sc_tv.setText("收藏该车源");
+            sc_iv.setImageResource(R.mipmap.img_27);
         }
     }
 

@@ -256,7 +256,7 @@ public class LmFragment extends Fragment {
 //                            img.setImageResource(R.mipmap.img_36);
                         } else {
                             LmMyListData lmMyListData = myLmdataList.get(position);
-                            Img.loadC(img, lmMyListData.alliance.logo);
+                            Img.loadP(img, lmMyListData.alliance.logo,R.mipmap.ic_lm);
                             name.setText(lmMyListData.alliance.name);
                         }
                     }
@@ -307,10 +307,10 @@ public class LmFragment extends Fragment {
             public void setData() {
                 int position = getAdapterPosition();
                 LmData lmData = dataList.get(position);
-                Img.loadC(gx_iv, lmData.logo);
+                Img.loadP(gx_iv, lmData.logo,R.mipmap.ic_lm);
                 tv_title.setText(lmData.name);
                 tv_name.setText(lmData.leader.real_name);
-                tv_num.setText(lmData.users_count + "人关注");
+                tv_num.setText(lmData.users_count + "成员");
                 desc.setText(lmData.intro);
                 add.setText(lmData.join_status_text);
                 if (lmData.join_status == 1) {//1未加入

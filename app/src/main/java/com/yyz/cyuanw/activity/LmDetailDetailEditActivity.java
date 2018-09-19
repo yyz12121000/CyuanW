@@ -43,8 +43,10 @@ public class LmDetailDetailEditActivity extends BaseActivity {
     TextView save;
     @BindView(R.id.address)
     TextView address;
-    @BindView(R.id.edit_name)
-    EditText edit_name;
+    @BindView(R.id.name)
+    TextView name;
+    //@BindView(R.id.edit_name)
+    //EditText edit_name;
     @BindView(R.id.desc)
     EditText desc;
     @BindView(R.id.er_code)
@@ -113,12 +115,13 @@ public class LmDetailDetailEditActivity extends BaseActivity {
             String ewmS = intent.getStringExtra("ewm");
 
             Img.loadC(img, imgS);
-            edit_name.setText(nameS);
+            //edit_name.setText(nameS);
+            name.setText(nameS);
             desc.setText(descS);
 
 
             img.setEnabled(false);
-            edit_name.setEnabled(false);
+            //edit_name.setEnabled(false);
             desc.setEnabled(false);
             address.setEnabled(false);
         }
@@ -289,7 +292,7 @@ public class LmDetailDetailEditActivity extends BaseActivity {
     }
 
     private void submit() {
-        String lnName = edit_name.getText().toString();
+        String lnName = name.getText().toString();
         String descStr = desc.getText().toString();
         if (TextUtils.isEmpty(lnName) || TextUtils.isEmpty(descStr) || sheng_id == -1 || shi_id == -1 /*|| qu_id == -1*/ || TextUtils.isEmpty(iconPath)) {
             ToastUtil.show(this, "请完善必要信息");

@@ -3,8 +3,10 @@ package com.yyz.cyuanw.activity.user_model;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -117,9 +119,18 @@ public class UserActivity extends BaseActivity {
                 signView.setText("暂时还没有个性签名");
             }
 
-            carNumView.setText(getString(R.string.str_user_mycar, userData.my_cars));
-            shopNumView.setText(getString(R.string.str_user_myshop, userData.my_shops));
-            unionNumView.setText(getString(R.string.str_user_myunion, userData.my_union));
+            if (Build.VERSION.SDK_INT >= 24){
+                carNumView.setText(Html.fromHtml(getString(R.string.str_user_mycar,userData.my_cars),Html.FROM_HTML_MODE_COMPACT));
+                shopNumView.setText(Html.fromHtml(getString(R.string.str_user_myshop, userData.my_shops),Html.FROM_HTML_MODE_COMPACT));
+                unionNumView.setText(Html.fromHtml(getString(R.string.str_user_myunion,userData.my_union),Html.FROM_HTML_MODE_COMPACT));
+            } else{
+                carNumView.setText(Html.fromHtml(getString(R.string.str_user_mycar,userData.my_cars)));
+                shopNumView.setText(Html.fromHtml(getString(R.string.str_user_myshop,userData.my_shops)));
+                unionNumView.setText(Html.fromHtml(getString(R.string.str_user_myunion,userData.my_union)));
+            }
+
+            //shopNumView.setText(getString(R.string.str_user_myshop, userData.my_shops));
+            //unionNumView.setText(getString(R.string.str_user_myunion, userData.my_union));
             unionNumView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

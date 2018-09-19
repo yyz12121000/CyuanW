@@ -111,6 +111,7 @@
                 <include layout="@layout/line_h_a" />
 
                 <RelativeLayout
+                    android:id="@+id/id_rl_qrcode"
                     android:layout_width="match_parent"
                     android:layout_height="50dp">
 
@@ -130,11 +131,12 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="16dp"
-                        android:src="@mipmap/img_29"
-                        android:text="王思雨" />
+                        android:src="@mipmap/img_29"/>
                 </RelativeLayout>
 
-                <include layout="@layout/line_h_a" />
+                <include
+                    android:id="@+id/id_view_line"
+                    layout="@layout/line_h_a" />
 
 
                 <RelativeLayout

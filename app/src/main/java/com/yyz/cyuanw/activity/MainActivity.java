@@ -137,6 +137,7 @@ public class MainActivity extends BaseActivity {
         titleList.add("联盟");
 
         mTab = (TabLayout) findViewById(R.id.main_tab);
+        mTab.setBackgroundResource(R.drawable.tab_backgroud);
 //        //设置tab的模式
 //        mTab.setTabMode(TabLayout.MODE_FIXED);不可滚动的tab
         //app:tabMode="scrollable"可以滑动的tab

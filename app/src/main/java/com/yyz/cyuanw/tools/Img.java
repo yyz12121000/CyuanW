@@ -31,6 +31,16 @@ public class Img {
                 ).into(iv);
     }
 
+    public static void loadD(ImageView iv, String url,int res) {
+        Glide.with(App.context).load(url)
+                .apply(new RequestOptions()
+                        .error(App.context.getResources().getDrawable(res))
+                        .placeholder(res)
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                ).into(iv);
+    }
+
     public static void loadP(ImageView iv, String url,int defaultPic) {
         Glide.with(App.context).load(url)
                 .apply(new RequestOptions()

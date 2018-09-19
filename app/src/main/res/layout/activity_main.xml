@@ -26,7 +26,8 @@
                 android:paddingRight="16dp"
                 android:text="定位中..."
                 android:textColor="#666666"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:drawableRight="@mipmap/ic_down"/>
 
             <!--app:tabIndicatorHeight="20dp"指示器的高度-->
             <android.support.design.widget.TabLayout
@@ -40,8 +41,7 @@
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="#333333"
                 app:tabTextColor="#999999"
-
-                />
+                app:tabBackground="@drawable/tab_backgroud" />
 
             <ImageView
                 android:id="@+id/right_icon"

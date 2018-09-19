@@ -137,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="底价哎：18.88万"
+                android:text="底价：18.88万"
                 android:textColor="#EA6F5A"
                 android:textSize="12sp" />
         </LinearLayout>
