@@ -85,6 +85,8 @@ public class ChooseCityActivity extends BaseActivity {
                                 intent.putExtra("sheng_name", data.getName());
                                 startActivityForResult(intent, 2);
                             }
+                        }else{
+                            finish();
                         }
                     }
 
@@ -105,6 +107,7 @@ public class ChooseCityActivity extends BaseActivity {
                     }
                 })
                 .show();
+
     }
 
     @Override

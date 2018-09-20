@@ -28,6 +28,8 @@ import com.yyz.cyuanw.bean.ShopInfo;
 import com.yyz.cyuanw.bean.ShopListData;
 import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
 
+import java.util.List;
+
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -181,8 +183,8 @@ public interface ApiService {
     @POST("shareList")
     Observable<HttpResult<Data1>> searchCy(
                                            @Field("page") int page,
-                                           @Field("province_id") int province_id,
-                                           @Field("city_id") int city_id,
+                                           @Field("province_id[]") List<Integer> province_id,
+                                           @Field("city_id[]") List<Integer> city_id,
                                            @Field("region_id") int region_id,
 
                                            @Field("source") int source,
@@ -201,7 +203,7 @@ public interface ApiService {
                                            @Field("min_mileage") int min_mileage,
                                            @Field("max_mileage") int max_mileage,
                                            @Field("key_word") String key_word,
-                                           @Field("is_self ") int is_self,
+                                           @Field("is_self") int is_self,
                                            @Field("token") String token
     );
     //车源管理列表

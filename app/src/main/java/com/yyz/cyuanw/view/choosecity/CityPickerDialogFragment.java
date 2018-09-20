@@ -246,7 +246,7 @@ public class CityPickerDialogFragment extends AppCompatDialogFragment implements
 
     @Override
     public void dismiss(int position, City data) {
-        dismiss();
+        //dismiss();
         if (mOnPickListener != null){
             mOnPickListener.onPick(position, data);
         }

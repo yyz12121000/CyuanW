@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
+import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.CyDetailActivity;
 import com.yyz.cyuanw.activity.GdsxActivity;
@@ -25,12 +26,15 @@ import com.yyz.cyuanw.adapter.IOnListItemClickListenner;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data2;
+import com.yyz.cyuanw.bean.Data9;
 import com.yyz.cyuanw.bean.HttpResult;
+import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.view.JgqjPopuwindow;
 import com.yyz.cyuanw.view.ListPopuwindow;
 import com.yyz.cyuanw.view.PullRV;
+import com.yyz.cyuanw.view.choosecity.DBManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +55,8 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     private int source = 0;//车源来源 0全部 1 批发 2 急售 3 新车
     private int order = 0;//排序 0默认排序 1价格最低 2价格最高 3 车龄最短 4里程最少
 
-    private int province_id = 0;//省份ID
-    private int city_id = 0;//城市ID
+    private List<Integer> province_id = new ArrayList<>();//省份ID
+    private List<Integer> city_id = new ArrayList<>();//城市ID
     private int region_id = 0;//地区ID
 
     private int brand_id = 0;//品牌ID
@@ -69,6 +73,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     private int min_year = 0;//最低车龄 (默认0)
 //    private int page = 1;//页码 从1开始 默认第一页
 
+    private DBManager dbManager;
 
     PullRV pullRV;
     @Nullable
@@ -83,6 +88,8 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     }
 
     private void init(View view) {
+        dbManager = new DBManager(getContext());
+
         tv_1 = view.findViewById(R.id.tv_1);
         tv_1.setOnClickListener(this);
         tv_2 = view.findViewById(R.id.tv_2);
@@ -125,6 +132,14 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         pullRV.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
             @Override
             public void onRefresh(boolean isPullDown) {
+                if (App.get(Constant.KEY_LOCATION_CITY) != null){
+                    Data9 sheng = dbManager.findLocationCity(App.get(Constant.KEY_LOCATION_CITY));
+                    province_id.clear();//省份ID
+                    city_id.clear();//城市ID
+//        this.region_id = 0;//地区ID
+                    province_id.add(sheng.id);
+                    city_id.add(sheng.son.get(0).id);
+                }
                 searchCy(true, pullRV.page = 1);
             }
 
@@ -372,10 +387,14 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         searchCy(true, pullRV.page = 1);
     }
 
-    public void doSearchByAdress(int province_id,int city_id) {
-        this.province_id = province_id;//省份ID
-        this.city_id = city_id;//城市ID
+    public void doSearchByAdress(int province,int city) {
+        this.province_id.clear();//省份ID
+        this.city_id.clear();//城市ID
 //        this.region_id = 0;//地区ID
+        this.province_id.add(province);
+        this.city_id.add(city);
+        //this.province_id.add(1111);
+        //this.city_id.add(2222);
         searchCy(true, pullRV.page = 1);
     }
 

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.youth.banner.Transformer;
 import com.youth.banner.loader.ImageLoader;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.activity.user_model.MyShopActivity;
+import com.yyz.cyuanw.activity.user_model.UserActivity;
 import com.yyz.cyuanw.activity.user_model.UserInfoActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.Data1;
@@ -116,25 +119,29 @@ public class CyDetailActivity extends BaseActivity {
 
         mDialog.setCanceledOnTouchOutside(true);
         mDialog.getWindow().setContentView(dialogView);
-        mDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        mDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-      /*  ImageView imageView = dialogView.findViewById(R.id.id_iv_code);
-        final EditText codeView = dialogView.findViewById(R.id.id_et_code);
+        if (data6 != null){
+            ((TextView)dialogView.findViewById(R.id.id_tv_name)).setText(data6.user.name);
+            ((TextView)dialogView.findViewById(R.id.id_tv_address)).setText(data6.user.bind_dealer);
+            ((TextView)dialogView.findViewById(R.id.id_tv_phone)).setText(data6.user.phone);
+            ((TextView)dialogView.findViewById(R.id.id_tv_shortphone)).setText(data6.user.virtual_number);
+            ((TextView)dialogView.findViewById(R.id.id_tv_price1)).setText(data6.retail_offer+"万");
+            ((TextView)dialogView.findViewById(R.id.id_tv_price2)).setText("底价: "+data6.retail_bottom_price+"万");
 
-        dialogView.findViewById(R.id.id_iv_close).setOnClickListener(view -> mDialog.dismiss() );
-        imageView.setImageBitmap(ImageTools.base64ToBitmap(imageData));
-        imageView.setOnClickListener(view -> getImgCode(phoneView.getText().toString(),imageView));
-        dialogView.findViewById(R.id.id_tv_submit).setOnClickListener(view -> {
-            String strCode = codeView.getText().toString().trim();
-            if (!StringUtil.isNotNull(strCode)){
-                App.showToast("请输入图形验证码");
-                return;
-            }
-            getValidateCode(phoneView.getText().toString(),strCode);
-            mDialog.dismiss();
-        });*/
+            dialogView.findViewById(R.id.see_all_cy).setOnClickListener(view -> {
+                Intent intent = new Intent(CyDetailActivity.this, MyShopActivity.class);
+                intent.putExtra("id",data6.user.id);
+                startActivity(intent);
+
+                mDialog.dismiss();
+            });
+
+            dialogView.findViewById(R.id.to_wx).setOnClickListener(view -> {
+                showPopupDialog();
+
+                mDialog.dismiss();
+            });
+        }
 
     }
 
@@ -147,7 +154,7 @@ public class CyDetailActivity extends BaseActivity {
         banner.setImageLoader(new ImageLoader() {
             @Override
             public void displayImage(Context context, Object path, ImageView imageView) {
-                Img.load(imageView, path.toString());
+                Img.loadD(imageView, path.toString(),R.mipmap.ic_cybg);
             }
         });
 
@@ -214,7 +221,7 @@ public class CyDetailActivity extends BaseActivity {
             ImageView iv = new ImageView(this);
             LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Tools.dip2px(this, 240));
             imgs.addView(iv, llp);
-            Img.load(iv, urls.get(i));
+            Img.loadD(iv, urls.get(i),R.mipmap.ic_cybg);
         }
     }
 

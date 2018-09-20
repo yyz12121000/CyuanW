@@ -13,7 +13,7 @@ public class Img {
     public static void loadC(ImageView iv, String url) {
         Glide.with(App.context).load(url)
                 .apply(new RequestOptions()
-                        .error(App.context.getResources().getDrawable(R.mipmap.ic_launcher))
+                        .error(App.context.getResources().getDrawable(R.mipmap.ic_defaultphoto))
                         //.placeholder(R.mipmap.ic_defaultphoto)
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)

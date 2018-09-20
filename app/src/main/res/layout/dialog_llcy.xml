@@ -40,6 +40,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/id_tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="叶其能"
@@ -47,6 +48,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/id_tv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -73,9 +75,11 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/id_tv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autoLink="phone"
+                android:textColorLink="#EA6F5A"
                 android:text="1523698758"
                 android:textColor="#EA6F5A"
                 android:textSize="14sp" />
@@ -100,6 +104,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/id_tv_shortphone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autoLink="phone"
@@ -127,6 +132,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/id_tv_price1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="18.88万"
@@ -134,6 +140,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/id_tv_price2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
