@@ -24,6 +24,7 @@ import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.bean.MessageData;
+import com.yyz.cyuanw.bean.PublicCarData;
 import com.yyz.cyuanw.bean.ShopInfo;
 import com.yyz.cyuanw.bean.ShopListData;
 import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
@@ -321,6 +322,77 @@ public interface ApiService {
 
     @GET("user_messages")
     Observable<HttpResult<MessageData>> getMessageList(@Query("token") String token);
+
+    //发布车源
+    @FormUrlEncoded
+    @POST("publishCar")
+    Observable<HttpCodeResult> publishCar(@Field("token") String token,
+                                                     @Field("is_share") int is_share,
+                                                     @Field("is_new") int is_new,
+                                                     @Field("name") String name,
+                                                     @Field("position_number") String position_number,
+                                                     @Field("cover") String cover,
+                                                     @Field("images[]")  List<String> images,
+                                                     @Field("vin_code") String vin_code,
+                                                     @Field("brand_id") int brand_id,
+                                                     @Field("series_id") int series_id,
+                                                     @Field("styles_id") int styles_id,
+                                                     @Field("license_plate_time") String license_plate_time,
+                                                     @Field("mileage") double mileage,
+                                                     @Field("color") String color,
+                                                     @Field("gearbox") String gearbox,
+                                                     @Field("fuel_type") String fuel_type,
+                                                     @Field("emission_standard") String emission_standard,
+                                                     @Field("displacement") String displacement,
+                                                     @Field("car_style") String car_style,
+                                                     @Field("annual_inspection_expiry_time") String annual_inspection_expiry_time,
+                                                     @Field("insurance_expiry_time") String insurance_expiry_time,
+                                                     @Field("retail_offer") double retail_offer,
+                                                     @Field("wholesale_offer") double wholesale_offer,
+                                                     @Field("floor_price") double floor_price,
+                                                     @Field("describe") String describe,
+                                                     @Field("share_cover") String share_cover,
+                                                     @Field("share_describe") String share_describe,
+                                                     @Field("share_images[]") List<String> share_images
+                                                     );
+
+    //编辑车源
+    @FormUrlEncoded
+    @POST("editCarV2 ")
+    Observable<HttpCodeResult> editCarInfo(@Field("token") String token,
+                                           @Field("id") int id,
+                                          @Field("is_share") int is_share,
+                                          @Field("is_new") int is_new,
+                                          @Field("name") String name,
+                                          @Field("position_number") String position_number,
+                                          @Field("cover") String cover,
+                                          @Field("images[]")  List<String> images,
+                                          @Field("vin_code") String vin_code,
+                                          @Field("brand_id") int brand_id,
+                                          @Field("series_id") int series_id,
+                                          @Field("styles_id") int styles_id,
+                                          @Field("license_plate_time") String license_plate_time,
+                                          @Field("mileage") double mileage,
+                                          @Field("color") String color,
+                                          @Field("gearbox") String gearbox,
+                                          @Field("fuel_type") String fuel_type,
+                                          @Field("emission_standard") String emission_standard,
+                                          @Field("displacement") String displacement,
+                                          @Field("car_style") String car_style,
+                                          @Field("annual_inspection_expiry_time") String annual_inspection_expiry_time,
+                                          @Field("insurance_expiry_time") String insurance_expiry_time,
+                                          @Field("retail_offer") double retail_offer,
+                                          @Field("wholesale_offer") double wholesale_offer,
+                                          @Field("floor_price") double floor_price,
+                                          @Field("describe") String describe,
+                                          @Field("share_cover") String share_cover,
+                                          @Field("share_describe") String share_describe,
+                                          @Field("share_images[]") List<String> share_images
+    );
+
+    @FormUrlEncoded
+    @POST("getCarInfo")
+    Observable<HttpResult<PublicCarData>> getCarInfo(@Field("id") int id, @Field("token") String token);
 
 }
 

@@ -245,6 +245,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
         <ImageView
+            android:id="@+id/id_iv_share"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginRight="16dp"

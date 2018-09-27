@@ -2,7 +2,10 @@ package com.yyz.cyuanw.activity.user_model;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,7 +27,10 @@ import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.tools.StringUtil;
+import com.yyz.cyuanw.tools.ToastUtil;
 import com.yyz.cyuanw.tools.Tools;
+import com.yyz.cyuanw.tools.WX;
+import com.yyz.cyuanw.view.CommonPopupDialog;
 import com.yyz.cyuanw.view.CustomProgress;
 
 import java.util.ArrayList;
@@ -68,6 +74,8 @@ public class MyShopActivity extends BaseActivity {
     ListView listView;
     @BindView(R.id.black)
     View black;
+    @BindView(R.id.id_iv_share)
+    ImageView shareView;
 
     private MyShopListViewAdapter adapter;
     private ShopInfo shopInfo;
@@ -75,6 +83,11 @@ public class MyShopActivity extends BaseActivity {
 
     private List<Data2> listItems = new ArrayList<>();
     private int type;
+
+    private View popupDialogView;
+    private CommonPopupDialog mPopupDialog;
+
+    private WX wx;
 
     @Override
     protected int getLayoutId() {
@@ -94,6 +107,8 @@ public class MyShopActivity extends BaseActivity {
 
         adapter = new MyShopListViewAdapter(this,listItems,type);
         listView.setAdapter(adapter);
+
+        wx = new WX();
     }
 
     public void setViewData() {
@@ -128,7 +143,7 @@ public class MyShopActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.id_iv_back,R.id.id_text1,R.id.id_text2,R.id.id_iv_phone})
+    @OnClick({R.id.id_iv_back,R.id.id_text1,R.id.id_text2,R.id.id_iv_phone,R.id.id_iv_share})
     public void onClickEvent(View view) {
         switch (view.getId()) {
             case R.id.id_iv_back:
@@ -160,12 +175,50 @@ public class MyShopActivity extends BaseActivity {
                 type = 1;
                 getShopCarList(type);
                 break;
+            case R.id.id_iv_share:
+
+                showPopupDialog();
+                break;
 
         }
     }
 
     public void startActivity(Class<?> cls) {
         startActivity(new Intent(this, cls));
+    }
+
+    public void showPopupDialog() {
+        if (null == shopInfo){
+            ToastUtil.show(this,"暂无店铺信息");
+            return;
+        }
+        if (popupDialogView == null) {
+            popupDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_share_wx, null);
+
+            popupDialogView.findViewById(R.id.id_root_view).setOnClickListener(view -> mPopupDialog.dismiss());
+
+
+            popupDialogView.findViewById(R.id.wx_1).setOnClickListener(view -> {
+                wx.share(false, shopInfo.share_info.title, shopInfo.share_info.content,  shopInfo.share_info.img, shopInfo.share_info.url);
+                mPopupDialog.dismiss();
+            });
+
+            popupDialogView.findViewById(R.id.wx_2).setOnClickListener(view -> {
+                wx.share(true,  shopInfo.share_info.title, shopInfo.share_info.content,  shopInfo.share_info.img, shopInfo.share_info.url);
+                mPopupDialog.dismiss();
+            });
+        }
+
+        if (mPopupDialog == null) {
+            mPopupDialog = new CommonPopupDialog(this, android.R.style.Theme_Panel);
+            mPopupDialog.setCanceledOnTouchOutside(true);
+            mPopupDialog.setContentView(popupDialogView);
+        }
+
+
+        mPopupDialog.showAtLocation(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0,
+                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+
     }
 
     public void getShopInfo() {

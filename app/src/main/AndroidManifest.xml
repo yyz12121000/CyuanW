@@ -114,6 +114,17 @@
             android:launchMode="singleTask"/>
         <activity android:name=".activity.ListChooseActivity"/>
 
+        <activity
+            android:name=".view.ImageSelector.PicktureActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".view.ImageSelector.ViewPagerActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop"
+            android:theme="@style/PickerTheme" />
+
         <activity android:name=".activity.ListCityChooseActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.CyGlActivity"

@@ -5,4 +5,9 @@
     <string name="str_user_myshop"><Data><![CDATA[店铺车源<br><big><big><font color="#333333">%d</font></big></big]]></Data></string>
     <string name="str_user_myunion"><Data><![CDATA[我的联盟<br><big><big><font color="#333333">%d</font></big></big]]></Data></string>
     <string name="str_help_weixin">请您扫描上方二维码\n或者\n微信搜索“CheyuanCN”添加</string>
+
+    <string name="__picker_all_image">所有图片</string>
+    <string name="__max_limit">最多可以选择%1$d张</string>
+    <string name="__unv2_select">完成(%1$d/%2$d)</string>
+
 </resources>

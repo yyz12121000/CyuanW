@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.ActivityManager.RunningTaskInfo;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -21,11 +22,15 @@ import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 
 import com.yyz.cyuanw.App;
+import com.yyz.cyuanw.R;
 
 import java.net.FileNameMap;
 import java.net.URLConnection;
@@ -583,6 +588,24 @@ public class Tools {
         Date d1=new Date(time);
         String t1=format.format(d1);
         return t1;
+    }
+
+    public static void setDialog(Activity context, Dialog dialog, int position, int animId, double scaleW, double scaleH) {
+        Window window = dialog.getWindow();
+        window.setGravity(position); // 此处可以设置dialog显示的位置
+        if (animId != -1) {
+            window.setWindowAnimations(R.style.dialogWindowAnim); // 添加动画
+        }
+        dialog.show();
+        WindowManager windowManager = context.getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.width = (int) (display.getWidth() * scaleW); // 设置宽度
+        if (scaleH > 0) {
+            lp.height = (int) (display.getHeight() * scaleH);
+        }
+        dialog.getWindow().setAttributes(lp);
+        dialog.setCancelable(true);
     }
 
 }

@@ -24,6 +24,7 @@ import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.bean.MessageData;
+import com.yyz.cyuanw.bean.PublicCarData;
 import com.yyz.cyuanw.bean.ShopInfo;
 import com.yyz.cyuanw.bean.ShopListData;
 import com.yyz.cyuanw.common.Constant;
@@ -207,6 +208,37 @@ public class HttpData extends RetrofitUtils {
                          String intro, int province_id,
                          int city_id, int region_id, String qr_code, Observer<HttpResult> observer) {
         Observable observable = service.createLm(name, logo, intro, province_id, city_id, region_id, qr_code,App.get(Constant.KEY_USER_TOKEN));
+        setSubscribe(observable, observer);
+    }
+
+    public void publishCar(String token,int is_share,int is_new,String name, String position_number,
+                         String cover, List<String> images,String vin_code,int brand_id,
+                         int series_id, int styles_id, String license_plate_time,double mileage,
+                           String color,String gearbox,String fuel_type,String emission_standard,String displacement,
+                           String car_style,String annual_inspection_expiry_time,String insurance_expiry_time,double retail_offer,double wholesale_offer,
+                           double floor_price,String describe,String share_cover,String share_describe,List<String> share_images,Observer<HttpCodeResult> observer) {
+
+        Observable observable = service.publishCar(token,is_share, is_new, name, position_number, cover, images, vin_code,brand_id,
+                series_id,styles_id,license_plate_time,mileage,color,gearbox,fuel_type,emission_standard,displacement,car_style,annual_inspection_expiry_time,insurance_expiry_time,retail_offer,wholesale_offer,
+                floor_price,describe,share_cover,share_describe,share_images);
+        setSubscribe(observable, observer);
+    }
+
+    public void editCarInfo(String token,int id,int is_share,int is_new,String name, String position_number,
+                           String cover, List<String> images,String vin_code,int brand_id,
+                           int series_id, int styles_id, String license_plate_time,double mileage,
+                           String color,String gearbox,String fuel_type,String emission_standard,String displacement,
+                           String car_style,String annual_inspection_expiry_time,String insurance_expiry_time,double retail_offer,double wholesale_offer,
+                           double floor_price,String describe,String share_cover,String share_describe,List<String> share_images,Observer<HttpCodeResult> observer) {
+
+        Observable observable = service.editCarInfo(token,id,is_share, is_new, name, position_number, cover, images, vin_code,brand_id,
+                series_id,styles_id,license_plate_time,mileage,color,gearbox,fuel_type,emission_standard,displacement,car_style,annual_inspection_expiry_time,insurance_expiry_time,retail_offer,wholesale_offer,
+                floor_price,describe,share_cover,share_describe,share_images);
+        setSubscribe(observable, observer);
+    }
+
+    public void getCarInfo(int id,String token, Observer<HttpResult<PublicCarData>> observer) {
+        Observable observable = service.getCarInfo(id,token);
         setSubscribe(observable, observer);
     }
 

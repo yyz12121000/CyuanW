@@ -137,8 +137,9 @@ public class PpxzActivity extends BaseActivity implements View.OnClickListener {
 
         adapter.setOnItemClickListener(new SortAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, int position,String name) {
                 pp_id = position;
+                pp_name = name;
                 brandNext(position);
             }
         });
@@ -154,6 +155,8 @@ public class PpxzActivity extends BaseActivity implements View.OnClickListener {
                 Intent intent = new Intent();
                 intent.putExtra("pp_id", pp_id);
                 intent.putExtra("xl_id", position);
+                intent.putExtra("pp_name",pp_name);
+                intent.putExtra("name",text);
                 setResult(RESULT_OK,intent);
                 PpxzActivity.this.finish();
             }
@@ -161,6 +164,7 @@ public class PpxzActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private int pp_id = -1;
+    private String pp_name;
 
     @Override
     public void initData() {

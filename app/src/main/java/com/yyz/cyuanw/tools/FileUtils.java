@@ -5,6 +5,9 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -16,7 +19,9 @@ import android.provider.MediaStore;
 import com.yyz.cyuanw.App;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,6 +35,8 @@ public class FileUtils {
     public static final String APP_NAME = "ImageSelector";
     public static final String CAMERA_PATH = "/" + APP_NAME + "/CameraImage/";
     public static final String CROP_PATH = "/" + APP_NAME + "/CropImage/";
+
+    public static String savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/CyuanW/temp/";
 
     public static File createCameraFile(Context context) {
         return createMediaFile(context,CAMERA_PATH);
@@ -331,5 +338,98 @@ public class FileUtils {
         }.start();
     }
 
+    public static String compressImage(String filePath,Context context) throws FileNotFoundException {
+        try{
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(filePath, options);
+            int height = options.outHeight;
+            int width = options.outWidth;
+            int inSampleSize = 1;
+            int reqHeight = 800;
+            int reqWidth = 480;
+            if (height > reqHeight || width > reqWidth) {
+                final int heightRatio = Math.round((float) height / (float) reqHeight);
+                final int widthRatio = Math.round((float) width / (float) reqWidth);
+                inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+            }
+            options.inSampleSize = inSampleSize;
+            options.inJustDecodeBounds = false;
+            Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+
+            int degree = readPictureDegree(filePath);
+            if(degree!=0){
+                bitmap=rotateBitmap(bitmap,degree);
+            }
+
+            File outputFile = new File(getExternalStoragePath(context));
+            if (!outputFile.exists()) {
+                outputFile.mkdirs();
+            }
+
+            String timeStamp = new SimpleDateFormat("yyyyMMddHHmmssSS").format(new Date());
+            String fileName = timeStamp + ".jpg";
+
+            String imgPath = getExternalStoragePath(context)+fileName;
+            FileOutputStream out = new FileOutputStream(imgPath);
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+
+            return imgPath;
+        }catch (Exception e){
+            return "";
+        }
+
+    }
+
+    public static int readPictureDegree(String path) {
+        int degree = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(path);
+            int orientation = exifInterface.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return degree;
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap,int degress) {
+        if (bitmap != null) {
+            Matrix m = new Matrix();
+            m.postRotate(degress);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                    bitmap.getHeight(), m, true);
+            return bitmap;
+        }
+        return bitmap;
+    }
+
+    /**
+     * 获取SD下的应用目录
+     */
+    public static String getExternalStoragePath(Context context) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(Environment.getExternalStorageDirectory().getAbsolutePath());
+        sb.append(File.separator);
+        String ROOT_DIR = "Android/data/" + context.getPackageName();
+        sb.append(ROOT_DIR);
+        sb.append(File.separator);
+        sb.append("imageTemp");
+        sb.append(File.separator);
+        return sb.toString();
+    }
 
 }

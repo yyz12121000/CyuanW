@@ -16,4 +16,8 @@
 
     <attr name="SwipeBackLayoutStyle" format="reference" />
 
+    <declare-styleable name="PickRecyclerView">
+        <attr name="__column" format="integer"/>
+    </declare-styleable>
+
 </resources>

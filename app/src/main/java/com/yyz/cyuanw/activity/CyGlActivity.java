@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.activity.fragment.CyFragment;
 import com.yyz.cyuanw.activity.user_model.SendCarActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.Data1;
@@ -205,13 +206,18 @@ public class CyGlActivity extends BaseActivity {
                 sx.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        //刷新
                     }
                 });
                 gj.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        //编辑
+                        int position = getAdapterPosition();
+                        Intent intent = new Intent(CyGlActivity.this,SendCarActivity.class);
+                        intent.putExtra("flag", 1);
+                        intent.putExtra("id", data.get(position).id);
+                        startActivity(intent);
                     }
                 });
                 gd.setOnClickListener(new View.OnClickListener() {
@@ -233,13 +239,23 @@ public class CyGlActivity extends BaseActivity {
                     }
                 });
 
-                itemView.setOnClickListener(new View.OnClickListener() {
+//                itemView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        int position = getAdapterPosition();
+//                        Intent intent = new Intent(CyGlActivity.this, CyDetailActivity.class);
+//                        intent.putExtra("id", data.get(position).id);
+//                        startActivity(intent);
+//                    }
+//                });
+
+                itemView.findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         int position = getAdapterPosition();
                         Intent intent = new Intent(CyGlActivity.this, CyDetailActivity.class);
                         intent.putExtra("id", data.get(position).id);
-                        startActivity(intent);
+                        CyGlActivity.this.startActivity(intent);
                     }
                 });
             }
@@ -248,7 +264,7 @@ public class CyGlActivity extends BaseActivity {
                 int position = getAdapterPosition();
                 Data2 data2 = data.get(position);
 
-                Img.load(gx_iv, data2.cover);
+                Img.loadD(gx_iv, data2.cover,R.mipmap.ic_cy);
                 tv_title.setText(data2.name);
                 tv_sp.setText(data2.license_plate_time);
                 tv_gl.setText(data2.mileage + "公里");

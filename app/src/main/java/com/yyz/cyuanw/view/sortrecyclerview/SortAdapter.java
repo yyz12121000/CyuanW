@@ -85,7 +85,7 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemClickListener.onItemClick(holder.itemView,  mData.get(position).getId());
+                    mOnItemClickListener.onItemClick(holder.itemView,  mData.get(position).getId(),mData.get(position).getName());
                 }
             });
 
@@ -109,7 +109,7 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //**********************itemClick************************
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, int position,String name);
     }
 
     private OnItemClickListener mOnItemClickListener;
@@ -147,7 +147,7 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     @Override
                     public void onClick(View view) {
                         if (mOnItemClickListener != null) {
-                            mOnItemClickListener.onItemClick(row_1,  list.get(finalI).getId());
+                            mOnItemClickListener.onItemClick(row_1,  list.get(finalI).getId(),nameS);
                         }
                     }
                 });
@@ -168,7 +168,7 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         @Override
                         public void onClick(View view) {
                             if (mOnItemClickListener != null) {
-                                mOnItemClickListener.onItemClick(row_1,  list.get(finalI + 5).getId());
+                                mOnItemClickListener.onItemClick(row_1,  list.get(finalI + 5).getId(),nameS);
                             }
                         }
                     });

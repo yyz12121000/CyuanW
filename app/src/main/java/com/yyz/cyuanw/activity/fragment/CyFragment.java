@@ -28,6 +28,7 @@ import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data2;
 import com.yyz.cyuanw.bean.Data9;
 import com.yyz.cyuanw.bean.HttpResult;
+import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;

@@ -5,4 +5,9 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="color_statusbar_bg">#FFFFFF</color>
+
+    <color name="__pick_complete_btn_color">@android:color/white</color>
+    <color name="__pick_pic_item_normal_color">@android:color/white</color>
+    <color name="__pick_pic_item_slected_color">@android:color/holo_blue_light</color>
+    <color name="__display_item_delete_bg_color">#2f000000</color>
 </resources>

@@ -72,7 +72,11 @@ public class CustomProgress extends Dialog {
 			txt.setText(message);
 		}
 		// 按返回键是否取消
-		dialog.setCancelable(true);
+		if (cancelable == true){
+			dialog.setCancelable(false);
+		}else{
+			dialog.setCancelable(true);
+		}
 		// 监听返回键处理
 		dialog.setOnCancelListener(cancelListener);
 		// 设置居中

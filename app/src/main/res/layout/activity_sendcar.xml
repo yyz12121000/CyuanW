@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -26,13 +27,20 @@
                 android:textSize="14dp"
                 android:text="上传车源图片(选填)"/>
 
-            <ImageView
+            <!--<ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:padding="10dp"
                 android:src="@mipmap/ic_addpic"
-                android:background="#ffffff"/>
+                android:background="#ffffff"/>-->
+
+            <com.yyz.cyuanw.view.ImageSelector.widget.PickRecyclerView
+                android:id="@+id/__prv"
+                app:__column="3"
+                android:layout_margin="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <View
                 android:layout_width="match_parent"
@@ -89,7 +97,20 @@
                     android:layout_marginLeft="16dp"
                     android:textColor="#333333"
                     android:textSize="16dp"
-                    android:text="车型信息"/>
+                    android:text="品牌型号"/>
+
+                <!--<EditText
+                    android:id="@+id/id_et_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入车型"
+                    android:textSize="16dp"
+                    android:textColorHint="#D9D9D9"
+                    android:textColor="#666666"
+                    android:background="@android:color/transparent"/>-->
 
                 <TextView
                     android:id="@+id/id_tv_content"
@@ -132,6 +153,37 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/id_ll_type"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:textColor="#333333"
+                    android:textSize="16dp"
+                    android:text="车辆型号"/>
+
+                <TextView
+                    android:id="@+id/id_tv_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="16dp"
+                    android:drawablePadding="12dp"
+                    android:textColor="#888888"
+                    android:textSize="16dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:gravity="right|center_vertical"
+                    android:drawableRight="@mipmap/ic_user_arrow" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/id_ll_time"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
@@ -154,7 +206,6 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="16dp"
                     android:drawablePadding="12dp"
-                    android:text="2018-10-20"
                     android:textColor="#888888"
                     android:textSize="16dp"
                     android:singleLine="true"
@@ -188,6 +239,7 @@
                     android:textSize="16dp"
                     android:textColorHint="#D9D9D9"
                     android:textColor="#666666"
+                    android:inputType="numberDecimal"
                     android:background="@android:color/transparent"/>
 
                 <TextView
@@ -202,260 +254,273 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/id_linear_more"
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#ffffff">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:textColor="#333333"
-                    android:textSize="16dp"
-                    android:text="车身颜色"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/id_tv_color"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="16dp"
-                    android:drawablePadding="12dp"
-                    android:text="白色"
-                    android:textColor="#888888"
-                    android:textSize="16dp"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:gravity="right|center_vertical"
-                    android:drawableRight="@mipmap/ic_user_arrow" />
-            </LinearLayout>
+                    android:layout_height="44dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#ffffff">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="#333333"
+                        android:textSize="16dp"
+                        android:text="车身颜色"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#ffffff">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:textColor="#333333"
-                    android:textSize="16dp"
-                    android:text="变速箱"/>
+                    <TextView
+                        android:id="@+id/id_tv_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="16dp"
+                        android:drawablePadding="12dp"
+                        android:textColor="#888888"
+                        android:textSize="16dp"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:gravity="right|center_vertical"
+                        android:drawableRight="@mipmap/ic_user_arrow" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/id_tv_bsx"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="16dp"
-                    android:drawablePadding="12dp"
-                    android:text="自动"
-                    android:textColor="#888888"
-                    android:textSize="16dp"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:gravity="right|center_vertical"
-                    android:drawableRight="@mipmap/ic_user_arrow" />
-            </LinearLayout>
+                    android:layout_height="44dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#ffffff">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="#333333"
+                        android:textSize="16dp"
+                        android:text="变速箱"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#ffffff">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:textColor="#333333"
-                    android:textSize="16dp"
-                    android:text="燃油类型"/>
+                    <TextView
+                        android:id="@+id/id_tv_bsx"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="16dp"
+                        android:drawablePadding="12dp"
+                        android:textColor="#888888"
+                        android:textSize="16dp"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:gravity="right|center_vertical"
+                        android:drawableRight="@mipmap/ic_user_arrow" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/id_tv_rylx"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="16dp"
-                    android:drawablePadding="12dp"
-                    android:text="汽油"
-                    android:textColor="#888888"
-                    android:textSize="16dp"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:gravity="right|center_vertical"
-                    android:drawableRight="@mipmap/ic_user_arrow" />
-            </LinearLayout>
+                    android:layout_height="44dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#ffffff">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="#333333"
+                        android:textSize="16dp"
+                        android:text="燃油类型"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#ffffff">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:textColor="#333333"
-                    android:textSize="16dp"
-                    android:text="排放标准"/>
+                    <TextView
+                        android:id="@+id/id_tv_rylx"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="16dp"
+                        android:drawablePadding="12dp"
+                        android:textColor="#888888"
+                        android:textSize="16dp"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:gravity="right|center_vertical"
+                        android:drawableRight="@mipmap/ic_user_arrow" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/id_tv_pfbz"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="16dp"
-                    android:drawablePadding="12dp"
-                    android:text="国一"
-                    android:textColor="#888888"
-                    android:textSize="16dp"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:gravity="right|center_vertical"
-                    android:drawableRight="@mipmap/ic_user_arrow" />
-            </LinearLayout>
+                    android:layout_height="44dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#ffffff">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="#333333"
+                        android:textSize="16dp"
+                        android:text="排放标准"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#ffffff">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:textColor="#333333"
-                    android:textSize="16dp"
-                    android:text="排量"/>
+                    <TextView
+                        android:id="@+id/id_tv_pfbz"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="16dp"
+                        android:drawablePadding="12dp"
+                        android:textColor="#888888"
+                        android:textSize="16dp"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:gravity="right|center_vertical"
+                        android:drawableRight="@mipmap/ic_user_arrow" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/id_tv_pl"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="16dp"
-                    android:drawablePadding="12dp"
-                    android:text="2.0T"
-                    android:textColor="#888888"
-                    android:textSize="16dp"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:gravity="right|center_vertical"
-                    android:drawableRight="@mipmap/ic_user_arrow" />
-            </LinearLayout>
+                    android:layout_height="44dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#ffffff">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="#333333"
+                        android:textSize="16dp"
+                        android:text="排量"/>
+                    <EditText
+                        android:id="@+id/id_et_pl"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="16dp"
+                        android:gravity="right|center_vertical"
+                        android:hint="2.0L/2.0T"
+                        android:textSize="16dp"
+                        android:textColorHint="#D9D9D9"
+                        android:textColor="#666666"
+                        android:inputType="number"
+                        android:background="@android:color/transparent"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#ffffff">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:textColor="#333333"
-                    android:textSize="16dp"
-                    android:text="年检到期"/>
+                    <!--<TextView
+                        android:id="@+id/id_tv_pl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="16dp"
+                        android:drawablePadding="12dp"
+                        android:textColor="#888888"
+                        android:textSize="16dp"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:gravity="right|center_vertical"
+                        android:drawableRight="@mipmap/ic_user_arrow" />-->
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/id_tv_njdq"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="16dp"
-                    android:drawablePadding="12dp"
-                    android:text="2018-10-27"
-                    android:textColor="#888888"
-                    android:textSize="16dp"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:gravity="right|center_vertical"
-                    android:drawableRight="@mipmap/ic_user_arrow" />
-            </LinearLayout>
+                    android:layout_height="44dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#ffffff">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="#333333"
+                        android:textSize="16dp"
+                        android:text="年检到期"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#ffffff">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:textColor="#333333"
-                    android:textSize="16dp"
-                    android:text="保险到期"/>
+                    <TextView
+                        android:id="@+id/id_tv_njdq"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="16dp"
+                        android:drawablePadding="12dp"
+                        android:textColor="#888888"
+                        android:textSize="16dp"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:gravity="right|center_vertical"
+                        android:drawableRight="@mipmap/ic_user_arrow" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/id_tv_bxdq"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="16dp"
-                    android:drawablePadding="12dp"
-                    android:text="2018-10-27"
-                    android:textColor="#888888"
-                    android:textSize="16dp"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:gravity="right|center_vertical"
-                    android:drawableRight="@mipmap/ic_user_arrow" />
-            </LinearLayout>
+                    android:layout_height="44dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#ffffff">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="#333333"
+                        android:textSize="16dp"
+                        android:text="保险到期"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#ffffff">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:textColor="#333333"
-                    android:textSize="16dp"
-                    android:text="库位"/>
+                    <TextView
+                        android:id="@+id/id_tv_bxdq"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="16dp"
+                        android:drawablePadding="12dp"
+                        android:textColor="#888888"
+                        android:textSize="16dp"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:gravity="right|center_vertical"
+                        android:drawableRight="@mipmap/ic_user_arrow" />
+                </LinearLayout>
 
-                <EditText
-                    android:id="@+id/id_et_kw"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="16dp"
-                    android:gravity="right|center_vertical"
-                    android:hint="车辆存放位置"
-                    android:textSize="16dp"
-                    android:textColorHint="#D9D9D9"
-                    android:textColor="#666666"
-                    android:background="@android:color/transparent"/>
+                    android:layout_height="44dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#ffffff">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="#333333"
+                        android:textSize="16dp"
+                        android:text="库位"/>
+
+                    <EditText
+                        android:id="@+id/id_et_kw"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="16dp"
+                        android:gravity="right|center_vertical"
+                        android:hint="车辆存放位置"
+                        android:textSize="16dp"
+                        android:textColorHint="#D9D9D9"
+                        android:textColor="#666666"
+                        android:background="@android:color/transparent"/>
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
+                android:id="@+id/id_tv_more"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_marginTop="2dp"
-                android:paddingBottom="8dp"
                 android:gravity="center"
-                android:text="收起"
+                android:text="更多信息"
                 android:textSize="14dp"
                 android:textColor="#EA6F5A"
-                android:drawableBottom="@mipmap/ic_uparrow"
                 android:background="#ffffff"/>
 
             <TextView
@@ -490,6 +555,7 @@
                     android:textSize="16dp"
                     android:textColorHint="#D9D9D9"
                     android:textColor="#666666"
+                    android:inputType="numberDecimal"
                     android:background="@android:color/transparent"/>
 
                 <TextView
@@ -527,6 +593,7 @@
                     android:textSize="16dp"
                     android:textColorHint="#D9D9D9"
                     android:textColor="#666666"
+                    android:inputType="numberDecimal"
                     android:background="@android:color/transparent"/>
 
                 <TextView

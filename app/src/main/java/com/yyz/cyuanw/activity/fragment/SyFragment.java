@@ -20,8 +20,13 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.loader.ImageLoader;
+import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.activity.LmDetailActivity;
 import com.yyz.cyuanw.activity.WdLmActivity;
+import com.yyz.cyuanw.activity.user_model.LoginActivity;
+import com.yyz.cyuanw.activity.user_model.MyShopActivity;
+import com.yyz.cyuanw.activity.user_model.UserActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.AdData;
 import com.yyz.cyuanw.bean.Ads;
@@ -30,8 +35,10 @@ import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.JjrData;
 import com.yyz.cyuanw.bean.JjrResultData;
+import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
+import com.yyz.cyuanw.tools.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +144,7 @@ public class SyFragment extends Fragment {
 
         private class VAHolder extends RecyclerView.ViewHolder {
             public Banner banner;
-            private ImageView chunk_a_img_a,chunk_a_img_b;
+            private ImageView chunk_a_img_a,chunk_a_img_b,chunk_a_img_c;
             private RecyclerView hot_lm_list;
             public HotLmListAdapter hotLmListAdapter;
 
@@ -154,6 +161,7 @@ public class SyFragment extends Fragment {
                 banner = (Banner) itemView.findViewById(R.id.banner);
                 chunk_a_img_a = itemView.findViewById(R.id.chunk_a_img_a);
                 chunk_a_img_b = itemView.findViewById(R.id.chunk_a_img_b);
+                chunk_a_img_c = itemView.findViewById(R.id.chunk_a_img_c);
                 hot_lm_list = itemView.findViewById(R.id.hot_lm_list);
 
                 banner_root = itemView.findViewById(R.id.banner_root);
@@ -163,11 +171,40 @@ public class SyFragment extends Fragment {
                 hot_lm_list.setLayoutManager(linearLayoutManager);
                 hotLmListAdapter = new HotLmListAdapter();
 
+                chunk_a_img_a.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (StringUtil.isNotNull(App.get(Constant.KEY_USER_ID))) {
+                            Intent intent = new Intent(SyFragment.this.getActivity(), MyShopActivity.class);
+                            intent.putExtra("id",Integer.parseInt(App.get(Constant.KEY_USER_ID)));
+                            SyFragment.this.getActivity().startActivity(intent);
+                        } else {
+                            startActivity(new Intent(SyFragment.this.getActivity(), LoginActivity.class));
+                        }
+
+                    }
+                });
+
                 chunk_a_img_b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(SyFragment.this.getActivity(), WdLmActivity.class);
-                        SyFragment.this.getActivity().startActivity(intent);
+                        if (StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
+                            Intent intent = new Intent(SyFragment.this.getActivity(), WdLmActivity.class);
+                            SyFragment.this.getActivity().startActivity(intent);
+                        } else {
+                            startActivity(new Intent(SyFragment.this.getActivity(), LoginActivity.class));
+                        }
+                    }
+                });
+
+                chunk_a_img_c.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
+                            startActivity(new Intent(SyFragment.this.getActivity(), UserActivity.class));
+                        } else {
+                            startActivity(new Intent(SyFragment.this.getActivity(), LoginActivity.class));
+                        }
                     }
                 });
 
@@ -259,7 +296,10 @@ public class SyFragment extends Fragment {
                             @Override
                             public void onClick(View view) {
                                 int position = getAdapterPosition();
-
+                                HotLmData hotLmData = hotLmdataList.get(position);
+                                Intent intent = new Intent(SyFragment.this.getActivity(), LmDetailActivity.class);
+                                intent.putExtra("id",hotLmData.id);
+                                startActivity(intent);
                             }
                         });
                     }
@@ -289,6 +329,17 @@ public class SyFragment extends Fragment {
                 tv_sp = itemView.findViewById(R.id.tv_sp);
                 bh = itemView.findViewById(R.id.bh);
                 tc = itemView.findViewById(R.id.tc);
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int position = getAdapterPosition();
+                        JjrData jjrData = dataList.get(position);
+                        Intent intent = new Intent(SyFragment.this.getActivity(), MyShopActivity.class);
+                        intent.putExtra("id",jjrData.id);
+                        startActivity(intent);
+                    }
+                });
             }
 
             public void setData() {
