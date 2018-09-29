@@ -8,24 +8,26 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="45dp">
+
+        <ImageView
+            android:id="@+id/id_iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="30dp"
+            android:scaleType="center"
+            android:src="@mipmap/ic_title_back" />
 
         <TextView
-            android:id="@+id/cancel"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="取消" />
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:gravity="center"
             android:text="品牌选择"
-            android:textSize="20sp" />
+            android:textColor="#333333"
+            android:textSize="17dp" />
 
         <TextView
             android:id="@+id/tv_sd_input"
@@ -34,8 +36,8 @@
             android:layout_alignParentRight="true"
             android:gravity="center"
             android:text="手动填写"
-            android:textColor="#ffffff"
-            android:visibility="visible" />
+            android:textSize="15dp"
+            android:textColor="#666666" />
         >
     </RelativeLayout>
 

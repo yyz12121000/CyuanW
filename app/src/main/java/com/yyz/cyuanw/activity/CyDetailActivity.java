@@ -147,6 +147,7 @@ public class CyDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        setSwipeBackEnable(false);
         title.setText("车源详情");
         //right_icon.setImageResource(R.mipmap.img_25);
         //right_icon.setVisibility(View.VISIBLE);

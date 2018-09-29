@@ -10,6 +10,7 @@ import com.alibaba.sdk.android.oss.ServiceException;
 import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
@@ -28,13 +29,30 @@ import okhttp3.ResponseBody;
 import rx.Observer;
 
 public class Oss {
-//    public static String AccessKeyId = "";
-//    public static String AccessKeySecret = "";
+    public static String AccessKeyId = "LTAIeCwvyvzYcfwz";
+    public static String AccessKeySecret = "gjfWezI1vAGcsJuQ2C0SJKNoGjTlXT";
 //    public static String Expiration = "";
 //    public static String SecurityToken = "";
 
+    private String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
+
+    private OSSClient oss;
+
+    public Oss(){
+        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(AccessKeyId, AccessKeySecret);
+        ClientConfiguration conf = new ClientConfiguration();
+        conf.setConnectionTimeout(30 * 1000); // 连接超时，默认15秒
+        conf.setSocketTimeout(30 * 1000); // socket超时，默认15秒
+        conf.setMaxConcurrentRequest(5); // 最大并发请求书，默认5个
+        conf.setMaxErrorRetry(5); // 失败后最大重试次数，默认2次
+
+        oss = new OSSClient(App.context, endpoint, credentialProvider, conf);
+    }
+
     public void uploadImage(String qz,String uploadFilePath, IOnFinishListenner listenner) {
-        loadInfo(qz,uploadFilePath, listenner);
+        //loadInfo(qz,uploadFilePath, listenner);
+
+        upload("","","",qz,uploadFilePath,listenner);
     }
 
     private void loadInfo(String qz,String uploadFilePath, IOnFinishListenner listenner) {
@@ -72,15 +90,15 @@ public class Oss {
 
 
     private void upload(String AccessKeyId, String AccessKeySecret, String SecurityToken,String qz, String uploadFilePath, IOnFinishListenner listenner) {
-        String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
-        // 在移动端建议使用STS的方式初始化OSSClient，更多信息参考：[访问控制]
-        OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(AccessKeyId, AccessKeySecret, SecurityToken);
-        ClientConfiguration conf = new ClientConfiguration();
-        conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
-        conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
-        conf.setMaxConcurrentRequest(5); // 最大并发请求书，默认5个
-        conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
-        OSS oss = new OSSClient(App.context, endpoint, credentialProvider, conf);
+//        String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
+//        // 在移动端建议使用STS的方式初始化OSSClient，更多信息参考：[访问控制]
+//        OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(AccessKeyId, AccessKeySecret, SecurityToken);
+//        ClientConfiguration conf = new ClientConfiguration();
+//        conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
+//        conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
+//        conf.setMaxConcurrentRequest(5); // 最大并发请求书，默认5个
+//        conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
+//        OSS oss = new OSSClient(App.context, endpoint, credentialProvider, conf);
 
         String sha = fileToSHA1(uploadFilePath);
         String img_path = qz + sha + ".jpg";

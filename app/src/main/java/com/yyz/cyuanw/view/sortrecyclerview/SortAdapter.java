@@ -22,9 +22,17 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<SortModel> topList = new ArrayList<>();
     private Context mContext;
 
+    private int flag;
+
     public SortAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
         this.mContext = context;
+    }
+
+    public SortAdapter(Context context,int flag) {
+        mInflater = LayoutInflater.from(context);
+        this.mContext = context;
+        this.flag = flag;
     }
 
     public void setTopData(List<SortModel> data) {
@@ -61,6 +69,7 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ViewItemHolder viewHolder = new ViewItemHolder(view);
             viewHolder.tvTag = (TextView) view.findViewById(R.id.tag);
             viewHolder.tvName = (TextView) view.findViewById(R.id.name);
+            viewHolder.ivIcon = (ImageView) view.findViewById(R.id.icon);
             return viewHolder;
         }
     }
@@ -99,6 +108,13 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 //                Toast.makeText(mContext, mData.get(position).getName(), Toast.LENGTH_SHORT).show();
 //            }
 //        });
+
+        if (flag > 0){
+            holder.ivIcon.setVisibility(View.VISIBLE);
+            Img.load(holder.ivIcon,this.mData.get(position).getLogo());
+        }else{
+            holder.ivIcon.setVisibility(View.GONE);
+        }
 
     }
 
@@ -182,7 +198,7 @@ public class SortAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static class ViewItemHolder extends RecyclerView.ViewHolder {
         TextView tvTag, tvName;
-
+        ImageView ivIcon;
         public ViewItemHolder(View itemView) {
             super(itemView);
         }

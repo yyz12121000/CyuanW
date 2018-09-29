@@ -292,6 +292,11 @@ public class HttpData extends RetrofitUtils {
         Observable observable = service.brandNext(App.get(Constant.KEY_USER_TOKEN),id);
         setSubscribe(observable, observer);
     }
+
+    public void seriesNext(int id,Observer<ResponseBody> observer) {
+        Observable observable = service.seriesNext(App.get(Constant.KEY_USER_TOKEN),id);
+        setSubscribe(observable, observer);
+    }
     public void search_criteria(Observer<HttpResult<Data3>> observer) {
         Observable observable = service.search_criteria(App.get(Constant.KEY_USER_TOKEN));
         setSubscribe(observable, observer);

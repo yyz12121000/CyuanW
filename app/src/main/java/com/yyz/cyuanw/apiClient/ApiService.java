@@ -252,6 +252,10 @@ public interface ApiService {
     @POST("brandNext")
     Observable<ResponseBody> brandNext(@Field("token") String token, @Field("id") int id);
 
+    @FormUrlEncoded
+    @POST("seriesNext")
+    Observable<ResponseBody> seriesNext(@Field("token") String token, @Field("id") int id);
+
     //
     @GET("top_brand")
     Observable<HttpListResult<SortModel>> top_brand(@Query("token") String token);
@@ -309,7 +313,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("ossToken")
     Observable<ResponseBody> ossToken(@Field("token") String token);
-
+    //STS.NJz1JR9rMs6rArW6vtX4wNfb2 3GVWnzZuEsq3gR6fcuigeMEcg5EDYpp28R1SGs1SM7wP
+//eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vZGV2ZWxvcC5jaGV5dWFuLmNvbS9hcGkvbG9naW4iLCJpYXQiOjE1MzYyODU2ODQsImV4cCI6MTU0MTQ2OTY4NCwibmJmIjoxNTM2Mjg1Njg0LCJqdGkiOiJPM3NWUDVlVlFIOXFOY3J3Iiwic3ViIjo1Mzg1LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0._6wISpnjTo79DcMkWH-8o_Iig3Xti6epRpVzy4dfRaY
     //在售车源列表
     @FormUrlEncoded
     @POST("selfCar")

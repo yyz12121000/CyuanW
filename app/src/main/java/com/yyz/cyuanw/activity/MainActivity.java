@@ -4,6 +4,7 @@ package com.yyz.cyuanw.activity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -30,6 +31,7 @@ import com.yyz.cyuanw.activity.fragment.LmFragment;
 import com.yyz.cyuanw.activity.fragment.SyFragment;
 import com.yyz.cyuanw.activity.user_model.LoginActivity;
 import com.yyz.cyuanw.activity.user_model.NameConfirmActivity;
+import com.yyz.cyuanw.activity.user_model.SendCarActivity;
 import com.yyz.cyuanw.activity.user_model.UserActivity;
 import com.yyz.cyuanw.adapter.MyFragPagerAdapter;
 import com.yyz.cyuanw.bean.LocationO;
@@ -42,6 +44,7 @@ import com.yyz.cyuanw.tools.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 
 public class MainActivity extends BaseActivity {
@@ -54,6 +57,7 @@ public class MainActivity extends BaseActivity {
     private TextView left_text;
     private EditText search_text;
     private ImageView right_icon;
+    private ImageView send_icon;
     private int index = 0;
 
     private Dialog mDialog;
@@ -118,6 +122,7 @@ public class MainActivity extends BaseActivity {
         left_text = (TextView) findViewById(R.id.left_text);
         search_text = (EditText) findViewById(R.id.search_text);
         right_icon = (ImageView) findViewById(R.id.right_icon);
+        send_icon = (ImageView) findViewById(R.id.id_iv_sendcar);
         //设置ViewPager里面也要显示的图片
         mFragments = new ArrayList<>();
 
@@ -158,6 +163,36 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ChooseCityActivity.class);
                 startActivityForResult(intent, 2);
+            }
+        });
+
+        send_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("经纪人及其以上级别可以发布车源");
+                    builder.setTitle("提示");
+                    builder.setPositiveButton("确定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    startActivity(new Intent(MainActivity.this, SendCarActivity.class));
+
+                                }
+                            });
+                    builder.setNegativeButton("取消",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.show();
+                } else {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
             }
         });
 

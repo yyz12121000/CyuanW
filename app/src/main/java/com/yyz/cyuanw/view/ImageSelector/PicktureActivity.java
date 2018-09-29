@@ -2,6 +2,8 @@ package com.yyz.cyuanw.view.ImageSelector;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 
 import android.support.v4.app.ActivityCompat;
@@ -36,10 +38,22 @@ public class PicktureActivity extends FragmentActivity implements OnPickListener
     private PhotoHelper mPhotoHelper;
     private String TAG = getClass().getSimpleName();
 
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1){
+                CustomProgress.dismis();
+                setResult(RESULT_OK, new Intent()
+                        .putStringArrayListExtra(Pickture.PARAM_PICKRESULT,
+                                (ArrayList<String>) msg.obj));
+                finish();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //ImmersionBar.with(this).fitsSystemWindows(true).statusBarColor(R.color.color_statusbar_bg).init();
 
         setContentView(R.layout.activity_pick);
 
@@ -73,12 +87,22 @@ public class PicktureActivity extends FragmentActivity implements OnPickListener
         mCommintBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                CustomProgress.show(PicktureActivity.this, "图片处理中...", false, null);
                 setResult(RESULT_OK, new Intent()
                         .putStringArrayListExtra(Pickture.PARAM_PICKRESULT,
                                 (ArrayList<String>) mPicktureFragment.getPicAdapter().getSelectedPicStr()));
                 finish();
+
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        ArrayList<String> picList = (ArrayList<String>) mPicktureFragment.getPicAdapter().getSelectedPicStr();
+//                        Message message = new Message();
+//                        message.obj = picList;
+//                        message.what = 1;
+//                        handler.sendMessage(message);
+//                    }
+//                }).start();
+
             }
         });
 

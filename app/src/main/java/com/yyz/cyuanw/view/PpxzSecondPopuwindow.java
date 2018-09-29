@@ -85,7 +85,8 @@ public class PpxzSecondPopuwindow extends BasePopuwindow {
                     public void onClick(View view) {
                         index = getAdapterPosition();
                         if (null != listenner){
-                            listenner.onItemClick(datas.get(index).getId(),datas.get(index).getName());
+                            listenner.onItemClick(datas.get(index).getId(),datas.get(index).getName()+"%"
+                                    +datas.get(index).getEmission_standard()+"-"+datas.get(index).getGearbox()+"-"+datas.get(index).getPower());
                         }
                         notifyDataSetChanged();
                         PpxzSecondPopuwindow.this.dismiss();

@@ -130,6 +130,8 @@
         <activity android:name=".activity.CyGlActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged"/>
+        <activity android:name=".activity.user_model.SelectCarActivity"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".oss.sample.customprovider.AuthTestActivity"/>
         <activity android:name=".activity.WdLmActivity"
