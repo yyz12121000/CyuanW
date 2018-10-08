@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 public class StringUtil {
@@ -82,6 +83,19 @@ public class StringUtil {
 
     public static String formatPrice(Double price){
         return String.format("%.2f", price).toString();
+    }
+
+    public static String getCarDetailHtml(List<String> imgs){
+
+        StringBuilder data = new StringBuilder();
+        data.append("<html><head><meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no\" /><link rel=\"stylesheet\" href=\"http://sf.vsea.com.cn/mobile1//assets/css/common.css\"/></head>");
+        int size = imgs.size();
+        for (int i = 0; i < size; i++) {
+            data.append("<img src=\"").append(imgs.get(i)).append("\"").append("<br>");
+        }
+        data.append("</html>");
+
+        return data.toString();
     }
 
 }

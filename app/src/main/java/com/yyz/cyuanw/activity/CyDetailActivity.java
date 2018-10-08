@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -103,6 +105,8 @@ public class CyDetailActivity extends BaseActivity {
 
     private WX wx;
 
+    private WebView webView;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_cy_detail;
@@ -168,6 +172,19 @@ public class CyDetailActivity extends BaseActivity {
 
         wx = new WX();
 
+        webView = new WebView(getApplicationContext());
+        imgs.addView(webView);
+
+        WebSettings settings = webView.getSettings();
+        settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        String cacheDirPath = getFilesDir().getAbsolutePath()+"/webcache";
+        settings.setDatabasePath(cacheDirPath);
+        settings.setAppCachePath(cacheDirPath);
+        settings.setAppCacheEnabled(true);
+
     }
 
     public void startBanner(List<String> imgs) {
@@ -226,12 +243,15 @@ public class CyDetailActivity extends BaseActivity {
 
     private void adapterImgs(List<String> urls) {
         if (null == urls) return;
-        for (int i = 0; i < urls.size(); i++) {
-            ImageView iv = new ImageView(this);
-            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT );//Tools.dip2px(this, 240)
-            imgs.addView(iv, llp);
-            Img.loadD(iv, urls.get(i),R.mipmap.ic_cybg);
+//        for (int i = 0; i < urls.size(); i++) {
+//            ImageView iv = new ImageView(this);
+//            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT );//Tools.dip2px(this, 240)
+//            imgs.addView(iv, llp);
+//            Img.loadD(iv, urls.get(i),R.mipmap.ic_cybg);
+//        }
+        if (urls.size() > 0) {
+            webView.loadDataWithBaseURL(null,StringUtil.getCarDetailHtml(urls),"text/html","utf-8", null);
         }
     }
 
@@ -381,5 +401,14 @@ public class CyDetailActivity extends BaseActivity {
         mPopupDialog.showAtLocation(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0,
                 WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        webView.removeAllViews();
+        webView.destroy();
+        webView = null;
+
+        super.onDestroy();
     }
 }

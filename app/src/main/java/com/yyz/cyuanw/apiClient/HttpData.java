@@ -24,6 +24,7 @@ import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.bean.MessageData;
+import com.yyz.cyuanw.bean.PreparationData;
 import com.yyz.cyuanw.bean.PublicCarData;
 import com.yyz.cyuanw.bean.ShopInfo;
 import com.yyz.cyuanw.bean.ShopListData;
@@ -327,6 +328,17 @@ public class HttpData extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
+    public void getPreparation(int id,Observer<HttpResult<PreparationData>> observer) {
+
+        Observable observable = service.getPreparation("getPreparation/"+id,App.get(Constant.KEY_USER_TOKEN));
+        setSubscribe(observable, observer);
+    }
+
+    public void preparation(int id,double price1,double price2,String content,Observer<HttpCodeResult> observer) {
+        Observable observable = service.preparation(id,price1,price2,content,App.get(Constant.KEY_USER_TOKEN));
+        setSubscribe(observable, observer);
+    }
+
     public void delete_alliances(int alliance_id,int delete_user_id,Observer<HttpListResult> observer) {
         Observable observable = service.delete_alliances(App.get(Constant.KEY_USER_TOKEN),"alliances/"+alliance_id+"/users/"+delete_user_id);
         setSubscribe(observable, observer);
@@ -350,6 +362,27 @@ public class HttpData extends RetrofitUtils {
 
     public void checkVersion(String version,Observer<HttpResult<VersionInfo>> observer) {
         Observable observable = service.checkVersion(version);
+        setSubscribe(observable, observer);
+    }
+
+    public void refreshCar(int id,String token,Observer<HttpCodeResult> observer) {
+        Observable observable = service.refreshCar(id,token);
+        setSubscribe(observable, observer);
+    }
+    public void delCar(int id,String token,Observer<HttpCodeResult> observer) {
+        Observable observable = service.delCar(id,token);
+        setSubscribe(observable, observer);
+    }
+    public void updateSold(int id,String token,Observer<HttpCodeResult> observer) {
+        Observable observable = service.updateSold(id,token);
+        setSubscribe(observable, observer);
+    }
+    public void updateUrgent(int id,String token,Observer<HttpCodeResult> observer) {
+        Observable observable = service.updateUrgent(id,token);
+        setSubscribe(observable, observer);
+    }
+    public void wholesale(int id,double price,String token,Observer<HttpCodeResult> observer) {
+        Observable observable = service.wholesale(id,price,token);
         setSubscribe(observable, observer);
     }
     /**

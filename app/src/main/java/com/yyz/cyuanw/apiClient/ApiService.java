@@ -24,6 +24,7 @@ import com.yyz.cyuanw.bean.LmListData;
 import com.yyz.cyuanw.bean.LmMyListData;
 import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.bean.MessageData;
+import com.yyz.cyuanw.bean.PreparationData;
 import com.yyz.cyuanw.bean.PublicCarData;
 import com.yyz.cyuanw.bean.ShopInfo;
 import com.yyz.cyuanw.bean.ShopListData;
@@ -410,5 +411,36 @@ public interface ApiService {
     @POST("adVersion")
     Observable<HttpResult<VersionInfo>> checkVersion(@Field("version") String version);
 
+    //刷新
+    @FormUrlEncoded
+    @POST("refreshCar")
+    Observable<HttpCodeResult> refreshCar(@Field("id") int id,@Field("token") String token);
+
+    //删除
+    @FormUrlEncoded
+    @POST("delCar")
+    Observable<HttpCodeResult> delCar(@Field("id") int id,@Field("token") String token);
+
+    //设置未售
+    @FormUrlEncoded
+    @POST("updateSold")
+    Observable<HttpCodeResult> updateSold(@Field("id") int id,@Field("token") String token);
+
+    //设置急售
+    @FormUrlEncoded
+    @POST("updateUrgent")
+    Observable<HttpCodeResult> updateUrgent(@Field("id") int id,@Field("token") String token);
+
+    //修改批发价
+    @FormUrlEncoded
+    @POST("wholesale")
+    Observable<HttpCodeResult> wholesale(@Field("id") int id,@Field("wholesale_offer") double wholesale_offer,@Field("token") String token);
+
+    @GET()
+    Observable<HttpResult<PreparationData>> getPreparation(@Url String url, @Query("token") String token);
+
+    @FormUrlEncoded
+    @POST("preparation")
+    Observable<HttpCodeResult> preparation(@Field("id") int id,@Field("purchasing_price") double purchasing_price,@Field("preparation_price") double preparation_price,@Field("preparation_describe") String preparation_describe,@Field("token") String token);
 }
 

@@ -39,11 +39,13 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/sgjg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
                 android:background="#0000"
                 android:hint="请输入该车源的收车价格"
+                android:inputType="numberDecimal"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -64,11 +66,13 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/zbjg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
                 android:background="#0000"
                 android:hint="请输入该车源的整备总价"
+                android:inputType="numberDecimal"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -83,6 +87,7 @@
             android:textSize="14sp" />
 
         <EditText
+            android:id="@+id/ms"
             android:layout_width="match_parent"
             android:layout_height="88dp"
             android:layout_marginRight="16dp"
@@ -95,6 +100,7 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_margin="16dp"

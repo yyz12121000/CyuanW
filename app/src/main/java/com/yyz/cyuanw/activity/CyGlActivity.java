@@ -20,17 +20,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
+import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.fragment.CyFragment;
 import com.yyz.cyuanw.activity.user_model.SendCarActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.Data1;
 import com.yyz.cyuanw.bean.Data2;
+import com.yyz.cyuanw.bean.HttpCodeResult;
+import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
+import com.yyz.cyuanw.bean.PreparationData;
+import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
+import com.yyz.cyuanw.tools.StringUtil;
+import com.yyz.cyuanw.tools.ToastUtil;
 import com.yyz.cyuanw.tools.Tools;
 import com.yyz.cyuanw.view.CommonPopupDialog;
+import com.yyz.cyuanw.view.CustomProgress;
 import com.yyz.cyuanw.view.PullRV;
 
 import java.util.ArrayList;
@@ -207,6 +215,8 @@ public class CyGlActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         //刷新
+                        int position = getAdapterPosition();
+                        refreshCar(data.get(position).id);
                     }
                 });
                 gj.setOnClickListener(new View.OnClickListener() {
@@ -223,19 +233,26 @@ public class CyGlActivity extends BaseActivity {
                 gd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        showPopupDialog();
+                        int position = getAdapterPosition();
+                        Data2 data2 = data.get(position);
+
+                        showPopupDialog(data2);
                     }
                 });
                 szws.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        //设置未售
+                        int position = getAdapterPosition();
+                        updateSold(data.get(position).id);
                     }
                 });
                 sc.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        //删除
+                        int position = getAdapterPosition();
+                        delCar(data.get(position).id);
                     }
                 });
 
@@ -314,19 +331,56 @@ public class CyGlActivity extends BaseActivity {
     private View popupDialogView;
     private CommonPopupDialog mPopupDialog;
     private int type = 0;//是否已售 0否 1是
-    private Dialog mDialog1,mDialog2;
-    public void showPopupDialog() {
+    private Dialog mDialog1,mDialog2,mDialog3;
+    private TextView js,pf,zb,szys;
+
+    public void showPopupDialog(Data2 data) {
         if (popupDialogView == null) {
             popupDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_1, null);
             popupDialogView.findViewById(R.id.id_root_view).setOnClickListener(view -> mPopupDialog.dismiss());
-            popupDialogView.findViewById(R.id.pf).setOnClickListener(view -> {
-                showDialog1();
-                mPopupDialog.dismiss();
-            });
-            popupDialogView.findViewById(R.id.zb).setOnClickListener(view -> {
-                showDialog2();
-                mPopupDialog.dismiss();
-            });
+            pf = popupDialogView.findViewById(R.id.pf);
+            zb = popupDialogView.findViewById(R.id.zb);
+            szys = popupDialogView.findViewById(R.id.szys);
+            js = popupDialogView.findViewById(R.id.js);
+
+        }
+
+        pf.setOnClickListener(view -> {
+            if (data.wholesale == 1){
+                showDialog3(data);
+            }else{
+                showDialog1(data);
+            }
+            mPopupDialog.dismiss();
+
+        });
+        zb.setOnClickListener(view -> {
+            showDialog2(data.id);
+            mPopupDialog.dismiss();
+        });
+        szys.setOnClickListener(view -> {
+            updateSold(data.id);
+            mPopupDialog.dismiss();
+        });
+        js.setOnClickListener(view -> {
+            updateUrgent(data.id);
+            mPopupDialog.dismiss();
+        });
+
+        if (data.urgent == 1){
+            js.setText("取消急售");
+            js.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.js,0,0);
+        }else{
+            js.setText("急售");
+            js.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.img_001,0,0);
+        }
+
+        if (data.wholesale == 1){
+            pf.setText("修改批发");
+            pf.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.pf,0,0);
+        }else{
+            pf.setText("批发");
+            pf.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.img_002,0,0);
         }
 
         if (mPopupDialog == null) {
@@ -338,7 +392,7 @@ public class CyGlActivity extends BaseActivity {
                 WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
 
     }
-    public void showDialog1() {
+    public void showDialog1(Data2 data) {
         if (mDialog1 == null) {
             mDialog1 = new AlertDialog.Builder(this, R.style.MyDialog).create();
         }
@@ -355,8 +409,24 @@ public class CyGlActivity extends BaseActivity {
         mDialog1.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         mDialog1.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        }
-    public void showDialog2() {
+
+        EditText pfjg = dialogView.findViewById(R.id.pfjg);
+
+        dialogView.findViewById(R.id.submit).setOnClickListener(view -> {
+
+            String strContent = pfjg.getText().toString().trim();
+            if (!StringUtil.isNotNull(strContent)){
+                App.showToast("请输入正确的批发价格");
+                return;
+            }
+
+            wholesale(data.id,Double.parseDouble(strContent));
+
+            mDialog1.dismiss();
+        });
+
+    }
+    public void showDialog2(int id) {
         if (mDialog2 == null) {
             mDialog2 = new AlertDialog.Builder(this, R.style.MyDialog).create();
         }
@@ -373,7 +443,78 @@ public class CyGlActivity extends BaseActivity {
         mDialog2.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         mDialog2.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        EditText sgjg = dialogView.findViewById(R.id.sgjg);
+        EditText zbjg = dialogView.findViewById(R.id.zbjg);
+        EditText ms = dialogView.findViewById(R.id.ms);
+
+        getPreparation(id,sgjg,zbjg,ms);
+
+        dialogView.findViewById(R.id.submit).setOnClickListener(view -> {
+
+            double price1 = 0;
+            double price2 = 0;
+
+            if (StringUtil.isNotNull(sgjg.getText().toString())){
+                price1 = Double.parseDouble(sgjg.getText().toString());
+            }
+            if (StringUtil.isNotNull(zbjg.getText().toString())){
+                price2 = Double.parseDouble(zbjg.getText().toString());
+            }
+
+            preparation(id,price1,price2,ms.getText().toString());
+
+            mDialog2.dismiss();
+        });
+
     }
+
+    public void showDialog3(Data2 data) {
+        if (mDialog3 == null) {
+            mDialog3 = new AlertDialog.Builder(this, R.style.MyDialog).create();
+        }
+        mDialog3.show();
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_a3, null);
+        ViewGroup parent = (ViewGroup) dialogView.getParent();
+        if (parent != null) {
+            parent.removeAllViews();
+        }
+
+        mDialog3.setCanceledOnTouchOutside(true);
+        mDialog3.getWindow().setContentView(dialogView);
+        mDialog3.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        mDialog3.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        EditText pfjg = dialogView.findViewById(R.id.pfjg);
+        TextView pf = dialogView.findViewById(R.id.pf);
+        pf.setText(getString(R.string.str_pf,data.wholesale_offer));
+        pfjg.setText(data.wholesale_offer+"万");
+        pfjg.setSelection(pfjg.getText().toString().length());
+
+        dialogView.findViewById(R.id.submit).setOnClickListener(view -> {
+
+            String strContent = pfjg.getText().toString().trim();
+            if (!StringUtil.isNotNull(strContent)){
+                App.showToast("请输入正确的批发价格");
+                return;
+            }
+
+            wholesale(data.id,Double.parseDouble(strContent));
+
+            mDialog3.dismiss();
+        });
+
+        dialogView.findViewById(R.id.cancel).setOnClickListener(view -> {
+
+            wholesale(data.id,0);
+
+            mDialog3.dismiss();
+        });
+
+    }
+
     public void searchCy(boolean isRefresh, int page) {
         HttpData.getInstance().searchCyGl(type, key_word, page, new Observer<HttpResult<Data1>>() {
             @Override
@@ -402,6 +543,178 @@ public class CyGlActivity extends BaseActivity {
 //                    adapter.startBanner(result.data.ads);
                 } else {
 //                    App.showToast(result.message);
+                }
+            }
+        });
+    }
+
+    public void refreshCar(int id) {
+        HttpData.getInstance().refreshCar(id, App.get(Constant.KEY_USER_TOKEN),new Observer<HttpCodeResult>() {
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(HttpCodeResult result) {
+                if (result.status == 200) {
+                    App.showToast(result.message);
+
+                    pullRV.startRefresh();
+                }
+            }
+        });
+    }
+
+    public void delCar(int id) {
+        CustomProgress.show(this, "删除中...", false, null);
+        HttpData.getInstance().delCar(id, App.get(Constant.KEY_USER_TOKEN),new Observer<HttpCodeResult>() {
+
+            @Override
+            public void onCompleted() {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onNext(HttpCodeResult result) {
+                if (result.status == 200) {
+                    App.showToast(result.message);
+
+                    pullRV.startRefresh();
+                }
+            }
+        });
+    }
+
+    public void updateSold(int id) {
+        CustomProgress.show(this, "修改中...", false, null);
+        HttpData.getInstance().updateSold(id, App.get(Constant.KEY_USER_TOKEN),new Observer<HttpCodeResult>() {
+
+            @Override
+            public void onCompleted() {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onNext(HttpCodeResult result) {
+                if (result.status == 200) {
+                    App.showToast(result.message);
+
+                    pullRV.startRefresh();
+                }
+            }
+        });
+    }
+
+
+    public void updateUrgent(int id) {
+        CustomProgress.show(this, "修改中...", false, null);
+        HttpData.getInstance().updateUrgent(id, App.get(Constant.KEY_USER_TOKEN),new Observer<HttpCodeResult>() {
+
+            @Override
+            public void onCompleted() {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onNext(HttpCodeResult result) {
+                if (result.status == 200) {
+                    App.showToast(result.message);
+
+                    pullRV.startRefresh();
+                }
+            }
+        });
+    }
+
+    public void wholesale(int id,double price) {
+        CustomProgress.show(this, "请稍等...", false, null);
+        HttpData.getInstance().wholesale(id,price, App.get(Constant.KEY_USER_TOKEN),new Observer<HttpCodeResult>() {
+
+            @Override
+            public void onCompleted() {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onNext(HttpCodeResult result) {
+                if (result.status == 200) {
+                    App.showToast(result.message);
+
+                    pullRV.startRefresh();
+                }
+            }
+        });
+    }
+
+    public void getPreparation(int id,EditText et1,EditText et2,EditText et3) {
+        HttpData.getInstance().getPreparation(id, new Observer<HttpResult<PreparationData>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(HttpResult<PreparationData> result) {
+                if (result.status == 200) {
+                    et1.setText(result.data.purchasing_price);
+                    et1.setSelection(et1.getText().toString().length());
+                    et2.setText(result.data.preparation_price);
+                    et3.setText(result.data.preparation_describe);
+                }
+            }
+        });
+    }
+
+    public void preparation(int id,double price1,double price2,String content) {
+        CustomProgress.show(this, "修改中...", false, null);
+        HttpData.getInstance().preparation(id, price1,price2,content,new Observer<HttpCodeResult>() {
+            @Override
+            public void onCompleted() {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onNext(HttpCodeResult result) {
+                if (result.status == 200) {
+
+                    App.showToast(result.message);
                 }
             }
         });

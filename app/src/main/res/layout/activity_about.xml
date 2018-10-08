@@ -38,9 +38,9 @@
     <include
         android:id="@+id/id_oper_phone"
         layout="@layout/layout_common_oper2" />
-    <include
+    <!--<include
         android:id="@+id/id_oper_check"
-        layout="@layout/layout_common_oper2" />
+        layout="@layout/layout_common_oper2" />-->
 
     <TextView
         android:id="@+id/id_tv_version"

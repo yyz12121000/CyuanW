@@ -10,4 +10,7 @@
     <string name="__max_limit">最多可以选择%1$d张</string>
     <string name="__unv2_select">完成(%1$d/%2$d)</string>
 
+    <string name="str_pf">当前车辆的批发价格为%s万</string>
+    <string name="str_pfjg">1、如需进行修改，请重新输入价格后点击“确定”按钮，无需修改直接点击“确定按钮”；\n 2、取消批发请点击“取消批发”按钮。</string>
+
 </resources>

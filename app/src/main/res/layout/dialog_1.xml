@@ -15,10 +15,10 @@
 
 
         <TextView
+            android:id="@+id/js"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-
             android:drawableTop="@mipmap/img_001"
             android:gravity="center"
             android:text="急售" />
@@ -33,10 +33,10 @@
             android:text="批发" />
 
         <TextView
+            android:id="@+id/szys"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-
             android:drawableTop="@mipmap/img_003"
             android:gravity="center"
             android:text="设置已售" />
