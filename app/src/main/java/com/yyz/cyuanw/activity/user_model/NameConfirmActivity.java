@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,6 +32,8 @@ public class NameConfirmActivity extends BaseActivity{
     @BindView(R.id.id_et_name) EditText nameView;
     @BindView(R.id.id_et_no) EditText noView;
     @BindView(R.id.id_btn_confirm) Button btnView;
+    @BindView(R.id.id_iv_icon)
+    ImageView iconView;
 
     private String name;
 
@@ -50,6 +53,7 @@ public class NameConfirmActivity extends BaseActivity{
         name = getIntent().getStringExtra("name");
         if (StringUtil.isNotNull(name)){
             btnView.setVisibility(View.GONE);
+            iconView.setVisibility(View.VISIBLE);
             getCardInfo();
         }
     }

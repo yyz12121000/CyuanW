@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
+import com.yyz.cyuanw.activity.ChooseCityActivity;
 import com.yyz.cyuanw.activity.SelectPicActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
@@ -74,6 +75,8 @@ public class UserInfoActivity extends BaseActivity{
     private int uploadPicType = 0;
 
     private LoginData userData;
+
+    private int sheng_id = -1, shi_id = -1, qu_id = -1;
 
     @Override
     protected int getLayoutId() {
@@ -152,7 +155,7 @@ public class UserInfoActivity extends BaseActivity{
         }
     }
 
-    @OnClick({R.id.id_oper_setphoto,R.id.id_oper_setbg,R.id.id_oper_setsex,R.id.id_oper_setshortno,R.id.id_oper_setsign,R.id.id_oper_setno})
+    @OnClick({R.id.id_oper_setphoto,R.id.id_oper_setbg,R.id.id_oper_setsex,R.id.id_oper_setshortno,R.id.id_oper_setsign,R.id.id_oper_setno,R.id.id_oper_setcity})
     public void onClickEvent(View view){
         switch (view.getId()){
             case R.id.id_oper_setphoto:
@@ -179,6 +182,13 @@ public class UserInfoActivity extends BaseActivity{
                     intent.putExtra("phone",userData.phone);
                     startActivity(intent);
                 }
+                break;
+            case R.id.id_oper_setcity:
+
+                Intent intent = new Intent(this, ChooseCityActivity.class);
+                intent.putExtra("level", 1);
+                intent.putExtra("type", 3);
+                startActivityForResult(intent, 2);
                 break;
         }
     }
@@ -336,6 +346,33 @@ public class UserInfoActivity extends BaseActivity{
         });
     }
 
+    public void setAddress(String address){
+        CustomProgress.show(this, "请求中...", false, null);
+
+        HttpData.getInstance().setAddress(sheng_id,shi_id,qu_id,address,App.get(Constant.KEY_USER_TOKEN),new Observer<HttpCodeResult>() {
+            @Override
+            public void onCompleted() {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                CustomProgress.dismis();
+                App.showToast("服务器请求超时");
+            }
+
+            @Override
+            public void onNext(HttpCodeResult result) {
+                App.showToast(result.message);
+
+                if (result.status == 200){
+                    App.updataUserData = true;
+                    setResult(RESULT_OK);
+                }
+            }
+        });
+    }
+
     public void uploadFile(MultipartBody body){
         CustomProgress.show(this, "图片上传中...", false, null);
 
@@ -408,7 +445,26 @@ public class UserInfoActivity extends BaseActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // 在Activity中的onActivityResult()方法里与LQRPhotoSelectUtils关联
-        mLqrPhotoSelectUtils.attachToActivityForResult(requestCode, resultCode, data);
+        //mLqrPhotoSelectUtils.attachToActivityForResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            mLqrPhotoSelectUtils.attachToActivityForResult(requestCode, resultCode, data);
+
+            switch (requestCode) {
+                case 2:
+                    String sheng_name = data.getStringExtra("sheng_name");
+                    sheng_id = data.getIntExtra("sheng_id", 0);
+                    shi_id = data.getIntExtra("shi_id", 0);
+                    String city = data.getStringExtra("city");
+
+                    qu_id = data.getIntExtra("qu_id", 0);
+                    String qu = data.getStringExtra("qu");
+
+                    tvCityView.setText(sheng_name + " " + city + " " + qu);
+                    setAddress(tvCityView.getText().toString());
+
+                    break;
+            }
+        }
     }
 
     public void showDialog() {
@@ -426,6 +482,7 @@ public class UserInfoActivity extends BaseActivity{
         android.support.v7.app.AlertDialog dialog = builder.create();
         dialog.show();
     }
+
 
 }
 

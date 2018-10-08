@@ -43,7 +43,6 @@ public class WX {
                     msg.thumbData = arr;
                 }
 
-
                 SendMessageToWX.Req req = new SendMessageToWX.Req();
                 req.transaction = String.valueOf(System.currentTimeMillis());
                 req.message = msg;
@@ -66,7 +65,7 @@ public class WX {
             thumb.recycle();
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            thumb.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            thumbBmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             return baos.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();

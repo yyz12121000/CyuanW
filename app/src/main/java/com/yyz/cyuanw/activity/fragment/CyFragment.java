@@ -32,6 +32,7 @@ import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
+import com.yyz.cyuanw.tools.StringUtil;
 import com.yyz.cyuanw.view.JgqjPopuwindow;
 import com.yyz.cyuanw.view.ListPopuwindow;
 import com.yyz.cyuanw.view.PullRV;
@@ -133,7 +134,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         pullRV.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
             @Override
             public void onRefresh(boolean isPullDown) {
-                if (App.get(Constant.KEY_LOCATION_CITY) != null){
+                if (StringUtil.isNotNull(App.get(Constant.KEY_LOCATION_CITY))){
                     Data9 sheng = dbManager.findLocationCity(App.get(Constant.KEY_LOCATION_CITY));
                     province_id.clear();//省份ID
                     city_id.clear();//城市ID

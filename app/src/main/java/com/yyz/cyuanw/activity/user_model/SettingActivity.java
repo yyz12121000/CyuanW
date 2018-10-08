@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
@@ -143,8 +144,10 @@ public class SettingActivity extends BaseActivity{
             public void onNext(HttpCodeResult result) {
                 //App.set(Constant.KEY_USER_TOKEN,"");
                 if (result.status == 200){
+                    App.isExitLogin = true;
                     App.set(Constant.KEY_USER_ISLOGIN,"");
                     App.set(Constant.KEY_USER_TOKEN,"");
+                    App.set(Constant.KEY_USER_DATA,"");
                     Intent intent = new Intent(SettingActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                     startActivity(intent);

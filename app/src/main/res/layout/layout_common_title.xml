@@ -25,11 +25,11 @@
 
     <ImageView
         android:id="@+id/title_right_icon"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:padding="15dp"
+        android:layout_marginRight="15dp"
         android:src="@mipmap/ic_launcher"
         android:visibility="gone" />
 

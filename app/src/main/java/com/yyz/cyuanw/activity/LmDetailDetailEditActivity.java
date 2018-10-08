@@ -148,6 +148,7 @@ public class LmDetailDetailEditActivity extends BaseActivity {
                 break;
             case R.id.address:
                 Intent intent = new Intent(this, ChooseCityActivity.class);
+                intent.putExtra("level", 1);
                 intent.putExtra("type", 3);
                 startActivityForResult(intent, 2);
                 break;

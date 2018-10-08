@@ -145,7 +145,7 @@ public class SyFragment extends Fragment {
         private class VAHolder extends RecyclerView.ViewHolder {
             public Banner banner;
             private ImageView chunk_a_img_a,chunk_a_img_b,chunk_a_img_c;
-            private RecyclerView hot_lm_list;
+//            private RecyclerView hot_lm_list;
             public HotLmListAdapter hotLmListAdapter;
 
 
@@ -162,14 +162,14 @@ public class SyFragment extends Fragment {
                 chunk_a_img_a = itemView.findViewById(R.id.chunk_a_img_a);
                 chunk_a_img_b = itemView.findViewById(R.id.chunk_a_img_b);
                 chunk_a_img_c = itemView.findViewById(R.id.chunk_a_img_c);
-                hot_lm_list = itemView.findViewById(R.id.hot_lm_list);
+//                hot_lm_list = itemView.findViewById(R.id.hot_lm_list);
 
                 banner_root = itemView.findViewById(R.id.banner_root);
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SyFragment.this.getActivity());
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                hot_lm_list.setLayoutManager(linearLayoutManager);
-                hotLmListAdapter = new HotLmListAdapter();
+//                hot_lm_list.setLayoutManager(linearLayoutManager);
+//                hotLmListAdapter = new HotLmListAdapter();
 
                 chunk_a_img_a.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -208,7 +208,7 @@ public class SyFragment extends Fragment {
                     }
                 });
 
-                hot_lm_list.setAdapter(hotLmListAdapter);
+//                hot_lm_list.setAdapter(hotLmListAdapter);
             }
 
             public void setData() {

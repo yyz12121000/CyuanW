@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
+import com.yyz.cyuanw.activity.MainActivity;
 import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.StringUtil;
@@ -69,7 +70,7 @@ public class SafeConfirmActivity extends BaseActivity{
                     tvPersionView.setText("已认证");
                     break;
                 case 2:
-                    tvPersionView.setText("申请中");
+                    tvPersionView.setText("认证中");
                     break;
             }
 
@@ -108,8 +109,12 @@ public class SafeConfirmActivity extends BaseActivity{
                 startActivityForResult(intent2,10);
                 break;
             case R.id.id_oper_persionconfirm:
-                if (tvPersionView.getText().toString().equals("未认证"))
-                    startActivityForResult(new Intent(this,PersionConfirmActivity.class),20);
+//                if (tvPersionView.getText().toString().equals("未认证"))
+//                    startActivityForResult(new Intent(this,PersionConfirmActivity.class),20);
+
+                Intent intent3 = new Intent(this,PersionConfirmActivity.class);
+                intent3.putExtra("status",userData.is_broker);
+                startActivityForResult(intent3,20);
                 break;
         }
     }
@@ -127,7 +132,7 @@ public class SafeConfirmActivity extends BaseActivity{
         }
 
         if (resultCode == 20){
-            tvPersionView.setText("申请中");
+            tvPersionView.setText("认证中");
         }
     }
 }

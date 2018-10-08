@@ -27,6 +27,7 @@ import com.yyz.cyuanw.bean.MessageData;
 import com.yyz.cyuanw.bean.PublicCarData;
 import com.yyz.cyuanw.bean.ShopInfo;
 import com.yyz.cyuanw.bean.ShopListData;
+import com.yyz.cyuanw.bean.VersionInfo;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
 
@@ -127,6 +128,11 @@ public class HttpData extends RetrofitUtils {
                 observable = service.setVirtualNumber(value,token);
                 break;
         }
+        setSubscribe(observable, observer);
+    }
+
+    public void setAddress(int provice,int city,int region,String address,String token,Observer<HttpCodeResult> observer){
+        Observable observable = service.setAddress(provice,city,region,address,token);
         setSubscribe(observable, observer);
     }
 
@@ -339,6 +345,11 @@ public class HttpData extends RetrofitUtils {
     }
     public void ossToken(Observer<ResponseBody> observer) {
         Observable observable = service.ossToken(App.get(Constant.KEY_USER_TOKEN));
+        setSubscribe(observable, observer);
+    }
+
+    public void checkVersion(String version,Observer<HttpResult<VersionInfo>> observer) {
+        Observable observable = service.checkVersion(version);
         setSubscribe(observable, observer);
     }
     /**

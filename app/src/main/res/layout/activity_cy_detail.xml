@@ -105,7 +105,6 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -114,7 +113,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/gl"
+                        android:id="@+id/cx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
@@ -124,10 +123,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="行驶里程"
+                        android:text="车型"
                         android:textColor="#999999"
                         android:textSize="12sp" />
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -219,7 +219,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/bsx"
+                        android:id="@+id/gl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
@@ -229,7 +229,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="变速箱"
+                        android:text="行驶里程"
                         android:textColor="#999999"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -265,6 +265,29 @@
                 android:orientation="horizontal"
                 android:padding="15dp"
                 android:paddingBottom="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/bsx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:textColor="#333333"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="变速箱"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
 
                 <LinearLayout
@@ -313,14 +336,6 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                </LinearLayout>
             </LinearLayout>
 
             <View

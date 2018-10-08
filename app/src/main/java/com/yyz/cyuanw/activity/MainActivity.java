@@ -4,16 +4,21 @@ package com.yyz.cyuanw.activity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,20 +36,33 @@ import com.yyz.cyuanw.activity.fragment.LmFragment;
 import com.yyz.cyuanw.activity.fragment.SyFragment;
 import com.yyz.cyuanw.activity.user_model.LoginActivity;
 import com.yyz.cyuanw.activity.user_model.NameConfirmActivity;
+import com.yyz.cyuanw.activity.user_model.PersionConfirmActivity;
 import com.yyz.cyuanw.activity.user_model.SendCarActivity;
 import com.yyz.cyuanw.activity.user_model.UserActivity;
+import com.yyz.cyuanw.activity.user_model.UserInfoActivity;
 import com.yyz.cyuanw.adapter.MyFragPagerAdapter;
+import com.yyz.cyuanw.apiClient.HttpData;
+import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.LocationO;
 import com.yyz.cyuanw.bean.LoginData;
+import com.yyz.cyuanw.bean.UserInfo;
+import com.yyz.cyuanw.bean.VersionInfo;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.Location;
+import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.tools.StringUtil;
 import com.yyz.cyuanw.tools.Tools;
 
+import net.tsz.afinal.FinalHttp;
+import net.tsz.afinal.http.AjaxCallBack;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
+
+import rx.Observer;
 
 
 public class MainActivity extends BaseActivity {
@@ -67,6 +85,8 @@ public class MainActivity extends BaseActivity {
 
     private long lastBackTime;
 
+    private ProgressDialog pd;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -74,6 +94,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
+
+        checkVersion();
+
         lastBackTime = System.currentTimeMillis();
         location = new Location(this, new Location.ILocationListener() {
             @Override
@@ -91,7 +117,10 @@ public class MainActivity extends BaseActivity {
             userData = new Gson().fromJson(jsonStr, LoginData.class);
             if (StringUtil.isNotNull(userData.pic))
                 Img.loadC(right_icon, userData.pic);
+        }else{
+            right_icon.setImageResource(R.mipmap.ic_defaultphoto);
         }
+
     }
 
     @Override
@@ -105,8 +134,28 @@ public class MainActivity extends BaseActivity {
         super.onResume();
 
         if (StringUtil.isNotNull(App.get(Constant.KEY_USER_ISLOGIN))) {
-            showNoticeDialog();
             App.set(Constant.KEY_USER_ISLOGIN, "");
+
+            String jsonStr = App.get(Constant.KEY_USER_DATA);
+            if (StringUtil.isNotNull(jsonStr)) {
+                userData = new Gson().fromJson(jsonStr, LoginData.class);
+                if (StringUtil.isNotNull(userData.pic))
+                    Img.loadC(right_icon, userData.pic);
+            }else{
+                right_icon.setImageResource(R.mipmap.ic_defaultphoto);
+            }
+
+            if (userData != null){
+                if (userData.is_broker == 0 || userData.is_broker == 2){
+                    showNoticeDialog();
+                }
+            }
+
+        }
+
+        if (App.isExitLogin){
+            right_icon.setImageResource(R.mipmap.ic_defaultphoto);
+            App.isExitLogin = false;
         }
 
     }
@@ -117,6 +166,15 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         setSwipeBackEnable(false);
+
+        pd = new ProgressDialog(this);
+        pd.setTitle("请稍等");
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.setMessage("正在努力下载中......");
+        pd.setCanceledOnTouchOutside(false);
+        pd.getWindow().setGravity(Gravity.CENTER);
+        pd.setMax(100);
+
         search_ll = findViewById(R.id.search_ll);
         mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
         left_text = (TextView) findViewById(R.id.left_text);
@@ -178,7 +236,25 @@ public class MainActivity extends BaseActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-                                    startActivity(new Intent(MainActivity.this, SendCarActivity.class));
+
+                                    if (userData != null){
+                                        switch (userData.publish_car){
+                                            case 0://no
+
+                                                App.showToast(userData.publish_message);
+
+                                                if (userData.jump == 1){
+                                                    Intent intent = new Intent(MainActivity.this, UserInfoActivity.class);
+                                                    startActivityForResult(intent, 3);
+                                                }else if(userData.jump == 2){
+                                                    startActivity(new Intent(MainActivity.this, PersionConfirmActivity.class));
+                                                }
+                                                break;
+                                            case 1://yes
+                                                startActivity(new Intent(MainActivity.this, SendCarActivity.class));
+                                                break;
+                                        }
+                                    }
 
                                 }
                             });
@@ -253,12 +329,149 @@ public class MainActivity extends BaseActivity {
 
         });
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
+        try{
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
+                }
             }
+        }catch (Exception e){
+
+            LogManager.e("xxxxxxx--Exception");
+            e.printStackTrace();
         }
+
+
+    }
+
+    public void getUserInfo() {
+
+        HttpData.getInstance().getUserInfo(App.get(Constant.KEY_USER_TOKEN), new Observer<HttpResult<LoginData>>() {
+            @Override
+            public void onCompleted() {
+                //CustomProgress.dismis();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                //CustomProgress.dismis();
+                App.showToast("服务器请求超时");
+            }
+
+            @Override
+            public void onNext(HttpResult<LoginData> result) {
+                if (result.status == 200 && result.data != null) {
+                    App.set(Constant.KEY_USER_DATA, new Gson().toJson(result.data));
+                    userData = result.data;
+                } else {
+                    App.showToast(result.message);
+                }
+            }
+        });
+    }
+
+    public void checkVersion(){
+
+        HttpData.getInstance().checkVersion(Tools.getVersionName(this),new Observer<HttpResult<VersionInfo>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(HttpResult<VersionInfo> result) {
+
+                if (result.status == 200){
+                    VersionInfo data = result.data;
+
+                    if (data.status == 0) {
+                            showUpdateDialog(data.content,data.url);
+                    }
+                }
+            }
+        });
+    }
+
+    private void showUpdateDialog(String message,final String url) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("版本更新");
+        builder.setMessage(message);
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.setPositiveButton("下载", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                    final String savePath;
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                        savePath = (getExternalFilesDir("upgrade_apk") + File.separator + getPackageName() + ".apk");
+                    } else {
+                        savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/temp.apk";
+                    }
+                    File f = new File(savePath);
+                    if (f.exists()) {
+                        f.delete();
+                    }
+
+                    FinalHttp finalhttp = new FinalHttp();
+                    finalhttp.download(url, savePath,
+                            new AjaxCallBack<File>() {
+                                @Override
+                                public void onFailure(Throwable t, int errorNo, String strMsg) {
+                                    super.onFailure(t, errorNo, strMsg);
+
+                                    App.showToast("下载失败");
+                                }
+
+                                @Override
+                                public void onLoading(long count, long current) {
+                                    super.onLoading(count, current);
+
+                                    int progress = (int) (current * 100 / count);
+                                    pd.setProgress(progress);
+                                    pd.show();
+                                }
+
+                                @Override
+                                public void onSuccess(File file) {
+                                    super.onSuccess(file);
+
+                                    installAPK(file);
+                                    pd.dismiss();
+                                }
+
+                                private void installAPK(File file) {
+                                    Uri uri = Uri.fromFile(file);
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.setDataAndType(uri, "application/vnd.android.package-archive");
+
+                                    startActivity(intent);
+                                    finish();
+                                }
+
+                            });
+                } else {
+                    App.showToast("没有sdcard，请安装上在试");
+                }
+
+            }
+        });
+
+        builder.show();
     }
 
     @Override
@@ -272,6 +485,10 @@ public class MainActivity extends BaseActivity {
                     String city = data.getStringExtra("city");
                     left_text.setText(city);
                     ((CyFragment) mFragments.get(1)).doSearchByAdress(sheng_id, shi_id);
+                    break;
+                case 3:
+
+                    getUserInfo();
                     break;
             }
         }
@@ -296,7 +513,16 @@ public class MainActivity extends BaseActivity {
         dialogView.findViewById(R.id.id_tv_go).setOnClickListener(view -> {
             mDialog.dismiss();
 
-            startActivity(new Intent(MainActivity.this, NameConfirmActivity.class));
+            if (userData != null){
+                if (StringUtil.isNotNull(userData.name)){
+                    Intent intent = new Intent(MainActivity.this,PersionConfirmActivity.class);
+                    intent.putExtra("status",userData.is_broker);
+                    startActivity(intent);
+                }else{
+                    startActivity(new Intent(MainActivity.this, NameConfirmActivity.class));
+                }
+            }
+
         });
     }
 

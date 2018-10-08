@@ -608,4 +608,24 @@ public class Tools {
         dialog.setCancelable(true);
     }
 
+    public static int getVersionCode(Context context) {
+        int versionCode = 0;
+        try {
+            versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException ex) {
+            versionCode = 0;
+        }
+        return versionCode;
+    }
+
+    public static String getVersionName(Context context) {
+        String name = "";
+        try {
+            name = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException ex) {
+            name = "";
+        }
+        return name;
+    }
+
 }

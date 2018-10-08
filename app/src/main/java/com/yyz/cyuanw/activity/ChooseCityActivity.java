@@ -23,6 +23,8 @@ public class ChooseCityActivity extends BaseActivity {
     private int sheng_id, shi_id;
     private DBManager dbManager;
 
+    private int level;
+
     @Override
     public void initView() {
         dbManager = new DBManager(this);
@@ -31,7 +33,7 @@ public class ChooseCityActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        level = getIntent().getIntExtra("level",-1);
 
     }
 
@@ -66,13 +68,30 @@ public class ChooseCityActivity extends BaseActivity {
                             if (position == 0) {
                                 try {
                                     Data9 sheng = dbManager.findLocationCity(data.getName());
-                                    Intent intent = getIntent();
-                                    intent.putExtra("sheng_name", sheng.name);
-                                    intent.putExtra("sheng_id", sheng.id);
-                                    intent.putExtra("shi_id", sheng.son.get(0).id);
-                                    intent.putExtra("city", sheng.son.get(0).name);
-                                    setResult(RESULT_OK, intent);
-                                    finish();
+
+                                    if (level == 1){
+                                        Intent intent = new Intent(ChooseCityActivity.this, ListCityChooseActivity.class);
+//                                        intent.putExtra("type", getIntent().getIntExtra("type",-1));
+//                                        intent.putExtra("sheng_id", sheng.id);
+//                                        intent.putExtra("sheng_name", sheng.name);
+//                                        startActivityForResult(intent, 2);
+
+                                        intent.putExtra("type", 4);
+                                        intent.putExtra("sheng_id", sheng.id);
+                                        intent.putExtra("sheng_name", sheng.name);
+                                        intent.putExtra("shi_id", sheng.son.get(0).id);
+                                        intent.putExtra("city", sheng.son.get(0).name);
+                                        startActivityForResult(intent, 2);
+                                    }else{
+                                        Intent intent = getIntent();
+                                        intent.putExtra("sheng_name", sheng.name);
+                                        intent.putExtra("sheng_id", sheng.id);
+                                        intent.putExtra("shi_id", sheng.son.get(0).id);
+                                        intent.putExtra("city", sheng.son.get(0).name);
+                                        setResult(RESULT_OK, intent);
+                                        finish();
+                                    }
+
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

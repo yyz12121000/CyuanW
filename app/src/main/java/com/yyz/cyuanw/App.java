@@ -20,6 +20,7 @@ public class App extends Application {
     private static String PREF_NAME = "my.pref";
 
     public static boolean updataUserData = false;
+    public static boolean isExitLogin = false;
 
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);

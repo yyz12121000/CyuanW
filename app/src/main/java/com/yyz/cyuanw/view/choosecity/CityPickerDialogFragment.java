@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.zaaach.citypicker.adapter.InnerListener;
 import com.zaaach.citypicker.adapter.OnPickListener;
@@ -261,5 +263,12 @@ public class CityPickerDialogFragment extends AppCompatDialogFragment implements
 
     public void setOnPickListener(OnPickListener listener){
         this.mOnPickListener = listener;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        dismiss(-1, null);
     }
 }

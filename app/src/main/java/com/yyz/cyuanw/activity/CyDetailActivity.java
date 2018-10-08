@@ -50,8 +50,8 @@ import rx.Observer;
 public class CyDetailActivity extends BaseActivity {
     @BindView(R.id.id_tv_title)
     TextView title;
-    //@BindView(R.id.title_right_icon)
-    //ImageView right_icon;
+    @BindView(R.id.title_right_icon)
+    ImageView right_icon;
     @BindView(R.id.sc_iv)
     ImageView sc_iv;
 
@@ -83,6 +83,8 @@ public class CyDetailActivity extends BaseActivity {
     TextView desc;
     @BindView(R.id.sc_tv)
     TextView sc_tv;
+    @BindView(R.id.cx)
+    TextView cx;
     /*  @BindView(R.id.see_all_cy)
       TextView see_all_cy;
       @BindView(R.id.to_wx)
@@ -92,6 +94,7 @@ public class CyDetailActivity extends BaseActivity {
 
 
     private int cy_id;
+    private int intent_flag;// 1 共享车源
 
     public Banner banner;
     private Data6 data6;
@@ -148,9 +151,13 @@ public class CyDetailActivity extends BaseActivity {
     @Override
     public void initView() {
         setSwipeBackEnable(false);
+        cy_id = getIntent().getIntExtra("id", 0);
+        intent_flag = getIntent().getIntExtra("flag",0);
+        if (intent_flag != 1){
+            right_icon.setImageResource(R.mipmap.img_25);
+            right_icon.setVisibility(View.VISIBLE);
+        }
         title.setText("车源详情");
-        //right_icon.setImageResource(R.mipmap.img_25);
-        //right_icon.setVisibility(View.VISIBLE);
         banner = (Banner) findViewById(R.id.banner);
         banner.setImageLoader(new ImageLoader() {
             @Override
@@ -180,7 +187,6 @@ public class CyDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        cy_id = getIntent().getIntExtra("id", 0);
         carInfo(cy_id);
     }
 
@@ -194,12 +200,14 @@ public class CyDetailActivity extends BaseActivity {
         gl.setText(data6.mileage);
         cprq.setText(data6.license_plate_time);
         szd.setText(data6.location);
-        pfbz.setText(data6.emission_standard);
-        bsx.setText(data6.gearbox);
-        pl.setText(data6.displacement);
-        rylx.setText(data6.fuel_type);
-        csys.setText(data6.color);
-        desc.setText(data6.describe);
+        pfbz.setText(StringUtil.isNotNull(data6.emission_standard) ? data6.emission_standard : "-");
+        bsx.setText(StringUtil.isNotNull(data6.gearbox) ? data6.gearbox : "-");
+        pl.setText(StringUtil.isNotNull(data6.displacement) ? data6.displacement : "-");
+        rylx.setText(StringUtil.isNotNull(data6.fuel_type) ? data6.fuel_type : "-");
+        csys.setText(StringUtil.isNotNull(data6.color) ? data6.color : "-");
+        desc.setText(StringUtil.isNotNull(data6.describe) ? data6.describe : "暂无");
+        cx.setText(data6.car_style > 0 ? data6.car_style_string : "-");
+        if (data6.car_style == 0)
         adapterImgs(data6.images);
 
         setSc(data6.collection);
@@ -220,7 +228,8 @@ public class CyDetailActivity extends BaseActivity {
         if (null == urls) return;
         for (int i = 0; i < urls.size(); i++) {
             ImageView iv = new ImageView(this);
-            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Tools.dip2px(this, 240));
+            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT );//Tools.dip2px(this, 240)
             imgs.addView(iv, llp);
             Img.loadD(iv, urls.get(i),R.mipmap.ic_cybg);
         }
@@ -240,7 +249,14 @@ public class CyDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.lx:
-                showImgDialog();
+
+                if (data6 != null){
+                    if (data6.power == 1){
+                        showImgDialog();
+                    }else{
+                        App.showToast(data6.power_message);
+                    }
+                }
                 break;
           /*  case R.id.see_all_cy:
 

@@ -73,7 +73,7 @@ public class MyShopListViewAdapter extends BaseAdapter {
 
         final Data2 data2 = list.get(position);
 
-        Img.load(holder.imageView, data2.cover);
+        Img.loadD(holder.imageView, data2.cover,R.mipmap.ic_cy);
         holder.titleView.setText(data2.name);
         holder.spView.setText(data2.license_plate_time);
         holder.glView.setText(data2.mileage + "公里");
@@ -112,6 +112,7 @@ public class MyShopListViewAdapter extends BaseAdapter {
 
                 Intent intent = new Intent(context, CyDetailActivity.class);
                 intent.putExtra("id", data2.id);
+                intent.putExtra("flag", flag);
                 context.startActivity(intent);
             }
         });

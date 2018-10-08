@@ -27,6 +27,7 @@ import com.yyz.cyuanw.bean.MessageData;
 import com.yyz.cyuanw.bean.PublicCarData;
 import com.yyz.cyuanw.bean.ShopInfo;
 import com.yyz.cyuanw.bean.ShopListData;
+import com.yyz.cyuanw.bean.VersionInfo;
 import com.yyz.cyuanw.view.sortrecyclerview.SortModel;
 
 import java.util.List;
@@ -89,6 +90,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("setGender")
     Observable<HttpCodeResult> setGender(@Field("gender") String gender,@Field("token") String token);
+
+    //修改地址
+    @FormUrlEncoded
+    @POST("setAddress")
+    Observable<HttpCodeResult> setAddress(@Field("province") int province,@Field("city") int city,@Field("region") int region,@Field("address") String address,@Field("token") String token);
 
     //修改个性签名
     @FormUrlEncoded
@@ -398,6 +404,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("getCarInfo")
     Observable<HttpResult<PublicCarData>> getCarInfo(@Field("id") int id, @Field("token") String token);
+
+    //检测更新
+    @FormUrlEncoded
+    @POST("adVersion")
+    Observable<HttpResult<VersionInfo>> checkVersion(@Field("version") String version);
 
 }
 

@@ -36,6 +36,15 @@
             android:textSize="16dp"
             android:textColor="#ffffff"
             android:background="@drawable/bg_green_4dp"/>
+        <ImageView
+            android:id="@+id/id_iv_icon"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="right"
+            android:src="@mipmap/ic_confirm"
+            android:visibility="gone"/>
     </FrameLayout>
 
     <View

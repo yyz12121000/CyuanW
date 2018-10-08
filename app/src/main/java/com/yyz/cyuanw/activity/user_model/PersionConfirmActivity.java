@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,12 +41,17 @@ public class PersionConfirmActivity extends BaseActivity{
     @BindView(R.id.id_tv_title) TextView titleView;
     @BindView(R.id.id_iv_image) ImageView imageView;;
     @BindView(R.id.id_oper_carset) RelativeLayout carView;
+    @BindView(R.id.id_btn_selectpic) Button selectView;
+    @BindView(R.id.id_btn_submit) Button submitView;
+    @BindView(R.id.id_iv_icon) ImageView iconView;
 
     private TextView tvCarView;
 
     private LQRPhotoSelectUtils mLqrPhotoSelectUtils;
     private boolean selectedPic = false;
     private File outputFile;
+
+    private int status;
 
     @Override
     protected int getLayoutId() {
@@ -57,6 +63,28 @@ public class PersionConfirmActivity extends BaseActivity{
         setTitle(titleView,"经纪人认证");
         ((TextView)carView.getChildAt(0)).setText("关联车商");
         tvCarView = (TextView) carView.getChildAt(1);
+
+        status = getIntent().getIntExtra("status",-1);
+
+        switch (status){
+            case 0:
+
+                break;
+            case 1:
+            case 2:
+
+                if (status == 1){
+                    iconView.setImageResource(R.mipmap.ic_confirm);
+                }else {
+                    iconView.setImageResource(R.mipmap.ic_confirming);
+                }
+
+                iconView.setVisibility(View.VISIBLE);
+                selectView.setEnabled(false);
+                carView.setEnabled(false);
+                submitView.setVisibility(View.GONE);
+                break;
+        }
 
     }
 
