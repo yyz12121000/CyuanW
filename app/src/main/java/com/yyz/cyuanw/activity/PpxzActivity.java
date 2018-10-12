@@ -151,7 +151,7 @@ public class PpxzActivity extends BaseActivity implements View.OnClickListener {
         });
         popuwindow.setItemListenner(new IOnListItemClickListenner() {
             @Override
-            public void onItemClick(int position, String text) {
+            public void onItemClick(int position, String text,String car_style) {
                 Intent intent = new Intent();
                 intent.putExtra("pp_id", pp_id);
                 intent.putExtra("xl_id", position);

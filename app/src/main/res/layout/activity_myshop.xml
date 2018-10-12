@@ -157,16 +157,22 @@
 
                 </LinearLayout>
 
-                <ListView
-                    android:id="@+id/id_list_view"
+                <com.yyz.cyuanw.view.PullRV
+                    android:id="@+id/xrefreshview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/id_ll2"
-                    android:cacheColorHint="#00000000"
-                    android:divider="#f4f4f4"
-                    android:dividerHeight="0.5dp"
-                    android:listSelector="@android:color/transparent"
-                    android:scrollbars="none"/>
+                    android:layout_below="@+id/id_ll2">
+                    <ListView
+                        android:id="@+id/id_list_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:cacheColorHint="#00000000"
+                        android:divider="#f4f4f4"
+                        android:dividerHeight="0.5dp"
+                        android:listSelector="@android:color/transparent"
+                        android:scrollbars="none"/>
+                </com.yyz.cyuanw.view.PullRV>
+
                 <LinearLayout
                     android:id="@+id/black"
                     android:layout_width="match_parent"

@@ -174,7 +174,7 @@ public class SyFragment extends Fragment {
                 chunk_a_img_a.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (StringUtil.isNotNull(App.get(Constant.KEY_USER_ID))) {
+                        if (StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
                             Intent intent = new Intent(SyFragment.this.getActivity(), MyShopActivity.class);
                             intent.putExtra("id",Integer.parseInt(App.get(Constant.KEY_USER_ID)));
                             SyFragment.this.getActivity().startActivity(intent);
@@ -333,11 +333,16 @@ public class SyFragment extends Fragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int position = getAdapterPosition();
-                        JjrData jjrData = dataList.get(position);
-                        Intent intent = new Intent(SyFragment.this.getActivity(), MyShopActivity.class);
-                        intent.putExtra("id",jjrData.id);
-                        startActivity(intent);
+                        if (StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
+                            int position = getAdapterPosition();
+                            JjrData jjrData = dataList.get(position);
+                            Intent intent = new Intent(SyFragment.this.getActivity(), MyShopActivity.class);
+                            intent.putExtra("id",jjrData.id);
+                            startActivity(intent);
+                        } else {
+                            startActivity(new Intent(SyFragment.this.getActivity(), LoginActivity.class));
+                        }
+
                     }
                 });
             }

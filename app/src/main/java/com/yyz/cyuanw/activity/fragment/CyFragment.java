@@ -22,6 +22,8 @@ import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.CyDetailActivity;
 import com.yyz.cyuanw.activity.GdsxActivity;
 import com.yyz.cyuanw.activity.PpxzActivity;
+import com.yyz.cyuanw.activity.WdLmActivity;
+import com.yyz.cyuanw.activity.user_model.LoginActivity;
 import com.yyz.cyuanw.adapter.IOnListItemClickListenner;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.Data1;
@@ -153,7 +155,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
 
         cyPopuwindow.setItemListenner(new IOnListItemClickListenner() {
             @Override
-            public void onItemClick(int position, String text) {
+            public void onItemClick(int position, String text,String car_style) {
 //               source = 0;//车源来源 0全部 1 批发 2 急售 3 新车
                 tv_1.setText(text);
                 source = position;
@@ -162,7 +164,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         });
         pxPopuwindow.setItemListenner(new IOnListItemClickListenner() {
             @Override
-            public void onItemClick(int position, String text) {
+            public void onItemClick(int position, String text,String car_style) {
                 tv_2.setText(text);
 //                order = 0;//排序 0默认排序 1价格最低 2价格最高 3 车龄最短 4里程最少
                 order = position;
@@ -341,10 +343,15 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 itemView.findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int position = getAdapterPosition();
-                        Intent intent = new Intent(CyFragment.this.getActivity(), CyDetailActivity.class);
-                        intent.putExtra("id", data.get(position).id);
-                        CyFragment.this.getActivity().startActivity(intent);
+                        if (StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
+                            int position = getAdapterPosition();
+                            Intent intent = new Intent(CyFragment.this.getActivity(), CyDetailActivity.class);
+                            intent.putExtra("id", data.get(position).id);
+                            intent.putExtra("from_type",1);
+                            CyFragment.this.getActivity().startActivity(intent);
+                        } else {
+                            startActivity(new Intent(CyFragment.this.getActivity(), LoginActivity.class));
+                        }
                     }
                 });
 

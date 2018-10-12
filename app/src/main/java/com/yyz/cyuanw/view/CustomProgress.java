@@ -86,7 +86,10 @@ public class CustomProgress extends Dialog {
 		lp.dimAmount = 0.2f;
 		dialog.getWindow().setAttributes(lp);
 		// dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-		dialog.show();
+		try{
+			dialog.show();
+		}catch (Exception e){}
+
 		return dialog;
 	}
 	public static void dismis(){

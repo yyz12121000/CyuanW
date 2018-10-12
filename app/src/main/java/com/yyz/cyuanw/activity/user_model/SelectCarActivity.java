@@ -66,6 +66,7 @@ public class SelectCarActivity extends BaseActivity implements View.OnClickListe
 
     private int xl_id;
     private String xl_name;
+    private String xl_carstyle;
 
     private String name;
 
@@ -157,10 +158,11 @@ public class SelectCarActivity extends BaseActivity implements View.OnClickListe
         });
         popuwindow.setItemListenner(new IOnListItemClickListenner() {
             @Override
-            public void onItemClick(int position, String text) {
+            public void onItemClick(int position, String text,String car_style) {
                 if (level == 1){
                     xl_id = position;
                     xl_name = pp_name+text;
+                    xl_carstyle = car_style;
                     seriesNext(position);
                 }else if(level == 2){
                     Intent intent = new Intent();
@@ -169,6 +171,7 @@ public class SelectCarActivity extends BaseActivity implements View.OnClickListe
                     intent.putExtra("series_id", position);
                     intent.putExtra("series_name",text);
                     intent.putExtra("pp_name",xl_name);
+                    intent.putExtra("car_style",xl_carstyle);
                     setResult(RESULT_OK,intent);
                     SelectCarActivity.this.finish();
                 }
@@ -406,6 +409,14 @@ public class SelectCarActivity extends BaseActivity implements View.OnClickListe
         });
     }
 
+    public static List<String> copyIterator(Iterator<String> iter) {
+        List<String> copy = new ArrayList<>();
+        while (iter.hasNext())
+            copy.add(iter.next());
+        return copy;
+    }
+
+
     private List<SortModel> bl(JSONObject object) {
         Iterator it = object.keys();
         List<SortModel> listdata = new ArrayList<>();
@@ -428,21 +439,37 @@ public class SelectCarActivity extends BaseActivity implements View.OnClickListe
 
     private List<SortModel> cl(JSONObject object) {
         Iterator it = object.keys();
+        List<String> copy = copyIterator(it);
+        Collections.reverse(copy);
+
         List<SortModel> listdata = new ArrayList<>();
-        while (it.hasNext()) {
-            String key = (String) it.next();
-            JSONArray array = object.optJSONArray(key);
+        for (int i=0;i<copy.size();i++){
+            //String key = (String) it.next();
+            JSONArray array = object.optJSONArray(copy.get(i));
 
             SortModel sortModel = new SortModel();
             sortModel.setType(1);
-            sortModel.setName(key);
+            sortModel.setName(copy.get(i));
 
             listdata.add(sortModel);
-
 
             List<SortModel> list = jx3(array);
             listdata.addAll(list);
         }
+//        while (it.hasNext()) {
+//            String key = (String) it.next();
+//            JSONArray array = object.optJSONArray(key);
+//
+//            SortModel sortModel = new SortModel();
+//            sortModel.setType(1);
+//            sortModel.setName(key);
+//
+//            listdata.add(sortModel);
+//
+//
+//            List<SortModel> list = jx3(array);
+//            listdata.addAll(list);
+//        }
         return listdata;
     }
 
@@ -470,6 +497,7 @@ public class SelectCarActivity extends BaseActivity implements View.OnClickListe
             sortModel.setType(2);
             sortModel.setId(object.optInt("id"));
             sortModel.setName(object.optString("name"));
+            sortModel.setCar_style(object.optString("car_style"));
             list.add(sortModel);
         }
         return list;

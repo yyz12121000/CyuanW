@@ -137,6 +137,8 @@ public class SendCarActivity extends BaseActivity{
 
     private int pickType;
 
+    private boolean shareClicked = false;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_sendcar;
@@ -320,6 +322,26 @@ public class SendCarActivity extends BaseActivity{
                     is_share = 1;
                     gxcyView.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.switch_on,0);
                     rootGxView.setVisibility(View.VISIBLE);
+
+                    if (flag == 0){
+                        if (shareClicked == false){
+                            shareClicked = true;
+
+                            if (selectedList.size() > 0){
+                                gxselectedList.addAll(selectedList);
+                                gxtempList.addAll(tempList);
+                                gxtempImgPath.addAll(tempImgPath);
+
+                                mgxPickRecyclerView.bind(gxtempList);
+                            }
+
+                            gxclmsView.setText(clmsView.getText().toString());
+                            gxclmsView.setSelection(gxclmsView.getText().toString().length());
+
+                        }
+
+                    }
+
                 }else{
                     is_share = 0;
                     gxcyView.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.switch_off,0);
@@ -659,6 +681,10 @@ public class SendCarActivity extends BaseActivity{
                 int se_id = data.getIntExtra("series_id", -1);
                 String brand_name = data.getStringExtra("pp_name");
                 String series_name = data.getStringExtra("series_name");
+                String car_style = data.getStringExtra("car_style");
+
+                typeView.setText(car_style);
+
                 if (xl_id != -1 && pp_id != -1 && se_id != -1) {
                     brand_id = pp_id;
                     series_id = xl_id;

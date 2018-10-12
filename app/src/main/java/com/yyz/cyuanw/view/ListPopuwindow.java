@@ -74,7 +74,7 @@ public class ListPopuwindow extends BasePopuwindow {
                     public void onClick(View view) {
                         index = getAdapterPosition();
                         if (null != listenner){
-                            listenner.onItemClick(index,datas.get(index));
+                            listenner.onItemClick(index,datas.get(index),"");
                         }
                         notifyDataSetChanged();
                         ListPopuwindow.this.dismiss();

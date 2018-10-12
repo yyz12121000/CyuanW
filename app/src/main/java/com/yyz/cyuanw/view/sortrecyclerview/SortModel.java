@@ -7,7 +7,7 @@ private int type;
     private String logo;
     private String letters;//显示拼音的首字母
 
-   private String power, emission_standard,gearbox;
+   private String power, emission_standard,gearbox,car_style;
 
     public int getType() {
         return type;
@@ -72,5 +72,13 @@ private int type;
 
     public void setGearbox(String gearbox) {
         this.gearbox = gearbox;
+    }
+
+    public String getCar_style() {
+        return car_style;
+    }
+
+    public void setCar_style(String car_style) {
+        this.car_style = car_style;
     }
 }

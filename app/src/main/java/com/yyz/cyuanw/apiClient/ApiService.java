@@ -12,6 +12,7 @@ import com.yyz.cyuanw.bean.Data2;
 import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.Data5;
 import com.yyz.cyuanw.bean.Data6;
+import com.yyz.cyuanw.bean.GwListData;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
@@ -281,7 +282,7 @@ public interface ApiService {
     //车源详情接口
     @FormUrlEncoded
     @POST("carInfo")
-    Observable<HttpResult<Data6>> carInfo(@Field("token") String token, @Field("id") int id);
+    Observable<HttpResult<Data6>> carInfo(@Field("token") String token, @Field("id") int id,@Field("from_type") int from_type);
     //收藏车源
     @FormUrlEncoded
     @POST("collections")
@@ -325,15 +326,31 @@ public interface ApiService {
     //在售车源列表
     @FormUrlEncoded
     @POST("selfCar")
-    Observable<HttpResult<ShopListData>> getSelfCarList(@Field("id") int id, @Field("page") int page);
+    Observable<HttpResult<ShopListData>> getSelfCarList(@Field("id") int id, @Field("page") int page,@Field("token") String token);
 
     //共享车源列表
     @FormUrlEncoded
     @POST("shareCar")
-    Observable<HttpResult<ShopListData>> getShareCarList(@Field("id") int id, @Field("page") int page);
+    Observable<HttpResult<ShopListData>> getShareCarList(@Field("id") int id, @Field("page") int page,@Field("token") String token);
 
     @GET("user_messages")
     Observable<HttpResult<MessageData>> getMessageList(@Query("token") String token);
+
+    @FormUrlEncoded
+    @POST("applicationList")
+    Observable<HttpResult<GwListData>> getApplicationList(@Field("status") int status, @Field("page") int page, @Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("setManage")
+    Observable<HttpCodeResult> setManage(@Field("id") int id, @Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("delBroker")
+    Observable<HttpCodeResult> delBroker(@Field("id") int id, @Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("auditBroker")
+    Observable<HttpCodeResult> auditBroker(@Field("id") int id,@Field("status") int status, @Field("token") String token);
 
     //发布车源
     @FormUrlEncoded

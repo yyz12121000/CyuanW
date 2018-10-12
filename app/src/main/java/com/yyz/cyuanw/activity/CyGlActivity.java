@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
+import com.google.gson.Gson;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.fragment.CyFragment;
@@ -30,6 +31,7 @@ import com.yyz.cyuanw.bean.Data2;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
+import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.bean.PreparationData;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.Img;
@@ -139,7 +141,15 @@ public class CyGlActivity extends BaseActivity {
                 searchCy(true, pullRV.page = 1);
                 break;
             case R.id.title_right:
-                startActivity(new Intent(this, SendCarActivity.class));
+                String jsonStr = App.get(Constant.KEY_USER_DATA);
+                if (StringUtil.isNotNull(jsonStr)) {
+                    LoginData userData = new Gson().fromJson(jsonStr, LoginData.class);
+                    if (userData.publish_car == 1){
+                        startActivity(new Intent(this, SendCarActivity.class));
+                    }else{
+                        App.showToast(userData.publish_message);
+                    }
+                }
                 break;
         }
     }
@@ -272,6 +282,7 @@ public class CyGlActivity extends BaseActivity {
                         int position = getAdapterPosition();
                         Intent intent = new Intent(CyGlActivity.this, CyDetailActivity.class);
                         intent.putExtra("id", data.get(position).id);
+                        intent.putExtra("from_type",5);
                         CyGlActivity.this.startActivity(intent);
                     }
                 });

@@ -148,6 +148,7 @@ public class SettingActivity extends BaseActivity{
                     App.set(Constant.KEY_USER_ISLOGIN,"");
                     App.set(Constant.KEY_USER_TOKEN,"");
                     App.set(Constant.KEY_USER_DATA,"");
+                    App.set(Constant.KEY_USER_ID,"");
                     Intent intent = new Intent(SettingActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                     startActivity(intent);

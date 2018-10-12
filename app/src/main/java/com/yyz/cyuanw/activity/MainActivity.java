@@ -228,20 +228,22 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setMessage("经纪人及其以上级别可以发布车源");
-                    builder.setTitle("提示");
-                    builder.setPositiveButton("确定",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
+                    String jsonStr = App.get(Constant.KEY_USER_DATA);
+                    if (StringUtil.isNotNull(jsonStr)) {
+                        userData = new Gson().fromJson(jsonStr, LoginData.class);
+                        switch (userData.publish_car){
+                            case 0:
 
-                                    if (userData != null){
-                                        switch (userData.publish_car){
-                                            case 0://no
+                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                builder.setMessage("经纪人及其以上级别可以发布车源");
+                                builder.setTitle("提示");
+                                builder.setPositiveButton("确定",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
 
-                                                App.showToast(userData.publish_message);
+                                                //App.showToast(userData.publish_message);
 
                                                 if (userData.jump == 1){
                                                     Intent intent = new Intent(MainActivity.this, UserInfoActivity.class);
@@ -249,23 +251,25 @@ public class MainActivity extends BaseActivity {
                                                 }else if(userData.jump == 2){
                                                     startActivity(new Intent(MainActivity.this, PersionConfirmActivity.class));
                                                 }
-                                                break;
-                                            case 1://yes
-                                                startActivity(new Intent(MainActivity.this, SendCarActivity.class));
-                                                break;
-                                        }
-                                    }
 
-                                }
-                            });
-                    builder.setNegativeButton("取消",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    builder.show();
+                                            }
+                                        });
+                                builder.setNegativeButton("取消",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                builder.show();
+                                break;
+                            case 1:
+                                startActivity(new Intent(MainActivity.this, SendCarActivity.class));
+                                break;
+                        }
+
+                    }
+
                 } else {
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 }

@@ -221,6 +221,7 @@
                     android:background="@drawable/bg_white_4dp">
 
                     <TextView
+                        android:id="@+id/yggl"
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
                         android:gravity="center_vertical"

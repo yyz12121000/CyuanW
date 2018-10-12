@@ -63,6 +63,10 @@ public class CyDetailActivity extends BaseActivity {
     TextView bh;
     @BindView(R.id.jg)
     TextView jg;
+    @BindView(R.id.id_iv_j)
+    ImageView iv_j;
+    @BindView(R.id.id_iv_p)
+    ImageView iv_p;
     @BindView(R.id.rq)
     TextView rq;
     @BindView(R.id.gl)
@@ -87,6 +91,8 @@ public class CyDetailActivity extends BaseActivity {
     TextView sc_tv;
     @BindView(R.id.cx)
     TextView cx;
+    @BindView(R.id.lxly)
+    TextView lxly;
     /*  @BindView(R.id.see_all_cy)
       TextView see_all_cy;
       @BindView(R.id.to_wx)
@@ -96,6 +102,7 @@ public class CyDetailActivity extends BaseActivity {
 
 
     private int cy_id;
+    private int from_type;
     private int intent_flag;// 1 共享车源
 
     public Banner banner;
@@ -156,12 +163,16 @@ public class CyDetailActivity extends BaseActivity {
     public void initView() {
         setSwipeBackEnable(false);
         cy_id = getIntent().getIntExtra("id", 0);
+        from_type = getIntent().getIntExtra("from_type", 0);
         intent_flag = getIntent().getIntExtra("flag",0);
         if (intent_flag != 1){
             right_icon.setImageResource(R.mipmap.img_25);
             right_icon.setVisibility(View.VISIBLE);
         }
         title.setText("车源详情");
+        if (from_type == 3 || from_type == 4 || from_type == 6){
+            lxly.setText("拨打电话");
+        }
         banner = (Banner) findViewById(R.id.banner);
         banner.setImageLoader(new ImageLoader() {
             @Override
@@ -204,7 +215,7 @@ public class CyDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        carInfo(cy_id);
+        carInfo(cy_id,from_type);
     }
 
     private void setData(Data6 data6) {
@@ -224,11 +235,11 @@ public class CyDetailActivity extends BaseActivity {
         csys.setText(StringUtil.isNotNull(data6.color) ? data6.color : "-");
         desc.setText(StringUtil.isNotNull(data6.describe) ? data6.describe : "暂无");
         cx.setText(data6.car_style > 0 ? data6.car_style_string : "-");
-        if (data6.car_style == 0)
+        iv_j.setVisibility(data6.urgent == 1 ? View.VISIBLE : View.GONE);
+        iv_p.setVisibility(data6.wholesale == 1 ? View.VISIBLE : View.GONE);
+
         adapterImgs(data6.images);
-
         setSc(data6.collection);
-
     }
 
     public void setSc(int flag) {
@@ -271,10 +282,14 @@ public class CyDetailActivity extends BaseActivity {
             case R.id.lx:
 
                 if (data6 != null){
-                    if (data6.power == 1){
-                        showImgDialog();
+                    if (from_type == 3 || from_type == 4 || from_type == 6){
+                        Tools.openSysPhone(this, data6.user.phone);
                     }else{
-                        App.showToast(data6.power_message);
+                        if (data6.power == 1){
+                            showImgDialog();
+                        }else{
+                            App.showToast(data6.power_message);
+                        }
                     }
                 }
                 break;
@@ -290,8 +305,8 @@ public class CyDetailActivity extends BaseActivity {
         }
     }
 
-    public void carInfo(int id) {
-        HttpData.getInstance().carInfo(id, new Observer<HttpResult<Data6>>() {
+    public void carInfo(int id,int type) {
+        HttpData.getInstance().carInfo(id,type, new Observer<HttpResult<Data6>>() {
             @Override
             public void onCompleted() {
 //                App.showToast("999");

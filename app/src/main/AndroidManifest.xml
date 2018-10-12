@@ -113,6 +113,8 @@
             android:theme="@style/DefaultCityPickerTheme"
             android:launchMode="singleTask"/>
         <activity android:name=".activity.ListChooseActivity"/>
+        <activity android:name=".activity.user_model.YgglActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.user_model.DshActivity" android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.ImageSelector.PicktureActivity"

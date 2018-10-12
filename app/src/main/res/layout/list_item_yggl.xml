@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipemenulayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:paddingBottom="1dp">
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/tx"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginRight="8dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_defaultphoto" />
+
+        <LinearLayout
+            android:id="@+id/ll_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-2dp"
+            android:layout_toRightOf="@+id/tx"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tx"
+                android:text="苗王子"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_j"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="6dp"
+                android:src="@mipmap/gly" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_title"
+            android:layout_marginTop="7dp"
+            android:layout_toRightOf="@+id/tx"
+            android:layout_weight="1"
+            android:text="手机号：88888"
+            android:textColor="#666666"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/szws"
+        android:layout_width="90dp"
+        android:layout_height="match_parent"
+        android:background="#76D0A3"
+        android:text="设为管理员"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/sc"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="#EA6F5A"
+        android:text="删除"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>

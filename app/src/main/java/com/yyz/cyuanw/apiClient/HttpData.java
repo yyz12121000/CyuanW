@@ -12,6 +12,7 @@ import com.yyz.cyuanw.bean.Data2;
 import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.Data5;
 import com.yyz.cyuanw.bean.Data6;
+import com.yyz.cyuanw.bean.GwListData;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpListResult;
@@ -111,6 +112,26 @@ public class HttpData extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
+    public void getApplicationList(int status,int page,String token,Observer<HttpResult<GwListData>> observer){
+        Observable observable = service.getApplicationList(status,page,token);
+        setSubscribe(observable, observer);
+    }
+
+    public void setManage(int id,String token,Observer<HttpCodeResult> observer){
+        Observable observable = service.setManage(id,token);
+        setSubscribe(observable, observer);
+    }
+
+    public void delBroker(int id,String token,Observer<HttpCodeResult> observer){
+        Observable observable = service.delBroker(id,token);
+        setSubscribe(observable, observer);
+    }
+
+    public void auditBroker(int id,int status,String token,Observer<HttpCodeResult> observer){
+        Observable observable = service.auditBroker(id,status,token);
+        setSubscribe(observable, observer);
+    }
+
     public void changePhone(String phone,String oldcode,String newcode,String token,Observer<HttpCodeResult> observer){
         Observable observable = service.changePhone(phone,oldcode,newcode,token);
         setSubscribe(observable, observer);
@@ -141,10 +162,10 @@ public class HttpData extends RetrofitUtils {
         Observable observable = null;
         switch (type){
             case 0:
-                observable = service.getSelfCarList(id,page);
+                observable = service.getSelfCarList(id,page,App.get(Constant.KEY_USER_TOKEN));
                 break;
             case 1:
-                observable = service.getShareCarList(id,page);
+                observable = service.getShareCarList(id,page,App.get(Constant.KEY_USER_TOKEN));
                 break;
         }
         setSubscribe(observable, observer);
@@ -315,8 +336,8 @@ public class HttpData extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
-    public void carInfo(int id,Observer<HttpResult<Data6>> observer) {
-        Observable observable = service.carInfo(App.get(Constant.KEY_USER_TOKEN),id);
+    public void carInfo(int id,int type,Observer<HttpResult<Data6>> observer) {
+        Observable observable = service.carInfo(App.get(Constant.KEY_USER_TOKEN),id,type);
         setSubscribe(observable, observer);
     }
     public void collections(int car_resources_id,Observer<HttpListResult<String>> observer) {
