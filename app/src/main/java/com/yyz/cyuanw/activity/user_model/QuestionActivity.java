@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
+import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.view.CustomProgress;
 
 import butterknife.BindView;
@@ -61,7 +62,7 @@ public class QuestionActivity extends BaseActivity{
         settings.setDatabaseEnabled(true);
 
         CustomProgress.show(this, "加载中...", true, null);
-        webView.loadUrl("http://www.baidu.com");
+        webView.loadUrl(Constant.QUESTION);
 
     }
 

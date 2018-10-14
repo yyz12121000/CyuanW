@@ -47,12 +47,14 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/img_5" />
+                android:src="@mipmap/img_5"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/chunk_a_img_c"
                 android:layout_width="100dp"
                 android:layout_height="58.7dp"
+                android:layout_marginLeft="40dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/img_3" />
 

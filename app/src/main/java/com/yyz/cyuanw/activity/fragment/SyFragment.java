@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.andview.refreshview.XRefreshView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -30,6 +31,7 @@ import com.yyz.cyuanw.activity.user_model.UserActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.AdData;
 import com.yyz.cyuanw.bean.Ads;
+import com.yyz.cyuanw.bean.Data2;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpListResult;
 import com.yyz.cyuanw.bean.HttpResult;
@@ -39,6 +41,7 @@ import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.Img;
 import com.yyz.cyuanw.tools.LogManager;
 import com.yyz.cyuanw.tools.StringUtil;
+import com.yyz.cyuanw.view.PullRV;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +50,12 @@ import rx.Observer;
 
 public class SyFragment extends Fragment {
     private RecyclerView list;
+    private PullRV pullRV;
 
     private ListAdapter adapter;
+
+    private int jjrId;
+    private String lon,lat;
 
     @Nullable
     @Override
@@ -62,12 +69,30 @@ public class SyFragment extends Fragment {
 
 
     private void init(View view) {
+        pullRV = view.findViewById(R.id.xrefreshview);
+
         list = view.findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ListAdapter();
         list.setAdapter(adapter);
 
-        loadHotLm();
+        pullRV.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
+            @Override
+            public void onRefresh(boolean isPullDown) {
+
+                if (lon==null && lat==null){
+                    lon=lat="0";
+                }
+                loadJjr(lon,lat,true, pullRV.page = 1);
+            }
+
+            @Override
+            public void onLoadMore(boolean isSilence) {
+                loadJjr(lon,lat,false, ++pullRV.page);
+            }
+        });
+
+        //loadHotLm();
         loadAd();
         //loadJjr("234","898");
     }
@@ -88,6 +113,13 @@ public class SyFragment extends Fragment {
             dataList.add(null);
             dataList.addAll(data);
             notifyDataSetChanged();
+        }
+
+        public void appendData(List<JjrData> data) {
+            if (null != data) {
+                dataList.addAll(data);
+                notifyDataSetChanged();
+            }
         }
 
         private void stopBanner() {
@@ -179,7 +211,7 @@ public class SyFragment extends Fragment {
                             intent.putExtra("id",Integer.parseInt(App.get(Constant.KEY_USER_ID)));
                             SyFragment.this.getActivity().startActivity(intent);
                         } else {
-                            startActivity(new Intent(SyFragment.this.getActivity(), LoginActivity.class));
+                            startActivityForResult(new Intent(SyFragment.this.getActivity(), LoginActivity.class),1);
                         }
 
                     }
@@ -203,7 +235,7 @@ public class SyFragment extends Fragment {
                         if (StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
                             startActivity(new Intent(SyFragment.this.getActivity(), UserActivity.class));
                         } else {
-                            startActivity(new Intent(SyFragment.this.getActivity(), LoginActivity.class));
+                            startActivityForResult(new Intent(SyFragment.this.getActivity(), LoginActivity.class),2);
                         }
                     }
                 });
@@ -333,14 +365,15 @@ public class SyFragment extends Fragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        int position = getAdapterPosition();
+                        JjrData jjrData = dataList.get(position);
+                        jjrId = jjrData.id;
                         if (StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
-                            int position = getAdapterPosition();
-                            JjrData jjrData = dataList.get(position);
                             Intent intent = new Intent(SyFragment.this.getActivity(), MyShopActivity.class);
-                            intent.putExtra("id",jjrData.id);
+                            intent.putExtra("id",jjrId);
                             startActivity(intent);
                         } else {
-                            startActivity(new Intent(SyFragment.this.getActivity(), LoginActivity.class));
+                            startActivityForResult(new Intent(SyFragment.this.getActivity(), LoginActivity.class),3);
                         }
 
                     }
@@ -433,8 +466,12 @@ public class SyFragment extends Fragment {
         });
     }
 
-    public void loadJjr(String longitude, String latitude) {
-        HttpData.getInstance().getJjrData(longitude, latitude, new Observer<HttpResult<JjrResultData>>() {
+    public void loadJjr(String longitude, String latitude,boolean isRefresh,int page) {
+        if (lon == null && lat == null){
+            lon = longitude;
+            lat = latitude;
+        }
+        HttpData.getInstance().getJjrData(lon, lat, page,new Observer<HttpResult<JjrResultData>>() {
             @Override
             public void onCompleted() {
 //                App.showToast("999");
@@ -442,19 +479,47 @@ public class SyFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-//                App.showToast("服务器请求超时");
+                pullRV.stopRefresh();
                 LogManager.e("解析出错" + e.getMessage());
             }
 
             @Override
             public void onNext(HttpResult<JjrResultData> result) {
                 if (result.status == 200) {
-                    adapter.setData(result.data.info);
+
+                    if (isRefresh){
+                        adapter.setData(result.data.info);
+                        pullRV.stopRefresh();
+                    }else {
+                        adapter.appendData(result.data.info);
+                        pullRV.checkhasMore(result.data.info.size());
+                    }
+
+                    //adapter.setData(result.data.info);
 //                    adapter.startBanner(result.data.ads);
                 } else {
 //                    App.showToast(result.message);
                 }
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == getActivity().RESULT_OK) {
+
+            if (requestCode == 1 || requestCode == 3){
+                Intent intent = new Intent(SyFragment.this.getActivity(), MyShopActivity.class);
+                if(requestCode == 1){
+                    intent.putExtra("id",Integer.parseInt(App.get(Constant.KEY_USER_ID)));
+                }else{
+                    intent.putExtra("id",jjrId);
+                }
+                SyFragment.this.getActivity().startActivity(intent);
+            }else{
+                startActivity(new Intent(SyFragment.this.getActivity(), UserActivity.class));
+            }
+        }
     }
 }

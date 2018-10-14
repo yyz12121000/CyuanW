@@ -115,6 +115,9 @@
         <activity android:name=".activity.ListChooseActivity"/>
         <activity android:name=".activity.user_model.YgglActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.user_model.DshActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.user_model.CySCActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.ImageSelector.PicktureActivity"

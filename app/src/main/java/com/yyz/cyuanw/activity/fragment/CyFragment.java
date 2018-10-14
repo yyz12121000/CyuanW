@@ -80,6 +80,8 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     private DBManager dbManager;
 
     PullRV pullRV;
+
+    private int itemId,from_type=1;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -92,8 +94,6 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     }
 
     private void init(View view) {
-        dbManager = new DBManager(getContext());
-
         tv_1 = view.findViewById(R.id.tv_1);
         tv_1.setOnClickListener(this);
         tv_2 = view.findViewById(R.id.tv_2);
@@ -127,23 +127,26 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         list.setAdapter(adapter);
 
         pullRV = view.findViewById(R.id.xrefreshview);
+
         pullRV.postDelayed(new Runnable() {
             @Override
             public void run() {
-                pullRV.startRefresh();
+                //pullRV.startRefresh();
+                doSearchByCity(App.get(Constant.KEY_LOCATION_CITY));
             }
         }, 500);
+
         pullRV.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
             @Override
             public void onRefresh(boolean isPullDown) {
-                if (StringUtil.isNotNull(App.get(Constant.KEY_LOCATION_CITY))){
-                    Data9 sheng = dbManager.findLocationCity(App.get(Constant.KEY_LOCATION_CITY));
-                    province_id.clear();//省份ID
-                    city_id.clear();//城市ID
-//        this.region_id = 0;//地区ID
-                    province_id.add(sheng.id);
-                    city_id.add(sheng.son.get(0).id);
-                }
+//                if (StringUtil.isNotNull(App.get(Constant.KEY_LOCATION_CITY))){
+//                    Data9 sheng = dbManager.findLocationCity(App.get(Constant.KEY_LOCATION_CITY));
+//                    province_id.clear();//省份ID
+//                    city_id.clear();//城市ID
+//                    //this.region_id = 0;//地区ID
+//                    province_id.add(sheng.id);
+//                    city_id.add(sheng.son.get(0).id);
+//                }
                 searchCy(true, pullRV.page = 1);
             }
 
@@ -245,7 +248,13 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == getActivity().RESULT_OK) {
-            if (requestCode == 55) {
+            if (requestCode == 44){
+                Intent intent = new Intent(CyFragment.this.getActivity(), CyDetailActivity.class);
+                intent.putExtra("id", itemId);
+                intent.putExtra("flag", 1);
+                intent.putExtra("from_type",from_type);
+                CyFragment.this.getActivity().startActivity(intent);
+            } else if (requestCode == 55) {
                 int pp_id = data.getIntExtra("pp_id", -1);
                 int xl_id = data.getIntExtra("xl_id", -1);
                 if (xl_id != -1 && pp_id != -1) {
@@ -343,14 +352,18 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 itemView.findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        int position = getAdapterPosition();
+                        itemId = data.get(position).id;
+
                         if (StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
-                            int position = getAdapterPosition();
                             Intent intent = new Intent(CyFragment.this.getActivity(), CyDetailActivity.class);
-                            intent.putExtra("id", data.get(position).id);
-                            intent.putExtra("from_type",1);
+                            intent.putExtra("id", itemId);
+                            intent.putExtra("flag", 1);
+                            intent.putExtra("from_type",from_type);
                             CyFragment.this.getActivity().startActivity(intent);
                         } else {
-                            startActivity(new Intent(CyFragment.this.getActivity(), LoginActivity.class));
+                            //startActivity(new Intent(CyFragment.this.getActivity(), LoginActivity.class));
+                            startActivityForResult(new Intent(CyFragment.this.getActivity(), LoginActivity.class), 44);
                         }
                     }
                 });
@@ -396,6 +409,18 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         searchCy(true, pullRV.page = 1);
     }
 
+    public void doSearchByCity(String city) {
+        dbManager = new DBManager(App.context);
+        if (StringUtil.isNotNull(city)){
+            Data9 sheng = dbManager.findLocationCity(city);
+            province_id.clear();//省份ID
+            city_id.clear();//城市ID
+            province_id.add(sheng.id);
+            city_id.add(sheng.son.get(0).id);
+        }
+        searchCy(true, 1);
+    }
+
     public void doSearchByAdress(int province,int city) {
         this.province_id.clear();//省份ID
         this.city_id.clear();//城市ID
@@ -417,6 +442,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
             @Override
             public void onError(Throwable e) {
 //                App.showToast("服务器请求超时");
+                pullRV.stopRefresh();
                 LogManager.e("解析出错" + e.getMessage());
             }
 

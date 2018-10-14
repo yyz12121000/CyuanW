@@ -350,7 +350,13 @@ public class MyShopActivity extends BaseActivity {
             ((TextView)dialogView.findViewById(R.id.id_tv_phone)).setText(data.phone);
             ((TextView)dialogView.findViewById(R.id.id_tv_shortphone)).setText(data.virtual_number);
             ((TextView)dialogView.findViewById(R.id.id_tv_price1)).setText(data.retail_offer+"万");
-            ((TextView)dialogView.findViewById(R.id.id_tv_price2)).setText("底价: "+data.retail_bottom_price+"万");
+
+            if (Double.parseDouble(data.retail_bottom_price) > 0){
+                ((TextView)dialogView.findViewById(R.id.id_tv_price2)).setText("底价: "+data.retail_bottom_price+"万");
+            }else{
+                ((TextView)dialogView.findViewById(R.id.id_tv_price2)).setVisibility(View.GONE);
+            }
+
             dialogView.findViewById(R.id.to_wx).setVisibility(View.GONE);
 
             dialogView.findViewById(R.id.see_all_cy).setOnClickListener(view -> {
@@ -434,7 +440,7 @@ public class MyShopActivity extends BaseActivity {
             holder.priceView.setText(data2.retail_offer + "万");
             holder.timeView.setText(data2.publish_time);
 
-            if (data2.is_new_car == 0)//是否新车 0否 1是
+            if (data2.is_new_car == 1)//是否新车 0否 1是
             {
                 holder.newView.setVisibility(View.VISIBLE);
             } else {
@@ -477,7 +483,6 @@ public class MyShopActivity extends BaseActivity {
 
                     Intent intent = new Intent(context, CyDetailActivity.class);
                     intent.putExtra("id", data2.id);
-                    intent.putExtra("flag", type);
                     if (hideCome == false){
                         if (type == 1){
                             intent.putExtra("from_type",6);

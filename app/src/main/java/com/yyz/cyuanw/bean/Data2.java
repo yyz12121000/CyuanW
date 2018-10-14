@@ -5,7 +5,7 @@ public class Data2 {
     public String name,cover,mileage,
             location,region,retail_offer,
             license_plate_time,real_name,
-            profile_picture,publish_time;
+            profile_picture,publish_time,collection_time;
     public String wholesale_offer,dealer_name,virtual_number,retail_bottom_price,phone;
 
 }

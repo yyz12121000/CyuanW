@@ -213,6 +213,7 @@ public class LoginActivity extends BaseActivity{
                     App.set(Constant.KEY_USER_ID,result.data.id+"");
                     App.set(Constant.KEY_USER_DATA,new Gson().toJson(result.data));
 
+                    setResult(RESULT_OK);
                     finish();
                 }else{
                     App.showToast(result.message);

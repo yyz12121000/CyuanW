@@ -141,7 +141,7 @@ public class UserActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.id_iv_back, R.id.id_tv_setting, R.id.id_tv_help,R.id.id_iv_modify,R.id.cygl,R.id.yggl,
+    @OnClick({R.id.id_iv_back, R.id.id_tv_setting, R.id.id_tv_help,R.id.id_iv_modify,R.id.cygl,R.id.yggl,R.id.cysc,
             R.id.id_tv_mycar,R.id.id_iv_shop,R.id.id_tv_myshop,R.id.id_tv_message})
     public void onClickEvent(View view) {
         switch (view.getId()) {
@@ -184,6 +184,10 @@ public class UserActivity extends BaseActivity {
             case R.id.yggl:
                 Intent intent3 = new Intent(UserActivity.this, YgglActivity.class);
                 startActivity(intent3);
+                break;
+            case R.id.cysc:
+                Intent intent4 = new Intent(UserActivity.this, CySCActivity.class);
+                startActivity(intent4);
                 break;
         }
     }

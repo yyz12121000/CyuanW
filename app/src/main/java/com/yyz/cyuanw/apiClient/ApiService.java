@@ -148,7 +148,7 @@ public interface ApiService {
     //获取首页轮经纪人
     @FormUrlEncoded
     @POST("aroundBroker")
-    Observable<HttpResult<JjrResultData>> getJjrData(@Field("longitude") String longitude, @Field("latitude") String latitude);
+    Observable<HttpResult<JjrResultData>> getJjrData(@Field("longitude") String longitude, @Field("latitude") String latitude,@Field("page") int page);
 
     //联盟列表
     @GET("alliances")
@@ -288,10 +288,6 @@ public interface ApiService {
     @POST("collections")
     Observable<HttpListResult<String>> collections(@Field("token") String token, @Field("car_resources_id") int car_resources_id);
     //移除收藏
-    @DELETE()
-    Observable<HttpListResult<String>> collections(@Field("token") String token, @Url String url);
-
-
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @HTTP(method = "DELETE",  hasBody = true)
     @FormUrlEncoded
@@ -347,6 +343,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("delBroker")
     Observable<HttpCodeResult> delBroker(@Field("id") int id, @Field("token") String token);
+    @FormUrlEncoded
+    @POST("cancelDealerManager")
+    Observable<HttpCodeResult> cancelDealerManager(@Field("id") int id, @Field("token") String token);
 
     @FormUrlEncoded
     @POST("auditBroker")
@@ -459,5 +458,13 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("preparation")
     Observable<HttpCodeResult> preparation(@Field("id") int id,@Field("purchasing_price") double purchasing_price,@Field("preparation_price") double preparation_price,@Field("preparation_describe") String preparation_describe,@Field("token") String token);
+
+    //收藏车源列表
+    @FormUrlEncoded
+    @POST("collection_list")
+    Observable<HttpResult<Data1>> collection_list(
+            @Field("keyword") String keyword,
+            @Field("page") int page,
+            @Field("token") String token);
 }
 

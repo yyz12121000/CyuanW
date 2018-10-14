@@ -114,20 +114,13 @@ public class YgglActivity extends BaseActivity {
             @Override
             public void onNext(HttpResult<GwListData> result) {
                 if (result.status == 200) {
-                    if (result.data.info.size() > 0){
-                        if (isRefresh) {
-                            adapter.setData(result.data.info);
-                            pullRV.stopRefresh();
-                            black.setVisibility(View.GONE);
-                        } else {
-                            adapter.appendData(result.data.info);
-                            pullRV.checkhasMore(result.data.info.size());
-                        }
-                    }else{
+                    if (isRefresh) {
+                        adapter.setData(result.data.info);
                         pullRV.stopRefresh();
-                        black.setVisibility(View.VISIBLE);
+                    } else {
+                        adapter.appendData(result.data.info);
+                        pullRV.checkhasMore(result.data.info.size());
                     }
-
 
 //                    adapter.setData(result.data.info);
 //                    adapter.startBanner(result.data.ads);
@@ -199,7 +192,11 @@ public class YgglActivity extends BaseActivity {
                     public void onClick(View view) {
                         //设为管理员
                         int position = getAdapterPosition();
-                        setManage(data.get(position).application_user_id);
+                        if(data.get(position).is_manager == 1){
+                            cancelDealerManager(data.get(position).application_user_id);
+                        }else{
+                            setManage(data.get(position).application_user_id);
+                        }
 
                     }
                 });
@@ -232,8 +229,10 @@ public class YgglActivity extends BaseActivity {
                 phoneView.setText("手机号："+item.phone);
 
                 if (item.is_manager == 1){
+                    sz.setText("取消管理员");
                     flagView.setVisibility(View.VISIBLE);
                 }else{
+                    sz.setText("设置管理员");
                     flagView.setVisibility(View.GONE);
                 }
 
@@ -269,6 +268,31 @@ public class YgglActivity extends BaseActivity {
     public void delBroker(int id) {
         CustomProgress.show(this, "删除中...", false, null);
         HttpData.getInstance().delBroker(id, App.get(Constant.KEY_USER_TOKEN),new Observer<HttpCodeResult>() {
+
+            @Override
+            public void onCompleted() {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                CustomProgress.dismis();
+            }
+
+            @Override
+            public void onNext(HttpCodeResult result) {
+                if (result.status == 200) {
+                    App.showToast(result.message);
+
+                    pullRV.startRefresh();
+                }
+            }
+        });
+    }
+
+    public void cancelDealerManager(int id) {
+        CustomProgress.show(this, "取消中...", false, null);
+        HttpData.getInstance().cancelDealerManager(id, App.get(Constant.KEY_USER_TOKEN),new Observer<HttpCodeResult>() {
 
             @Override
             public void onCompleted() {

@@ -99,20 +99,13 @@ public class DshActivity extends BaseActivity {
             @Override
             public void onNext(HttpResult<GwListData> result) {
                 if (result.status == 200) {
-                    if (result.data.info.size() > 0){
-                        if (isRefresh) {
-                            adapter.setData(result.data.info);
-                            pullRV.stopRefresh();
-                            black.setVisibility(View.GONE);
-                        } else {
-                            adapter.appendData(result.data.info);
-                            pullRV.checkhasMore(result.data.info.size());
-                        }
-                    }else{
+                    if (isRefresh) {
+                        adapter.setData(result.data.info);
                         pullRV.stopRefresh();
-                        black.setVisibility(View.VISIBLE);
+                    } else {
+                        adapter.appendData(result.data.info);
+                        pullRV.checkhasMore(result.data.info.size());
                     }
-
 
 //                    adapter.setData(result.data.info);
 //                    adapter.startBanner(result.data.ads);
@@ -182,7 +175,7 @@ public class DshActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         int position = getAdapterPosition();
-                        auditBroker(data.get(position).application_user_id,2);
+                        auditBroker(data.get(position).id,2);
 
                     }
                 });
@@ -190,7 +183,7 @@ public class DshActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         int position = getAdapterPosition();
-                        auditBroker(data.get(position).application_user_id,1);
+                        auditBroker(data.get(position).id,1);
                     }
                 });
 
@@ -224,9 +217,8 @@ public class DshActivity extends BaseActivity {
 
             @Override
             public void onNext(HttpCodeResult result) {
+                App.showToast(result.message);
                 if (result.status == 200) {
-                    App.showToast(result.message);
-
                     pullRV.startRefresh();
                 }
             }

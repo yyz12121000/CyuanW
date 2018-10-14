@@ -127,6 +127,11 @@ public class HttpData extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
+    public void cancelDealerManager(int id,String token,Observer<HttpCodeResult> observer){
+        Observable observable = service.cancelDealerManager(id,token);
+        setSubscribe(observable, observer);
+    }
+
     public void auditBroker(int id,int status,String token,Observer<HttpCodeResult> observer){
         Observable observable = service.auditBroker(id,status,token);
         setSubscribe(observable, observer);
@@ -213,8 +218,8 @@ public class HttpData extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
-    public void getJjrData(String longitude, String latitude, Observer<HttpResult<JjrResultData>> observer) {
-        Observable observable = service.getJjrData(longitude, latitude);
+    public void getJjrData(String longitude, String latitude,int page, Observer<HttpResult<JjrResultData>> observer) {
+        Observable observable = service.getJjrData(longitude, latitude,page);
         setSubscribe(observable, observer);
     }
 
@@ -302,6 +307,11 @@ public class HttpData extends RetrofitUtils {
     }
     public void searchCyGl(int type,String key_word,int page,Observer<HttpResult<Data1>> observer) {
         Observable observable = service.searchCyGl(type,key_word,page,App.get(Constant.KEY_USER_TOKEN));
+        setSubscribe(observable, observer);
+    }
+
+    public void collection_list(String key_word,int page,Observer<HttpResult<Data1>> observer) {
+        Observable observable = service.collection_list(key_word,page,App.get(Constant.KEY_USER_TOKEN));
         setSubscribe(observable, observer);
     }
     public void dictionary(Observer<HttpResult<Data3>> observer) {
