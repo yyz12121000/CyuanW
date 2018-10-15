@@ -23,6 +23,8 @@ public class QuestionActivity extends BaseActivity{
     @BindView(R.id.id_tv_title) TextView titleView;
     @BindView(R.id.id_webview) WebView webView;
 
+    private String url;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_question;
@@ -31,6 +33,8 @@ public class QuestionActivity extends BaseActivity{
     @Override
     public void initView() {
         setTitle(titleView,"常见问题");
+
+        url = getIntent().getStringExtra("url");
 
         webView.setWebViewClient(new WebViewClient(){
             @Override
@@ -62,7 +66,12 @@ public class QuestionActivity extends BaseActivity{
         settings.setDatabaseEnabled(true);
 
         CustomProgress.show(this, "加载中...", true, null);
-        webView.loadUrl(Constant.QUESTION);
+
+        if (url != null){
+            webView.loadUrl(url);
+        }else{
+            webView.loadUrl(Constant.QUESTION);
+        }
 
     }
 

@@ -27,6 +27,7 @@ import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.bean.MessageData;
 import com.yyz.cyuanw.bean.PreparationData;
 import com.yyz.cyuanw.bean.PublicCarData;
+import com.yyz.cyuanw.bean.SettingData;
 import com.yyz.cyuanw.bean.ShopInfo;
 import com.yyz.cyuanw.bean.ShopListData;
 import com.yyz.cyuanw.bean.VersionInfo;
@@ -144,6 +145,10 @@ public interface ApiService {
     //获取首页轮播图
     @GET("ad_positions/slideshow")
     Observable<HttpResult<AdData>> getAdData();
+
+    //获取系统设置变量
+    @GET("settings")
+    Observable<HttpResult<SettingData>> getSettingData();
 
     //获取首页轮经纪人
     @FormUrlEncoded

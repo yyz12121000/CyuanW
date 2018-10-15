@@ -27,6 +27,7 @@ import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.bean.MessageData;
 import com.yyz.cyuanw.bean.PreparationData;
 import com.yyz.cyuanw.bean.PublicCarData;
+import com.yyz.cyuanw.bean.SettingData;
 import com.yyz.cyuanw.bean.ShopInfo;
 import com.yyz.cyuanw.bean.ShopListData;
 import com.yyz.cyuanw.bean.VersionInfo;
@@ -307,6 +308,11 @@ public class HttpData extends RetrofitUtils {
     }
     public void searchCyGl(int type,String key_word,int page,Observer<HttpResult<Data1>> observer) {
         Observable observable = service.searchCyGl(type,key_word,page,App.get(Constant.KEY_USER_TOKEN));
+        setSubscribe(observable, observer);
+    }
+
+    public void getSettingData(Observer<HttpResult<SettingData>> observer) {
+        Observable observable = service.getSettingData();
         setSubscribe(observable, observer);
     }
 

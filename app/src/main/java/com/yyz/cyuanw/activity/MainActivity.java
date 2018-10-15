@@ -106,8 +106,8 @@ public class MainActivity extends BaseActivity {
             public void location(LocationO locationO) {
                 if (null != locationO.city) {
                     left_text.setText(locationO.city);
-                    SyFragment syFragment = (SyFragment) mFragments.get(0);
-                    syFragment.loadJjr(locationO.longitude, locationO.latitude);
+                    ((SyFragment) mFragments.get(0)).loadJjr(locationO.longitude, locationO.latitude,true,1);
+                    ((CyFragment) mFragments.get(1)).doSearchByCity(locationO.city);
                 }
             }
         });
@@ -145,11 +145,11 @@ public class MainActivity extends BaseActivity {
                 right_icon.setImageResource(R.mipmap.ic_defaultphoto);
             }
 
-            if (userData != null){
-                if (userData.is_broker == 0 || userData.is_broker == 2){
-                    showNoticeDialog();
-                }
-            }
+//            if (userData != null){
+//                if (userData.is_broker == 0 || userData.is_broker == 2){
+//                    showNoticeDialog();
+//                }
+//            }
 
         }
 
@@ -186,18 +186,18 @@ public class MainActivity extends BaseActivity {
 
         Fragment cyFragment = new CyFragment();
         Fragment syFragment = new SyFragment();
-        Fragment lmFragment = new LmFragment();
+        //Fragment lmFragment = new LmFragment();
 
         mFragments.add(syFragment);
         mFragments.add(cyFragment);
-        mFragments.add(lmFragment);
+        //mFragments.add(lmFragment);
 
         //设置标题
         titleList = new ArrayList<>();
 
         titleList.add("首页");
         titleList.add("车源");
-        titleList.add("联盟");
+        //titleList.add("联盟");
 
         mTab = (TabLayout) findViewById(R.id.main_tab);
         mTab.setBackgroundResource(R.drawable.tab_backgroud);
@@ -228,50 +228,9 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
-                    String jsonStr = App.get(Constant.KEY_USER_DATA);
-                    if (StringUtil.isNotNull(jsonStr)) {
-                        userData = new Gson().fromJson(jsonStr, LoginData.class);
-                        switch (userData.publish_car){
-                            case 0:
-
-                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                builder.setMessage("经纪人及其以上级别可以发布车源");
-                                builder.setTitle("提示");
-                                builder.setPositiveButton("确定",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-
-                                                //App.showToast(userData.publish_message);
-
-                                                if (userData.jump == 1){
-                                                    Intent intent = new Intent(MainActivity.this, UserInfoActivity.class);
-                                                    startActivityForResult(intent, 3);
-                                                }else if(userData.jump == 2){
-                                                    startActivity(new Intent(MainActivity.this, PersionConfirmActivity.class));
-                                                }
-
-                                            }
-                                        });
-                                builder.setNegativeButton("取消",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                builder.show();
-                                break;
-                            case 1:
-                                startActivity(new Intent(MainActivity.this, SendCarActivity.class));
-                                break;
-                        }
-
-                    }
-
+                    showSendDialog();
                 } else {
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    startActivityForResult(new Intent(MainActivity.this, LoginActivity.class),4);
                 }
             }
         });
@@ -347,6 +306,50 @@ public class MainActivity extends BaseActivity {
         }
 
 
+    }
+
+    public void showSendDialog(){
+        String jsonStr = App.get(Constant.KEY_USER_DATA);
+        if (StringUtil.isNotNull(jsonStr)) {
+            userData = new Gson().fromJson(jsonStr, LoginData.class);
+            switch (userData.publish_car){
+                case 0:
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("经纪人及其以上级别可以发布车源");
+                    builder.setTitle("提示");
+                    builder.setPositiveButton("确定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+
+                                    //App.showToast(userData.publish_message);
+
+                                    if (userData.jump == 1){
+                                        Intent intent = new Intent(MainActivity.this, UserInfoActivity.class);
+                                        startActivityForResult(intent, 3);
+                                    }else if(userData.jump == 2){
+                                        startActivity(new Intent(MainActivity.this, PersionConfirmActivity.class));
+                                    }
+
+                                }
+                            });
+                    builder.setNegativeButton("取消",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.show();
+                    break;
+                case 1:
+                    startActivity(new Intent(MainActivity.this, SendCarActivity.class));
+                    break;
+            }
+
+        }
     }
 
     public void getUserInfo() {
@@ -483,6 +486,10 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
+                case 1:
+
+                    startActivity(new Intent(this, UserActivity.class));
+                    break;
                 case 2:
                     int sheng_id = data.getIntExtra("sheng_id", 0);
                     int shi_id = data.getIntExtra("shi_id", 0);
@@ -493,6 +500,10 @@ public class MainActivity extends BaseActivity {
                 case 3:
 
                     getUserInfo();
+                    break;
+                case 4:
+
+                    showSendDialog();
                     break;
             }
         }
@@ -532,7 +543,7 @@ public class MainActivity extends BaseActivity {
 
     public void userBtnOnclik(View view) {
         if (!StringUtil.isNotNull(App.get(Constant.KEY_USER_TOKEN))) {
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivityForResult(new Intent(this, LoginActivity.class),1);
         } else {
             startActivity(new Intent(this, UserActivity.class));
         }
