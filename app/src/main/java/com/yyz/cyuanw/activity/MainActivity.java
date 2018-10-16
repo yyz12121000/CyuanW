@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -98,7 +99,12 @@ public class MainActivity extends BaseActivity {
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
 
-        checkVersion();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkVersion();
+            }
+        },1000);
 
         lastBackTime = System.currentTimeMillis();
         location = new Location(this, new Location.ILocationListener() {
@@ -421,6 +427,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                pd.show();
                 if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                     final String savePath;
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
@@ -449,7 +456,6 @@ public class MainActivity extends BaseActivity {
 
                                     int progress = (int) (current * 100 / count);
                                     pd.setProgress(progress);
-                                    pd.show();
                                 }
 
                                 @Override
