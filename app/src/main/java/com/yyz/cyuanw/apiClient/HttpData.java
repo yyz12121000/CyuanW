@@ -2,6 +2,7 @@ package com.yyz.cyuanw.apiClient;
 
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.bean.AdData;
+import com.yyz.cyuanw.bean.CarStatusData;
 import com.yyz.cyuanw.bean.CardIDData;
 import com.yyz.cyuanw.bean.CheyListData;
 import com.yyz.cyuanw.bean.CyListData;
@@ -187,6 +188,16 @@ public class HttpData extends RetrofitUtils {
                 observable = service.setBgPic(body);
                 break;
         }
+        setSubscribe(observable, observer);
+    }
+
+    public void dealerEnter(RequestBody body, Observer<HttpCodeResult> observer){
+        Observable observable = service.dealerEnter(body);
+        setSubscribe(observable, observer);
+    }
+
+    public void dealerStatus(String token, Observer<HttpResult<CarStatusData>> observer){
+        Observable observable = service.dealerStatus(token);
         setSubscribe(observable, observer);
     }
 

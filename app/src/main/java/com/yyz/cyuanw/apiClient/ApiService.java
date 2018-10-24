@@ -2,6 +2,7 @@ package com.yyz.cyuanw.apiClient;
 
 
 import com.yyz.cyuanw.bean.AdData;
+import com.yyz.cyuanw.bean.CarStatusData;
 import com.yyz.cyuanw.bean.CardIDData;
 import com.yyz.cyuanw.bean.CheyListData;
 import com.yyz.cyuanw.bean.CyListData;
@@ -471,5 +472,14 @@ public interface ApiService {
             @Field("keyword") String keyword,
             @Field("page") int page,
             @Field("token") String token);
+
+    //车商入驻
+    @POST("dealerEnter")
+    Observable<HttpCodeResult> dealerEnter(@Body RequestBody Body);
+
+    //车商入驻状态
+    @FormUrlEncoded
+    @POST("dealerStatus")
+    Observable<HttpResult<CarStatusData>> dealerStatus(@Field("token") String token);
 }
 

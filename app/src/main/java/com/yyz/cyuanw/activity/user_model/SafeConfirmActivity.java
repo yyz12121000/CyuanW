@@ -89,7 +89,7 @@ public class SafeConfirmActivity extends BaseActivity{
         }
     }
 
-    @OnClick({R.id.id_oper_bindphone,R.id.id_oper_nameconfirm,R.id.id_oper_persionconfirm})
+    @OnClick({R.id.id_oper_bindphone,R.id.id_oper_nameconfirm,R.id.id_oper_persionconfirm,R.id.id_oper_carconfirm})
     public void onClickEvent(View view){
         switch (view.getId()){
             case R.id.id_oper_bindphone:
@@ -109,12 +109,16 @@ public class SafeConfirmActivity extends BaseActivity{
                 startActivityForResult(intent2,10);
                 break;
             case R.id.id_oper_persionconfirm:
-//                if (tvPersionView.getText().toString().equals("未认证"))
-//                    startActivityForResult(new Intent(this,PersionConfirmActivity.class),20);
 
                 Intent intent3 = new Intent(this,PersionConfirmActivity.class);
                 intent3.putExtra("status",userData.is_broker);
                 startActivityForResult(intent3,20);
+                break;
+            case R.id.id_oper_carconfirm:
+
+                Intent intent4 = new Intent(this,CarConfirmActivity.class);
+                //intent4.putExtra("status",userData.is_broker);
+                startActivityForResult(intent4,21);
                 break;
         }
     }
@@ -133,6 +137,10 @@ public class SafeConfirmActivity extends BaseActivity{
 
         if (resultCode == 20){
             tvPersionView.setText("认证中");
+        }
+
+        if (resultCode == 21){
+            tvCarconfirmView.setText("认证中");
         }
     }
 }

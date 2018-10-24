@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f9f9f9">
+
+    <include
+        layout="@layout/layout_common_title" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/id_linear_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#ffffff">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="12dp"
+                        android:text="车商全称"
+                        android:textSize="16dp"
+                        android:textColor="#333333"/>
+                    <EditText
+                        android:id="@+id/id_et_name1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginBottom="12dp"
+                        android:textColorHint="#d9d9d9"
+                        android:textSize="14dp"
+                        android:hint="请输入公司注册全称"
+                        android:textColor="#333333"
+                        android:background="@android:color/transparent"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_below="@+id/id_linear_name"
+                    android:orientation="vertical"
+                    android:background="#ffffff">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="12dp"
+                        android:text="车商简称"
+                        android:textSize="16dp"
+                        android:textColor="#333333"/>
+                    <EditText
+                        android:id="@+id/id_et_name2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginBottom="12dp"
+                        android:textColorHint="#d9d9d9"
+                        android:textSize="14dp"
+                        android:hint="请输入车商简称"
+                        android:textColor="#333333"
+                        android:background="@android:color/transparent"/>
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/id_iv_icon"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_confirm"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/id_rl_city"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="2dp"
+                android:background="#ffffff">
+
+                <TextView
+                    android:id="@+id/id_tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_centerVertical="true"
+                    android:text="所在地"
+                    android:textColor="#333333"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/id_tv_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/id_tv_name"
+                    android:layout_toLeftOf="@+id/id_iv_arrow"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:textColor="#d8d8d8"
+                    android:text="请选择"
+                    android:textSize="16dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:gravity="right" />
+
+                <ImageView
+                    android:id="@+id/id_iv_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/ic_user_arrow" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="2dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="#ffffff">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:text="名店地址"
+                    android:textColor="#333333"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/id_et_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:textColorHint="#d9d9d9"
+                    android:textSize="16dp"
+                    android:hint="请输入详细地址（如门牌号等等）"
+                    android:textColor="#333333"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:background="@android:color/transparent"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/id_rl_image1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="2dp"
+                android:background="#ffffff">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:text="车商LOGO"
+                    android:textColor="#333333"
+                    android:textSize="16dp"
+                    android:background="#ffffff"/>
+
+                <ImageView
+                    android:id="@+id/id_iv_image1"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/id_iv_arrow1"
+                    android:layout_marginRight="12dp"
+                    android:src="@mipmap/camera"/>
+
+                <ImageView
+                    android:id="@+id/id_iv_arrow1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/ic_user_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/id_rl_image2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="2dp"
+                android:background="#ffffff">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:text="门前照上传"
+                    android:textColor="#333333"
+                    android:textSize="16dp"
+                    android:background="#ffffff"/>
+
+                <ImageView
+                    android:id="@+id/id_iv_image2"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/id_iv_arrow2"
+                    android:layout_marginRight="12dp"
+                    android:src="@mipmap/camera"/>
+
+                <ImageView
+                    android:id="@+id/id_iv_arrow2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/ic_user_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/id_rl_image3"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="2dp"
+                android:background="#ffffff">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:text="营业执照上传"
+                    android:textColor="#333333"
+                    android:textSize="16dp"
+                    android:background="#ffffff"/>
+
+                <ImageView
+                    android:id="@+id/id_iv_image3"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/id_iv_arrow3"
+                    android:layout_marginRight="12dp"
+                    android:src="@mipmap/camera"/>
+
+                <ImageView
+                    android:id="@+id/id_iv_arrow3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/ic_user_arrow" />
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/id_btn_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginBottom="44dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="提交认证"
+                android:textSize="16dp"
+                android:textColor="#ffffff"
+                android:background="@drawable/bg_red_4dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
