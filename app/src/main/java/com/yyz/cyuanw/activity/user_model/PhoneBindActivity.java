@@ -39,7 +39,7 @@ public class PhoneBindActivity extends BaseActivity{
         phone = getIntent().getStringExtra("phone");
         if (StringUtil.isNotNull(phone)){
             imageView.setBackgroundResource(R.mipmap.ic_phonebind);
-            contentView.setText("绑定的手机号："+phone);
+            contentView.setText("绑定的手机号："+ phone.substring(0, 3) + "****" + phone.substring(7, phone.length()));
             bindView.setText("更换手机号");
         }else{
             imageView.setBackgroundResource(R.mipmap.ic_phoneunbind);

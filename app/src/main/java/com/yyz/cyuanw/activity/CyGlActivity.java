@@ -536,6 +536,7 @@ public class CyGlActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
 //                App.showToast("服务器请求超时");
+                pullRV.stopRefresh();
                 LogManager.e("解析出错" + e.getMessage());
             }
 

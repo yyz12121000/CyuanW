@@ -119,6 +119,17 @@ public class UserActivity extends BaseActivity {
                 signView.setText("暂时还没有个性签名");
             }
 
+            if (userData.is_broker == 1){
+                confirmView.setVisibility(View.VISIBLE);
+            }else {
+                confirmView.setVisibility(View.GONE);
+            }
+            if (userData.is_adviser == 1){
+                persionView.setVisibility(View.VISIBLE);
+            }else {
+                persionView.setVisibility(View.GONE);
+            }
+
             if (Build.VERSION.SDK_INT >= 24){
                 carNumView.setText(Html.fromHtml(getString(R.string.str_user_mycar,userData.my_cars),Html.FROM_HTML_MODE_COMPACT));
                 shopNumView.setText(Html.fromHtml(getString(R.string.str_user_myshop, userData.my_shops),Html.FROM_HTML_MODE_COMPACT));

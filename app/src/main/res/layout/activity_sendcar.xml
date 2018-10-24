@@ -385,7 +385,7 @@
                         android:textSize="16dp"
                         android:textColorHint="#D9D9D9"
                         android:textColor="#666666"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:background="@android:color/transparent"/>
 
                     <!--<TextView

@@ -1,8 +1,8 @@
 package com.yyz.cyuanw.common;
 
 public class Constant {
-    public static String API_SERVER="https://www.cheyuan.com/api";
-
+    //public static String API_SERVER="https://www.cheyuan.com/api";
+    public static String API_SERVER="https://develop.cheyuan.com/api";
     public static String KEY_FIRST_START = "firstStart";
     public static String KEY_USER_ISLOGIN = "isLogin";
     public static String KEY_USER_TOKEN = "token";

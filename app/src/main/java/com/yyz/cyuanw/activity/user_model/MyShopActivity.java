@@ -173,6 +173,17 @@ public class MyShopActivity extends BaseActivity {
                 signView.setText("暂时还没有个性签名");
             }
 
+            if (shopInfo.is_broker == 1){
+                confirmView.setVisibility(View.VISIBLE);
+            }else {
+                confirmView.setVisibility(View.GONE);
+            }
+            if (shopInfo.is_adviser == 1){
+                persionView.setVisibility(View.VISIBLE);
+            }else {
+                persionView.setVisibility(View.GONE);
+            }
+
         }
     }
 

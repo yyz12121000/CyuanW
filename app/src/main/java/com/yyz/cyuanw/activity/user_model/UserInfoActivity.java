@@ -140,8 +140,12 @@ public class UserInfoActivity extends BaseActivity{
         if (StringUtil.isNotNull(jsonStr)){
             userData = new Gson().fromJson(jsonStr,LoginData.class);
 
-            if (StringUtil.isNotNull(userData.pic))
+            if (StringUtil.isNotNull(userData.pic)){
                 Img.loadC(ivPhotoView,userData.pic);
+            }else{
+                ivPhotoView.setImageResource(R.mipmap.ic_defaultphoto);
+            }
+
             tvNameView.setText(userData.name);
             tvNoView.setText(userData.phone);
             if ("1".equals(userData.gender)){

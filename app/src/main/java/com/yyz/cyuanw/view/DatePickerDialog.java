@@ -87,7 +87,7 @@ public class DatePickerDialog extends Dialog {
         }
 
         year = (WheelView) findViewById(R.id.year_wheel);
-        year.setAdapter(new NumericWheelAdapter(curYear - 60, curYear));
+        year.setAdapter(new NumericWheelAdapter(curYear - 50, curYear + 50));
         // year.setLabel("年");
         year.setCurrentItem(Integer.parseInt(icurYear) - Integer.parseInt(year.getAdapter().getItem(0)));
 

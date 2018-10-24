@@ -25,7 +25,7 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="5万以下" />
+            android:text="3万以下" />
 
         <TextView
             android:id="@+id/gj_c"
@@ -34,7 +34,7 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="5万-10万" />
+            android:text="3万-5万" />
 
     </LinearLayout>
 
@@ -49,7 +49,7 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="10万-15万" />
+            android:text="5万-10万" />
 
         <TextView
             android:id="@+id/gj_e"
@@ -58,7 +58,7 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="15万-20万" />
+            android:text="10万-15万" />
 
         <TextView
             android:id="@+id/gj_f"
@@ -67,7 +67,7 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="20万-25万" />
+            android:text="15万-20万" />
 
     </LinearLayout>
 
@@ -82,7 +82,7 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="25万-30万" />
+            android:text="20万-25万" />
 
         <TextView
             android:id="@+id/gj_h"
@@ -91,7 +91,7 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="30万-35万" />
+            android:text="25万-30万" />
 
         <TextView
             android:id="@+id/gj_i"
@@ -100,7 +100,7 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="35万以上" />
+            android:text="30万以上" />
 
     </LinearLayout>
 
@@ -120,7 +120,7 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:inputType="number"
-            android:text="0" />
+            android:hint="0" />
 
         <TextView
             android:id="@+id/jg_s"
@@ -137,7 +137,7 @@
             android:layout_height="match_parent"
             android:layout_toRightOf="@+id/jg_s"
             android:inputType="number"
-            android:text="0" />
+            android:hint="0" />
 
         <TextView
             android:id="@+id/sure"

@@ -9,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yyz.cyuanw.R;
+import com.yyz.cyuanw.tools.StringUtil;
 import com.yyz.cyuanw.tools.ToastUtil;
 
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class JgqjPopuwindow extends BasePopuwindow implements View.OnClickListen
         mView = inflater.inflate(R.layout.pop_jgqj, null);
         // 设置选择的popuwndow的View
         this.setContentView(mView);
+        this.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         init();
 
@@ -77,8 +81,8 @@ public class JgqjPopuwindow extends BasePopuwindow implements View.OnClickListen
         gj_i.setTextColor(Color.parseColor("#666666"));
         switch (view.getId()) {
             case R.id.sure://确定
-                int jgA = Integer.parseInt(jg_a.getText().toString());
-                int jgB = Integer.parseInt(jg_b.getText().toString());
+                int jgA = Integer.parseInt(StringUtil.isNotNull(jg_a.getText().toString()) ? jg_a.getText().toString() : "0");
+                int jgB = Integer.parseInt(StringUtil.isNotNull(jg_b.getText().toString()) ? jg_b.getText().toString() : "0");
                 if (jgA >= jgB) {
                     ToastUtil.show(context, "请输入正确的价格区间!");
                     return;
@@ -96,8 +100,10 @@ public class JgqjPopuwindow extends BasePopuwindow implements View.OnClickListen
 
                 if (view.getId() == R.id.gj_a){
 
-                }else if (view.getId() == R.id.gj_i){
-                    a = 35;
+                }else if(view.getId() == R.id.gj_b){
+                    b = 3;
+                } else if (view.getId() == R.id.gj_i){
+                    a = 30;
                 }else {
                     String ss[] = jgS.split("-");
                     a = Integer.parseInt(ss[0].substring(0,ss[0].length()-1));

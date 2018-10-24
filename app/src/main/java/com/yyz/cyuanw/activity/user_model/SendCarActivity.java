@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -185,6 +187,23 @@ public class SendCarActivity extends BaseActivity{
             }
 
         });
+
+        plView.setFilters(new InputFilter[]{new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if(source.equals(".") && dest.toString().length() == 0){
+                    return "0.";
+                }
+                if(dest.toString().contains(".")){
+                    int index = dest.toString().indexOf(".");
+                    int length = dest.toString().substring(index).length();
+                    if(length == 2){
+                        return "";
+                    }
+                }
+                return null;
+            }
+        }});
 
     }
 

@@ -12,7 +12,7 @@ public class LoginData {
     public String gender;
     public int is_broker;
     public String bind_dealer;
-    public String is_adviser;
+    public int is_adviser;
     public String dealer_manager;
     public String province;
     public String city;

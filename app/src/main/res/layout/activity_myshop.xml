@@ -23,7 +23,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:layout_marginLeft="100dp"
-                    android:text="姓名"
                     android:textColor="#333333"
                     android:textSize="14dp"/>
                 <ImageView
@@ -33,7 +32,8 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginLeft="4dp"
                     android:layout_toRightOf="@+id/id_tv_name"
-                    android:src="@mipmap/ic_user_confirm"/>
+                    android:src="@mipmap/ic_user_confirm"
+                    android:visibility="gone"/>
                 <ImageView
                     android:id="@+id/id_iv_persion"
                     android:layout_width="wrap_content"
@@ -41,7 +41,8 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginLeft="4dp"
                     android:layout_toRightOf="@+id/id_iv_confirm"
-                    android:src="@mipmap/ic_user_persionconfirm"/>
+                    android:src="@mipmap/ic_user_persionconfirm"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/id_tv_no"
                     android:layout_width="wrap_content"
@@ -49,7 +50,6 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginLeft="12dp"
                     android:layout_toRightOf="@+id/id_iv_persion"
-                    android:text="88888"
                     android:textColor="#EA6F5A"
                     android:textSize="14dp"/>
                 <ImageView
@@ -67,7 +67,6 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="100dp"
                     android:layout_below="@id/id_tv_name"
-                    android:text="车行:宁波春天二手行"
                     android:textColor="#333333"
                     android:textSize="14dp"
                     android:maxLines="1"/>
@@ -79,7 +78,6 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_below="@id/id_tv_shop"
-                    android:text="从业10余年从业10余年从业10余年从业10余年从业10余年从业10余年从业10余年"
                     android:textColor="#666666"
                     android:textSize="12dp"
                     android:maxLines="2"/>

@@ -40,7 +40,7 @@ public class PhoneChangeActivity extends BaseActivity{
         phone = getIntent().getStringExtra("phone");
 
         setTitle(titleView,"更换手机号");
-        phoneView.setText("原手机号："+phone);
+        phoneView.setText("原手机号："+ phone.substring(0, 3) + "****" + phone.substring(7, phone.length()));
 
     }
 

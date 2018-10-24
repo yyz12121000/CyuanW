@@ -143,7 +143,7 @@
         <activity android:name=".activity.WdLmActivity"
             android:screenOrientation="portrait"/>
 
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="e842a2da67058a7677c44b4ec4de18a4"></meta-data>
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="9f3b9f8fd9fa7f40a80be4b7d9575b79"></meta-data>
         <service android:name="com.amap.api.location.APSService"></service>
     </application>
 

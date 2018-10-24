@@ -13,8 +13,7 @@
         layout="@layout/layout_common_oper1" />
     <include
         android:id="@+id/id_oper_safe"
-        layout="@layout/layout_common_oper1"
-        android:visibility="gone"/>
+        layout="@layout/layout_common_oper1" />
     <include
         android:id="@+id/id_oper_carsource"
         layout="@layout/layout_common_oper1" />
