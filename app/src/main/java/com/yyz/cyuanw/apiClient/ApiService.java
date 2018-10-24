@@ -2,6 +2,7 @@ package com.yyz.cyuanw.apiClient;
 
 
 import com.yyz.cyuanw.bean.AdData;
+import com.yyz.cyuanw.bean.CarData;
 import com.yyz.cyuanw.bean.CarStatusData;
 import com.yyz.cyuanw.bean.CardIDData;
 import com.yyz.cyuanw.bean.CheyListData;
@@ -13,6 +14,7 @@ import com.yyz.cyuanw.bean.Data2;
 import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.Data5;
 import com.yyz.cyuanw.bean.Data6;
+import com.yyz.cyuanw.bean.DealerData;
 import com.yyz.cyuanw.bean.GwListData;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
@@ -481,5 +483,25 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("dealerStatus")
     Observable<HttpResult<CarStatusData>> dealerStatus(@Field("token") String token);
+
+    //关联车商状态
+    @FormUrlEncoded
+    @POST("relationDealerStatus")
+    Observable<HttpResult<DealerData>> relationDealerStatus(@Field("token") String token);
+
+    //取消关联车商
+    @FormUrlEncoded
+    @POST("unRelationDealer")
+    Observable<HttpCodeResult> unRelationDealer(@Field("token") String token);
+
+    //关联车商
+    @FormUrlEncoded
+    @POST("relation")
+    Observable<HttpCodeResult> relation(@Field("dealer") String dealer,@Field("token") String token);
+
+    //搜索车商
+    @FormUrlEncoded
+    @POST("dealer")
+    Observable<HttpResult<CarData>> dealer(@Field("word") String word, @Field("page") int page, @Field("token") String token);
 }
 

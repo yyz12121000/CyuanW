@@ -113,13 +113,13 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/img_68" />
+            android:src="@mipmap/img_100" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="抱歉，暂无相关内容"
+            android:text="抱歉，未找到您要关联的车商"
             android:textColor="#D8D8D8"
             android:textSize="14sp" />
     </LinearLayout>

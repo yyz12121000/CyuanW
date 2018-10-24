@@ -2,6 +2,7 @@ package com.yyz.cyuanw.apiClient;
 
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.bean.AdData;
+import com.yyz.cyuanw.bean.CarData;
 import com.yyz.cyuanw.bean.CarStatusData;
 import com.yyz.cyuanw.bean.CardIDData;
 import com.yyz.cyuanw.bean.CheyListData;
@@ -13,6 +14,7 @@ import com.yyz.cyuanw.bean.Data2;
 import com.yyz.cyuanw.bean.Data3;
 import com.yyz.cyuanw.bean.Data5;
 import com.yyz.cyuanw.bean.Data6;
+import com.yyz.cyuanw.bean.DealerData;
 import com.yyz.cyuanw.bean.GwListData;
 import com.yyz.cyuanw.bean.HotLmData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
@@ -198,6 +200,26 @@ public class HttpData extends RetrofitUtils {
 
     public void dealerStatus(String token, Observer<HttpResult<CarStatusData>> observer){
         Observable observable = service.dealerStatus(token);
+        setSubscribe(observable, observer);
+    }
+
+    public void relationDealerStatus(String token, Observer<HttpResult<DealerData>> observer){
+        Observable observable = service.relationDealerStatus(token);
+        setSubscribe(observable, observer);
+    }
+
+    public void unRelationDealer(String token, Observer<HttpCodeResult> observer){
+        Observable observable = service.unRelationDealer(token);
+        setSubscribe(observable, observer);
+    }
+
+    public void relation(String id,String token, Observer<HttpCodeResult> observer){
+        Observable observable = service.relation(id,token);
+        setSubscribe(observable, observer);
+    }
+
+    public void dealer(String word,int page,String token, Observer<HttpResult<CarData>> observer){
+        Observable observable = service.dealer(word,page,token);
         setSubscribe(observable, observer);
     }
 

@@ -12,12 +12,15 @@ import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
 import com.yyz.cyuanw.activity.MainActivity;
+import com.yyz.cyuanw.apiClient.HttpData;
+import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.common.Constant;
 import com.yyz.cyuanw.tools.StringUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Observer;
 
 public class SafeConfirmActivity extends BaseActivity{
     @BindView(R.id.id_tv_title) TextView titleView;
@@ -82,7 +85,7 @@ public class SafeConfirmActivity extends BaseActivity{
                     tvCarconfirmView.setText("已入驻");
                     break;
                 case 2:
-                    tvCarconfirmView.setText("申请中");
+                    tvCarconfirmView.setText("认证中");
                     break;
             }
 
@@ -110,15 +113,23 @@ public class SafeConfirmActivity extends BaseActivity{
                 break;
             case R.id.id_oper_persionconfirm:
 
-                Intent intent3 = new Intent(this,PersionConfirmActivity.class);
-                intent3.putExtra("status",userData.is_broker);
-                startActivityForResult(intent3,20);
+                if(StringUtil.isNotNull(userData.name)){
+                    Intent intent3 = new Intent(this,PersionConfirmActivity.class);
+                    intent3.putExtra("status",userData.is_broker);
+                    startActivityForResult(intent3,20);
+                }else{
+                    App.showToast("请先实名认证");
+                }
                 break;
             case R.id.id_oper_carconfirm:
 
-                Intent intent4 = new Intent(this,CarConfirmActivity.class);
-                //intent4.putExtra("status",userData.is_broker);
-                startActivityForResult(intent4,21);
+                if(StringUtil.isNotNull(userData.name)){
+                    Intent intent4 = new Intent(this,CarConfirmActivity.class);
+                    //intent4.putExtra("status",userData.is_broker);
+                    startActivityForResult(intent4,21);
+                }else{
+                    App.showToast("请先实名认证");
+                }
                 break;
         }
     }
@@ -127,21 +138,46 @@ public class SafeConfirmActivity extends BaseActivity{
         startActivity(new Intent(this,cls));
     }
 
+    public void getUserInfo() {
+
+        HttpData.getInstance().getUserInfo(App.get(Constant.KEY_USER_TOKEN), new Observer<HttpResult<LoginData>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(HttpResult<LoginData> result) {
+                if (result.status == 200 && result.data != null) {
+                    App.set(Constant.KEY_USER_DATA, new Gson().toJson(result.data));
+                    initData();
+                }
+            }
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == 10){
-            tvNameView.setText("已认证");
-        }
+//        if (resultCode == 10){
+//            tvNameView.setText("已认证");
+//        }
+//
+//        if (resultCode == 20){
+//            tvPersionView.setText("认证中");
+//        }
+//
+//        if (resultCode == 21){
+//            tvCarconfirmView.setText("认证中");
+//        }
 
-        if (resultCode == 20){
-            tvPersionView.setText("认证中");
-        }
-
-        if (resultCode == 21){
-            tvCarconfirmView.setText("认证中");
-        }
+        getUserInfo();
     }
 }
 

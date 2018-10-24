@@ -98,15 +98,15 @@ public class CarConfirmActivity extends BaseActivity{
             switch (imageType){
                 case 1:
                     image1File = outputFile;
-                    Img.loadC(image1View,outputUri.toString());
+                    Img.load(image1View,outputUri.toString());
                     break;
                 case 2:
                     image2File = outputFile;
-                    Img.loadC(image2View,outputUri.toString());
+                    Img.load(image2View,outputUri.toString());
                     break;
                 case 3:
                     image3File = outputFile;
-                    Img.loadC(image3View,outputUri.toString());
+                    Img.load(image3View,outputUri.toString());
                     break;
             }
 
@@ -313,9 +313,8 @@ public class CarConfirmActivity extends BaseActivity{
 
             @Override
             public void onNext(HttpCodeResult result) {
-
+                App.showToast(result.message);
                 if (result.status == 200){
-                    App.showToast(result.message);
                     App.updataUserData = true;
                     setResult(21);
                     finish();
