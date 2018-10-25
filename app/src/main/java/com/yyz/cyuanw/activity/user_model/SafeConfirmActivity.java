@@ -92,7 +92,7 @@ public class SafeConfirmActivity extends BaseActivity{
         }
     }
 
-    @OnClick({R.id.id_oper_bindphone,R.id.id_oper_nameconfirm,R.id.id_oper_persionconfirm,R.id.id_oper_carconfirm})
+    @OnClick({R.id.id_oper_bindphone,R.id.id_oper_nameconfirm,R.id.id_oper_persionconfirm,R.id.id_oper_carconfirm,R.id.id_oper_bindcar})
     public void onClickEvent(View view){
         switch (view.getId()){
             case R.id.id_oper_bindphone:
@@ -127,6 +127,16 @@ public class SafeConfirmActivity extends BaseActivity{
                     Intent intent4 = new Intent(this,CarConfirmActivity.class);
                     //intent4.putExtra("status",userData.is_broker);
                     startActivityForResult(intent4,21);
+                }else{
+                    App.showToast("请先实名认证");
+                }
+                break;
+            case R.id.id_oper_bindcar:
+
+                if(StringUtil.isNotNull(userData.name)){
+                    Intent intent4 = new Intent(this,CarRelationActivity.class);
+                    //intent4.putExtra("status",userData.is_broker);
+                    startActivityForResult(intent4,22);
                 }else{
                     App.showToast("请先实名认证");
                 }

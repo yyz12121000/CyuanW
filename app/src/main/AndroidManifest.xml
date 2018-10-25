@@ -140,6 +140,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.user_model.CarConfirmActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.user_model.CarRelationActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.user_model.CarSearchActivity"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".oss.sample.customprovider.AuthTestActivity"/>
         <activity android:name=".activity.WdLmActivity"

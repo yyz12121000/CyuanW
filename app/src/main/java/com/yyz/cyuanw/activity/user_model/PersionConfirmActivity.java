@@ -14,6 +14,8 @@ import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
+import com.yyz.cyuanw.bean.CarData;
+import com.yyz.cyuanw.bean.DealerData;
 import com.yyz.cyuanw.bean.HttpCodeResult;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.ImgData;
@@ -96,6 +98,8 @@ public class PersionConfirmActivity extends BaseActivity{
             this.outputFile = outputFile;
 
         },1,1,400,300);
+
+        relationDealerStatus();
     }
 
     @OnClick({R.id.id_oper_carset,R.id.id_btn_selectpic,R.id.id_btn_submit})
@@ -103,6 +107,7 @@ public class PersionConfirmActivity extends BaseActivity{
         switch (view.getId()){
             case R.id.id_oper_carset:
 
+                startActivityForResult(new Intent(this,CarRelationActivity.class),10);
                 break;
             case R.id.id_btn_selectpic:
 
@@ -154,6 +159,10 @@ public class PersionConfirmActivity extends BaseActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mLqrPhotoSelectUtils.attachToActivityForResult(requestCode, resultCode, data);
+
+        if (resultCode == 22){
+            relationDealerStatus();
+        }
     }
 
     public void showDialog() {
@@ -199,6 +208,42 @@ public class PersionConfirmActivity extends BaseActivity{
             }
         });
 
+    }
+
+    public void relationDealerStatus(){
+
+        HttpData.getInstance().relationDealerStatus(App.get(Constant.KEY_USER_TOKEN),new Observer<HttpResult<DealerData>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(HttpResult<DealerData> result) {
+
+                if (result.status == 200 && result.data != null){
+                    DealerData data = result.data;
+
+                    switch (data.status){
+                        case -1:
+                        case 0:
+
+                            tvCarView.setText("未绑定");
+                            break;
+                        case 1:
+
+                            tvCarView.setText(data.name);
+                            break;
+                    }
+                }
+
+            }
+        });
     }
 
 }

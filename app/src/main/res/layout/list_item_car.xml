@@ -1,36 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:padding="16dp"
+    android:layout_height="wrap_content"
     android:background="#ffffff">
 
     <ImageView
         android:id="@+id/id_item_image"
         android:layout_width="44dp"
         android:layout_height="44dp"
+        android:layout_margin="16dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/jiangyiyan" />
+        android:src="@mipmap/ic_defaultphoto" />
 
-    <TextView
-        android:id="@+id/id_item_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/id_item_image"
-        android:text="名称"
-        android:textColor="#EA6F5A"
-        android:textSize="16dp"/>
-    <TextView
-        android:id="@+id/id_item_city"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@+id/id_item_image"
-        android:layout_alignParentBottom="true"
-        android:text="名称"
-        android:textColor="#999999"
-        android:textSize="12dp"/>
+        android:layout_toLeftOf="@+id/id_item_select"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/id_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="名称"
+            android:textColor="#EA6F5A"
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/id_item_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="名称"
+            android:textColor="#999999"
+            android:textSize="12dp"/>
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/id_item_select"
@@ -38,10 +43,17 @@
         android:layout_height="32dp"
         android:gravity="center"
         android:layout_marginRight="16dp"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:text="选择"
         android:textColor="#EA6F5A"
         android:textSize="14dp"
         android:background="@drawable/bg_7"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="#f9f9f9"/>
 
 </RelativeLayout>
