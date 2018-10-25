@@ -112,7 +112,7 @@ public class HttpData extends RetrofitUtils {
     }
 
     public void getMessageList(int page,String token,Observer<HttpResult<MessageData>> observer){
-        Observable observable = service.getMessageList(token);
+        Observable observable = service.getMessageList(page,token);
         setSubscribe(observable, observer);
     }
 

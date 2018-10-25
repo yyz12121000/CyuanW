@@ -338,7 +338,7 @@ public interface ApiService {
     Observable<HttpResult<ShopListData>> getShareCarList(@Field("id") int id, @Field("page") int page,@Field("token") String token);
 
     @GET("user_messages")
-    Observable<HttpResult<MessageData>> getMessageList(@Query("token") String token);
+    Observable<HttpResult<MessageData>> getMessageList(@Query("page") int page,@Query("token") String token);
 
     @FormUrlEncoded
     @POST("applicationList")

@@ -95,7 +95,12 @@ public class ChooseCityActivity extends BaseActivity {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                            } else {
+                            } else if(position == 1){
+                                Intent intent = getIntent();
+                                intent.putExtra("city", "全国");
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }else {
                                 sheng_id = Integer.parseInt(data.getCode());
 
                                 Intent intent = new Intent(ChooseCityActivity.this, ListCityChooseActivity.class);

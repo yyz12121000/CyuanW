@@ -1,5 +1,6 @@
 package com.yyz.cyuanw.activity.user_model;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,8 @@ import com.andview.refreshview.XRefreshView;
 import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
+import com.yyz.cyuanw.activity.CyDetailActivity;
+import com.yyz.cyuanw.activity.fragment.SyFragment;
 import com.yyz.cyuanw.apiClient.HttpData;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.MessageData;
@@ -84,40 +87,25 @@ public class MessageActivity extends BaseActivity {
         HttpData.getInstance().getMessageList(page, App.get(Constant.KEY_USER_TOKEN),new Observer<HttpResult<MessageData>>() {
             @Override
             public void onCompleted() {
-//                App.showToast("999");
-                pullRV.stopRefresh();
+
             }
 
             @Override
             public void onError(Throwable e) {
-//                App.showToast("服务器请求超时");
                 LogManager.e("解析出错" + e.getMessage());
                 pullRV.stopRefresh();
-                black.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onNext(HttpResult<MessageData> result) {
                 if (result.status == 200) {
-                    if (result.data.data.size() > 0){
                         if (isRefresh) {
                             adapter.setData(result.data.data);
                             pullRV.stopRefresh();
-                            black.setVisibility(View.GONE);
                         } else {
                             adapter.appendData(result.data.data);
                             pullRV.checkhasMore(result.data.data.size());
                         }
-                    }else{
-                        pullRV.stopRefresh();
-                        black.setVisibility(View.VISIBLE);
-                    }
-
-
-//                    adapter.setData(result.data.info);
-//                    adapter.startBanner(result.data.ads);
-                } else {
-//                    App.showToast(result.message);
                 }
             }
         });
@@ -179,10 +167,38 @@ public class MessageActivity extends BaseActivity {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        int position = getAdapterPosition();
-//                        Intent intent = new Intent(MessageActivity.this, CyDetailActivity.class);
-//                        intent.putExtra("id", data.get(position).id);
-//                        startActivity(intent);
+                        int position = getAdapterPosition();
+                        Intent intent = new Intent();
+                        switch (data.get(position).jump_data_type_dict_id){
+                            case 1100://联盟主页
+
+                                break;
+                            case 1101://车源详情
+
+                                intent.setClass(MessageActivity.this, CyDetailActivity.class);
+                                intent.putExtra("id", data.get(position).jump_data_id);
+                                intent.putExtra("from_type",8);
+                                startActivity(intent);
+                                break;
+                            case 1102://经纪人店铺首页
+
+                                intent.setClass(MessageActivity.this, MyShopActivity.class);
+                                intent.putExtra("id",data.get(position).jump_data_id);
+                                startActivity(intent);
+                                break;
+                            case 1103://联盟申请审核页面
+
+                                break;
+                            case 1104://车商共享车源设置页面
+
+                                break;
+                            case 1105://顾问管理页面
+
+                                intent.setClass(MessageActivity.this, YgglActivity.class);
+                                startActivity(intent);
+                                break;
+                        }
+
                     }
                 });
             }

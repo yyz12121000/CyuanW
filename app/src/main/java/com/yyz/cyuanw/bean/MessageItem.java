@@ -6,6 +6,7 @@ public class MessageItem {
 
     public int id;
      public int user_id;
+     public int jump_data_type_dict_id;
     public int jump_data_id;
     public int message_type_dict_id;
     public String content;
