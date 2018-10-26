@@ -168,7 +168,12 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
         pxPopuwindow.setItemListenner(new IOnListItemClickListenner() {
             @Override
             public void onItemClick(int position, String text,String car_style) {
-                tv_2.setText(text);
+
+                if(text.contains("默认排序")){
+                    tv_2.setText("默认排序");
+                }else{
+                    tv_2.setText(text);
+                }
 //                order = 0;//排序 0默认排序 1价格最低 2价格最高 3 车龄最短 4里程最少
                 order = position;
                 searchCy(true, pullRV.page = 1);

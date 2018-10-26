@@ -61,4 +61,14 @@
         <item name="android:windowExitAnimation">@anim/activity_translate_out</item>
     </style>
 
+    <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
+        <item name="tabBackground">@drawable/tab_backgroud</item>
+        <item name="tabIndicatorColor">#EA6F5A</item>
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabSelectedTextColor">#333333</item>
+        <item name="tabTextColor">#999999</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabIndicatorFullWidth">false</item>
+    </style>
+
 </resources>

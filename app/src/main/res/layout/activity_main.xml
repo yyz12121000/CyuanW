@@ -34,14 +34,7 @@
                 android:id="@+id/main_tab"
                 android:layout_width="180dp"
                 android:layout_height="44dp"
-                android:layout_centerInParent="true"
-                app:tabIndicatorColor="#EA6F5A"
-                app:tabIndicatorFullWidth="false"
-                app:tabIndicatorHeight="4dp"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="#333333"
-                app:tabTextColor="#999999"
-                app:tabBackground="@drawable/tab_backgroud" />
+                android:layout_centerInParent="true" />
 
             <ImageView
                 android:id="@+id/right_icon"

@@ -147,8 +147,7 @@
                     android:gravity="center"
                     android:lineSpacingExtra="5dp"
                     android:textColor="#999999"
-                    android:textSize="12dp"
-                    android:visibility="gone" />
+                    android:textSize="12dp" />
 
             </RelativeLayout>
             

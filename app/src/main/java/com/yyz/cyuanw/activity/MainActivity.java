@@ -18,6 +18,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -192,24 +193,20 @@ public class MainActivity extends BaseActivity {
 
         Fragment cyFragment = new CyFragment();
         Fragment syFragment = new SyFragment();
-        //Fragment lmFragment = new LmFragment();
+        Fragment lmFragment = new LmFragment();
 
         mFragments.add(syFragment);
         mFragments.add(cyFragment);
-        //mFragments.add(lmFragment);
+        mFragments.add(lmFragment);
 
         //设置标题
         titleList = new ArrayList<>();
 
         titleList.add("首页");
         titleList.add("车源");
-        //titleList.add("联盟");
+        titleList.add("联盟");
 
         mTab = (TabLayout) findViewById(R.id.main_tab);
-        mTab.setBackgroundResource(R.drawable.tab_backgroud);
-//        //设置tab的模式
-//        mTab.setTabMode(TabLayout.MODE_FIXED);不可滚动的tab
-        //app:tabMode="scrollable"可以滑动的tab
         //添加tab选项卡
         for (int i = 0; i < titleList.size(); i++) {
             mTab.addTab(mTab.newTab().setText(titleList.get(i)));
