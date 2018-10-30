@@ -51,11 +51,12 @@ public class NameConfirmActivity extends BaseActivity{
     public void initData() {
 
         name = getIntent().getStringExtra("name");
-        if (StringUtil.isNotNull(name)){
-            btnView.setVisibility(View.GONE);
-            iconView.setVisibility(View.VISIBLE);
-            getCardInfo();
-        }
+//        if (StringUtil.isNotNull(name)){
+//            btnView.setVisibility(View.GONE);
+//            iconView.setVisibility(View.VISIBLE);
+//            getCardInfo();
+//        }
+        getCardInfo();
     }
 
     @OnClick({R.id.id_btn_confirm})
@@ -93,10 +94,18 @@ public class NameConfirmActivity extends BaseActivity{
 
             @Override
             public void onNext(HttpResult<CardIDData> result) {
-                nameView.setText(result.data.real_name);
-                noView.setText(result.data.id_card);
-                nameView.setEnabled(false);
-                noView.setEnabled(false);
+                if(result.data.is_real_name == 1){
+                    btnView.setVisibility(View.GONE);
+                    iconView.setVisibility(View.VISIBLE);
+                    nameView.setText(result.data.real_name);
+                    noView.setText(result.data.id_card);
+                    nameView.setEnabled(false);
+                    noView.setEnabled(false);
+                }else{
+                    btnView.setVisibility(View.VISIBLE);
+                    iconView.setVisibility(View.GONE);
+                }
+
             }
         });
     }

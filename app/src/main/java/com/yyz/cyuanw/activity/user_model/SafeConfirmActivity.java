@@ -124,9 +124,12 @@ public class SafeConfirmActivity extends BaseActivity{
             case R.id.id_oper_carconfirm:
 
                 if(StringUtil.isNotNull(userData.name)){
-                    Intent intent4 = new Intent(this,CarConfirmActivity.class);
-                    //intent4.putExtra("status",userData.is_broker);
-                    startActivityForResult(intent4,21);
+                    if (userData.have_dealer == 1){
+                        App.showToast("您已经有绑定的车商，无法创建车商");
+                    }else{
+                        Intent intent4 = new Intent(this,CarConfirmActivity.class);
+                        startActivityForResult(intent4,21);
+                    }
                 }else{
                     App.showToast("请先实名认证");
                 }
@@ -135,7 +138,6 @@ public class SafeConfirmActivity extends BaseActivity{
 
                 if(StringUtil.isNotNull(userData.name)){
                     Intent intent4 = new Intent(this,CarRelationActivity.class);
-                    //intent4.putExtra("status",userData.is_broker);
                     startActivityForResult(intent4,22);
                 }else{
                     App.showToast("请先实名认证");

@@ -170,6 +170,19 @@ public class SendCarActivity extends BaseActivity{
                 );
             }
 
+            @Override
+            public void onRemoved(String picPath) {
+                if (flag == 1){
+                    LogManager.e("----a"+picPath);
+                    LogManager.e("----aa"+images.toString());
+                    for (int i=0;i<images.size();i++){
+                        if (picPath.contains(images.get(i))){
+                            images.remove(images.get(i));
+                        }
+                    }
+                    LogManager.e("----aaa"+images.toString());
+                }
+            }
         });
 
         mgxPickRecyclerView.setOnOperateListener(new OperateListenerAdapter() {
@@ -184,6 +197,20 @@ public class SendCarActivity extends BaseActivity{
                         LQRPhotoSelectUtils.REQ_SELECT_PHOTO,
                         new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}
                 );
+            }
+
+            @Override
+            public void onRemoved(String picPath) {
+                if (flag == 1){
+                    LogManager.e("----b"+picPath);
+                    LogManager.e("----bb"+gximages.toString());
+                    for (int i=0;i<gximages.size();i++){
+                        if (picPath.contains(gximages.get(i))){
+                            gximages.remove(gximages.get(i));
+                        }
+                    }
+                    LogManager.e("----bbb"+gximages.toString());
+                }
             }
 
         });
@@ -255,19 +282,28 @@ public class SendCarActivity extends BaseActivity{
                     return;
                 }
 
-                if (flag == 1){
-                    editCarSource(carInfo,timeInfo,lsbj);
-                }else{
-                    CustomProgress.show(this, "车源发布中...", true, null);
+//                if (flag == 1){
+//                    editCarSource(carInfo,timeInfo,lsbj);
+//                    LogManager.e("----aaaaaa"+tempList.toString());
+//                }else{
+                CustomProgress.show(this, "车源发布中...", true, null);
 
-                    if (tempImgPath.size() > 0){
-                        uploadPic(carInfo,timeInfo,lsbj,0);
+                LogManager.e("----aaaaaa"+tempList.toString());
+                LogManager.e("----aaaaaaaaa"+tempImgPath.toString());
+                if (tempImgPath.size() > 0){
+                    uploadPic(carInfo,timeInfo,lsbj,0);
+                }else{
+                    if (gxtempImgPath.size() > 0){
+                        uploadgxPic(carInfo,timeInfo,lsbj,0);
                     }else{
-                        if (gxtempImgPath.size() > 0){
-                            uploadgxPic(carInfo,timeInfo,lsbj,0);
+                        if (flag == 1){
+                            editCarSource(carInfo,timeInfo,lsbj);
+                        }else{
+                            sendCarSource(carInfo,timeInfo,lsbj);
                         }
                     }
                 }
+//                }
                 //sendCarSource(carInfo,timeInfo,lsbj);
                 break;
             case R.id.id_tv_content:
@@ -418,10 +454,12 @@ public class SendCarActivity extends BaseActivity{
             gximages.addAll(carData.old_share_images);
 
             if (carData.images.size() > 0){
-                mPickRecyclerView.bind((ArrayList<String>) carData.images);
+                tempList.addAll(carData.images);
+                mPickRecyclerView.bind(tempList);
             }
             if (carData.share_images.size() > 0){
-                mgxPickRecyclerView.bind((ArrayList<String>) carData.share_images);
+                gxtempList.addAll(carData.share_images);
+                mgxPickRecyclerView.bind(gxtempList);
             }
         }
     }
@@ -436,11 +474,16 @@ public class SendCarActivity extends BaseActivity{
             if (gxtempImgPath.size() > 0){
                 uploadgxPic(name,time,price,0);
             }else{
-                sendCarSource(name,time,price);
-                return;
+                if (flag == 1){
+                    editCarSource(name,time,price);
+                }else{
+                    sendCarSource(name,time,price);
+                }
             }
-
+            return;
         }
+
+        LogManager.e("aa" + images.toString());
 
         String logo_qz = "img/" + Tools.getNYR() + "/" ;
         oss.uploadImage(logo_qz,tempImgPath.get(i), new Oss.IOnFinishListenner() {
@@ -448,6 +491,7 @@ public class SendCarActivity extends BaseActivity{
             public void onSuccess(String imageName) {
 
                 images.add(imageName);
+                LogManager.e("aaa" + images.toString());
 
                 if (number <= tempImgPath.size()) {
                     uploadPic(name,time,price,number);
@@ -475,7 +519,13 @@ public class SendCarActivity extends BaseActivity{
         gxnumber++;
 
         if (gxnumber > gxtempImgPath.size()){
-            sendCarSource(name,time,price);
+
+            if (flag == 1){
+                editCarSource(name,time,price);
+            }else{
+                sendCarSource(name,time,price);
+            }
+
             return;
         }
 
@@ -493,7 +543,7 @@ public class SendCarActivity extends BaseActivity{
 
                 //sendCarSource(name,time,price);
 
-                LogManager.e("xxx-images" + gximages.toString());
+                LogManager.e("xxx-gximages" + gximages.toString());
             }
 
             @Override
@@ -597,12 +647,12 @@ public class SendCarActivity extends BaseActivity{
         if (StringUtil.isNotNull(gxdjView.getText().toString()))
             gxdj = Double.parseDouble(gxdjView.getText().toString());
 
-        CustomProgress.show(this, "编辑中...", false, null);
+        //CustomProgress.show(this, "编辑中...", false, null);
 
         HttpData.getInstance().editCarInfo(App.get(Constant.KEY_USER_TOKEN),id,is_share,is_new,name,kwView.getText().toString(),cover,images,
                 vinView.getText().toString(),brand_id,series_id,style_id,time,lc,colorView.getText().toString(),
                 bsxView.getText().toString(),rylxView.getText().toString(),pfbjView.getText().toString(),plView.getText().toString(),typeView.getText().toString(),njdqView.getText().toString(),
-                bxdqView.getText().toString(),Double.parseDouble(price),pfbj,gxdj,clmsView.getText().toString(),cover,gxclmsView.getText().toString(),images,
+                bxdqView.getText().toString(),Double.parseDouble(price),pfbj,gxdj,clmsView.getText().toString(),cover,gxclmsView.getText().toString(),gximages,
                 new Observer<HttpCodeResult>() {
                     @Override
                     public void onCompleted() {
@@ -732,14 +782,15 @@ public class SendCarActivity extends BaseActivity{
                         public void run() {
                             try {
                                 tempImgPath.clear();
-                                tempList.clear();
+                                //tempList.clear();
 
                                 for (int i = 0;i< selectedList.size();i++){
 
                                     String path = FileUtils.compressImage(selectedList.get(i),SendCarActivity.this);
                                     if (StringUtil.isNotNull(path)){
                                         tempImgPath.add(path);
-                                        tempList.add(selectedList.get(i));
+                                        if (!tempList.contains(selectedList.get(i)))
+                                            tempList.add(selectedList.get(i));
                                     }else{
                                         selectedList.remove(selectedList.get(i));
                                     }
@@ -765,14 +816,16 @@ public class SendCarActivity extends BaseActivity{
                         public void run() {
                             try {
                                 gxtempImgPath.clear();
-                                gxtempList.clear();
+                                //gxtempList.clear();
 
                                 for (int i = 0;i< gxselectedList.size();i++){
 
                                     String path = FileUtils.compressImage(gxselectedList.get(i),SendCarActivity.this);
                                     if (StringUtil.isNotNull(path)){
                                         gxtempImgPath.add(path);
-                                        gxtempList.add(gxselectedList.get(i));
+
+                                        if (!gxtempList.contains(gxselectedList.get(i)))
+                                            gxtempList.add(gxselectedList.get(i));
                                     }else{
                                         gxselectedList.remove(gxselectedList.get(i));
                                     }

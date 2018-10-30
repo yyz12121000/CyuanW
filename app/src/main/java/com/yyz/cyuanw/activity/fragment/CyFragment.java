@@ -21,6 +21,7 @@ import com.yyz.cyuanw.App;
 import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.CyDetailActivity;
 import com.yyz.cyuanw.activity.GdsxActivity;
+import com.yyz.cyuanw.activity.MainActivity;
 import com.yyz.cyuanw.activity.PpxzActivity;
 import com.yyz.cyuanw.activity.WdLmActivity;
 import com.yyz.cyuanw.activity.user_model.LoginActivity;
@@ -76,6 +77,8 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     private int max_year = 0;//最高车龄 (默认0)
     private int min_year = 0;//最低车龄 (默认0)
 //    private int page = 1;//页码 从1开始 默认第一页
+
+    private String selectCity;
 
     private DBManager dbManager;
 
@@ -243,6 +246,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 intent.putExtra("min_mileage", min_mileage);
                 intent.putExtra("max_year", max_year);
                 intent.putExtra("min_year", min_year);
+                intent.putExtra("city", selectCity);
 
                 startActivityForResult(intent, 66);
                 break;
@@ -265,6 +269,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
                 if (xl_id != -1 && pp_id != -1) {
                     brand_id = pp_id;
                     series_id = xl_id;
+                    //tv_3.setText(data.getStringExtra("name"));
                     searchCy(true, pullRV.page = 1);
                 }
             } else if (requestCode == 66) {
@@ -417,6 +422,7 @@ public class CyFragment extends Fragment implements View.OnClickListener, PopupW
     public void doSearchByCity(String city) {
         dbManager = new DBManager(App.context);
         if (StringUtil.isNotNull(city)){
+            selectCity = city;
             Data9 sheng = dbManager.findLocationCity(city);
             province_id.clear();//省份ID
             city_id.clear();//城市ID

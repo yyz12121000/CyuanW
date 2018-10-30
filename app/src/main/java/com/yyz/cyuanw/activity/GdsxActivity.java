@@ -64,6 +64,8 @@ public class GdsxActivity extends BaseActivity {
     private int max_price = 0;
     private int min_price = 0;
 
+    private String city;
+
 
     @Override
     protected int getLayoutId() {
@@ -110,6 +112,8 @@ public class GdsxActivity extends BaseActivity {
         this.max_year = intent.getIntExtra("max_year", 0);
         this.min_year = intent.getIntExtra("min_year", 0);
 
+        this.city = intent.getStringExtra("city");
+
         carScreeningCount();
         dictionary();
     }
@@ -139,6 +143,11 @@ public class GdsxActivity extends BaseActivity {
     @OnClick({R.id.reset, R.id.sure, R.id.item_1, R.id.item_2, R.id.item_3, R.id.item_4, R.id.item_5, R.id.item_6, R.id.item_7})
     public void onClickEvent(View view) {
         switch (view.getId()) {
+            case R.id.item_1:
+
+                Intent intent1 = new Intent(this, ChooseCityActivity.class);
+                startActivityForResult(intent1, 1);
+                break;
             case R.id.item_2:
                 Intent intent2 = new Intent(this, ListChooseActivity.class);
                 intent2.putStringArrayListExtra("list", getNames(data3.car_years));
@@ -237,6 +246,12 @@ public class GdsxActivity extends BaseActivity {
         int index = data.getIntExtra("index", -1);
         String text = data.getStringExtra("text");
         switch (requestCode) {
+            case  1:
+                int sheng_id = data.getIntExtra("sheng_id", 0);
+                int shi_id = data.getIntExtra("shi_id", 0);
+                String city = data.getStringExtra("city");
+                ((TextView) item_1.getChildAt(1)).setText(city);
+                break;
             case 2:
                 ((TextView) item_2.getChildAt(1)).setText(text);
                 min_year = data3.car_years.get(index).min;
