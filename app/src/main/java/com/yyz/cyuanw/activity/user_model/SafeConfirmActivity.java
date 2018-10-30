@@ -13,6 +13,7 @@ import com.yyz.cyuanw.R;
 import com.yyz.cyuanw.activity.BaseActivity;
 import com.yyz.cyuanw.activity.MainActivity;
 import com.yyz.cyuanw.apiClient.HttpData;
+import com.yyz.cyuanw.bean.CardIDData;
 import com.yyz.cyuanw.bean.HttpResult;
 import com.yyz.cyuanw.bean.LoginData;
 import com.yyz.cyuanw.common.Constant;
@@ -62,7 +63,7 @@ public class SafeConfirmActivity extends BaseActivity{
             userData = new Gson().fromJson(jsonStr, LoginData.class);
 
             tvPhoneView.setText(StringUtil.isNotNull(userData.phone) ? "已绑定" : "未绑定");
-            tvNameView.setText(StringUtil.isNotNull(userData.name) ? "已认证" : "未认证");
+            tvNameView.setText(userData.is_real_name_auth == 1 ? "已认证" : "未认证");
             tvCarView.setText(StringUtil.isNotNull(userData.bind_dealer) ? userData.bind_dealer : "未绑定");
 
             switch (userData.is_broker){
@@ -107,13 +108,12 @@ public class SafeConfirmActivity extends BaseActivity{
                 break;
             case R.id.id_oper_nameconfirm:
 
-                Intent intent2 = new Intent(this,NameConfirmActivity.class);
-                intent2.putExtra("name",userData.name);
-                startActivityForResult(intent2,10);
+                    Intent intent2 = new Intent(this,NameConfirmActivity.class);
+                    startActivityForResult(intent2,10);
                 break;
             case R.id.id_oper_persionconfirm:
 
-                if(StringUtil.isNotNull(userData.name)){
+                if(userData.is_real_name_auth == 1){
                     Intent intent3 = new Intent(this,PersionConfirmActivity.class);
                     intent3.putExtra("status",userData.is_broker);
                     startActivityForResult(intent3,20);
@@ -123,7 +123,7 @@ public class SafeConfirmActivity extends BaseActivity{
                 break;
             case R.id.id_oper_carconfirm:
 
-                if(StringUtil.isNotNull(userData.name)){
+                if(userData.is_real_name_auth == 1){
                     if (userData.have_dealer == 1){
                         App.showToast("您已经有绑定的车商，无法创建车商");
                     }else{
@@ -136,7 +136,7 @@ public class SafeConfirmActivity extends BaseActivity{
                 break;
             case R.id.id_oper_bindcar:
 
-                if(StringUtil.isNotNull(userData.name)){
+                if(userData.is_real_name_auth == 1){
                     Intent intent4 = new Intent(this,CarRelationActivity.class);
                     startActivityForResult(intent4,22);
                 }else{
@@ -178,7 +178,7 @@ public class SafeConfirmActivity extends BaseActivity{
         super.onActivityResult(requestCode, resultCode, data);
 
 //        if (resultCode == 10){
-//            tvNameView.setText("已认证");
+//            //tvNameView.setText("已认证");
 //        }
 //
 //        if (resultCode == 20){
@@ -190,7 +190,10 @@ public class SafeConfirmActivity extends BaseActivity{
 //        }
 
         getUserInfo();
+
     }
+
+
 }
 
 

@@ -207,7 +207,7 @@ public class CarSearchActivity extends BaseActivity {
                         Intent intent = new Intent();
                         intent.putExtra("id", data.get(position).id);
                         intent.putExtra("logo", data.get(position).logo);
-                        intent.putExtra("name", data.get(position).name);
+                        intent.putExtra("name", data.get(position).abbreviation);
                         intent.putExtra("city_name", data.get(position).city_name);
                         setResult(RESULT_OK,intent);
                         finish();
@@ -221,7 +221,7 @@ public class CarSearchActivity extends BaseActivity {
                 CarInfoData carInfo = data.get(position);
 
                 Img.loadC(imageView, carInfo.logo);
-                nameView.setText(carInfo.name);
+                nameView.setText(carInfo.abbreviation);
                 cityView.setText(carInfo.city_name);
             }
         }

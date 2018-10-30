@@ -143,7 +143,7 @@ public class CarRelationActivity extends BaseActivity{
                                 cancelView.setVisibility(View.VISIBLE);
                             }
                             Img.loadC(imageView,data.logo);
-                            nameView.setText(data.name);
+                            nameView.setText(data.abbreviation);
                             cityView.setText(data.city);
                             break;
                     }

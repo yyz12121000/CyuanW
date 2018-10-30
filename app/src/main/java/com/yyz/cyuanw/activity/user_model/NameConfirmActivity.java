@@ -35,7 +35,7 @@ public class NameConfirmActivity extends BaseActivity{
     @BindView(R.id.id_iv_icon)
     ImageView iconView;
 
-    private String name;
+    private String name,cardId;
 
     @Override
     protected int getLayoutId() {
@@ -50,7 +50,8 @@ public class NameConfirmActivity extends BaseActivity{
     @Override
     public void initData() {
 
-        name = getIntent().getStringExtra("name");
+        //name = getIntent().getStringExtra("name");
+        //cardId = getIntent().getStringExtra("cardId");
 //        if (StringUtil.isNotNull(name)){
 //            btnView.setVisibility(View.GONE);
 //            iconView.setVisibility(View.VISIBLE);
@@ -94,18 +95,23 @@ public class NameConfirmActivity extends BaseActivity{
 
             @Override
             public void onNext(HttpResult<CardIDData> result) {
-                if(result.data.is_real_name == 1){
-                    btnView.setVisibility(View.GONE);
-                    iconView.setVisibility(View.VISIBLE);
-                    nameView.setText(result.data.real_name);
-                    noView.setText(result.data.id_card);
-                    nameView.setEnabled(false);
-                    noView.setEnabled(false);
-                }else{
-                    btnView.setVisibility(View.VISIBLE);
-                    iconView.setVisibility(View.GONE);
-                }
+                if (result.status == 200){
+                    if(result.data.is_real_name == 1){
+                        btnView.setVisibility(View.GONE);
+                        iconView.setVisibility(View.VISIBLE);
+                        nameView.setText(result.data.real_name);
+                        if (StringUtil.isNotNull(result.data.id_card)){
+                            String cardId = result.data.id_card;
+                            noView.setText(cardId.replaceAll(cardId.substring(6,cardId.length()),"************"));
+                        }
 
+                        nameView.setEnabled(false);
+                        noView.setEnabled(false);
+                    }else{
+                        btnView.setVisibility(View.VISIBLE);
+                        iconView.setVisibility(View.GONE);
+                    }
+                }
             }
         });
     }

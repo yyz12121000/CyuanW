@@ -13,6 +13,7 @@ public class LoginData {
     public int is_broker;
     public String bind_dealer;
     public int is_adviser;
+    public int is_real_name_auth;
     public String dealer_manager;
     public String province;
     public String city;
